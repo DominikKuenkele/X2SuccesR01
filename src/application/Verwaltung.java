@@ -29,6 +29,7 @@ public class Verwaltung {
 		return currentNutzer;
 	}
 
+	//This is a constructor
 	public Profil getCurrentProfil() {
 		switch (currentNutzer.getStatus()) {
 		case F:
