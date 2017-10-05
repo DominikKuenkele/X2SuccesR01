@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/log4j"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Commons-Validator"/>
+	<classpathentry kind="lib" path="C:/Program Files/MySQL/mysql-connector-java-5.1.44/mysql-connector-java-5.1.44-bin.jar" sourcepath="C:/Program Files/MySQL/mysql-connector-java-5.1.44/src"/>
+	<classpathentry kind="lib" path="C:/Users/domin/Downloads/gson-2.8.2.jar" sourcepath="C:/Users/domin/Downloads/gson-2.8.2-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/commons-validator-1.6/commons-validator-1.6.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

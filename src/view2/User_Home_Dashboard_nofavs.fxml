@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="708.0" prefWidth="1057.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view2.User_Home_Dashboard_nofavsController">
+   <children>
+      <SplitPane dividerPositions="0.09206798866855524" orientation="VERTICAL" prefHeight="708.0" prefWidth="1057.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <ImageView fitHeight="61.0" fitWidth="135.0" layoutX="920.0" layoutY="4.0" preserveRatio="true">
+                     <image>
+                        <Image url="@Icons/Logo_244.244.244.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="491.0" layoutY="12.0" text="Home">
+                     <font>
+                        <Font name="System Bold" size="26.0" />
+                     </font>
+                  </Label>
+               </children></AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="549.0" prefWidth="956.0">
+               <children>
+                  <SplitPane dividerPositions="0.13175355450236967" layoutY="-4.0" prefHeight="675.0" prefWidth="1057.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="676.0" prefWidth="135.0">
+                           <children>
+                              <ImageView fx:id="homebutton" fitHeight="70.0" fitWidth="90.0" layoutX="38.0" layoutY="156.0" onMouseClicked="#openHome" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Icons/home.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <ImageView fx:id="profilbutton" fitHeight="70.0" fitWidth="70.0" layoutX="36.0" layoutY="234.0" onMouseClicked="#openProfil" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Icons/244.244.244.jpg" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <Separator layoutX="34.0" layoutY="226.0" prefHeight="8.0" prefWidth="70.0" />
+                              <Separator layoutX="34.0" layoutY="306.0" prefHeight="8.0" prefWidth="70.0" />
+                              <ImageView fx:id="searchbutton" fitHeight="70.0" fitWidth="70.0" layoutX="33.0" layoutY="314.0" onMouseClicked="#openSearch" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Icons/search1600.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <Separator layoutX="34.0" layoutY="376.0" prefHeight="8.0" prefWidth="70.0" />
+                              <ImageView fx:id="settingsbutton" fitHeight="60.0" fitWidth="60.0" layoutX="41.0" layoutY="486.0" onMouseClicked="#openSettings" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Icons/settings1600.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <Separator layoutX="35.0" layoutY="546.0" prefHeight="8.0" prefWidth="70.0" />
+                              <ImageView fx:id="signoutbutton" fitHeight="60.0" fitWidth="60.0" layoutX="41.0" layoutY="554.0" onMouseClicked="#openSignOut" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Icons/turnoff.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <ImageView fx:id="userpicture" fitHeight="90.0" fitWidth="90.0" layoutX="26.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Icons/dtu-jnUc.jpg" />
+                                 </image>
+                              </ImageView>
+                              <Label layoutX="16.0" layoutY="119.0" text="Vorname Nachname" />
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="674.0" prefWidth="918.0">
+                           <children>
+                              <Label layoutX="274.0" layoutY="37.0" text="Willkommen bei X2Success">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="43.0" layoutY="138.0" prefHeight="25.0" prefWidth="356.0" text="Hier werden in Zukunft ihre Favoriten angezeigt.">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="43.0" layoutY="179.0" prefHeight="25.0" prefWidth="249.0" text="Sie können Jobangebote über die ">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="285.0" layoutY="179.0" onMouseClicked="#openSearch" text="Suche" textFill="BLUE" underline="true">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Label>
+                              <Label layoutX="328.0" layoutY="179.0" text=" zu ihren Favoriten hinzufügen">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                           </children></AnchorPane>
+                    </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
