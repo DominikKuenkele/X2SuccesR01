@@ -187,4 +187,42 @@ public class UnternehmensprofilDAO {
 		}
 		return result;
 	}
+
+	/**
+	 * @param aUnternehmen
+	 */
+	public void changeUnternehmen(Unternehmensprofil aUnternehmen) {
+		Adresse address = aUnternehmen.getAddress();
+		int nutzerId = aUnternehmen.getNutzer().getId();
+		try {
+			open();
+			this.preparedStatement = this.connect.prepareStatement(
+					"UPDATE Unternehmensprofil SET NID = ?, name = ?, legalForm = ?, founding = ?, employees = ?, description = ?, "
+							+ "benefits = ?, branche = ?, website = ?, ceoFirstName = ?, ceoLastName = ?, plz = ?, city = ?, street = ?,"
+							+ " number = ? WHERE UID = ?");
+			preparedStatement.setInt(1, nutzerId);
+			preparedStatement.setString(2, aUnternehmen.getName());
+			preparedStatement.setString(3, aUnternehmen.getLegalForm());
+			preparedStatement.setObject(4, aUnternehmen.getFounding());
+			preparedStatement.setInt(5, aUnternehmen.getEmployees());
+			preparedStatement.setString(6, aUnternehmen.getDescription());
+			preparedStatement.setString(7, aUnternehmen.getBenefits());
+			preparedStatement.setString(8, aUnternehmen.getBranche());
+			preparedStatement.setString(9, aUnternehmen.getWebsite());
+			preparedStatement.setString(10, aUnternehmen.getCeoFirstName());
+			preparedStatement.setString(11, aUnternehmen.getCeoLastName());
+			preparedStatement.setString(12, address.getPlz());
+			preparedStatement.setString(13, address.getCity());
+			preparedStatement.setString(14, address.getStrasse());
+			preparedStatement.setString(15, address.getNumber());
+			preparedStatement.setInt(16, aUnternehmen.getId());
+			preparedStatement.executeUpdate();
+		} catch (final SQLException e) {
+			System.out.println(e); // TODO syso
+		} catch (final ClassNotFoundException e) {
+			System.out.println(e);
+		} finally {
+			close();
+		}
+	}
 }
