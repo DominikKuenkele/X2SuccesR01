@@ -51,6 +51,8 @@ public class SampleController {
         Scene scene = new Scene(myPane);
         stage.setScene(scene);
         
+        
+        
         //prevStage.close();
         
 
