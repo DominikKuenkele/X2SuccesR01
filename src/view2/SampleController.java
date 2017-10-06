@@ -50,7 +50,9 @@ public class SampleController {
         myPane = FXMLLoader.load(getClass().getResource("Unternehmen_Home_Dashboard_nofavs.fxml"));
         Scene scene = new Scene(myPane);
         stage.setScene(scene);
-        //Löschenkhjslkhdlfkjhgkldslkjsh
+        
+        
+        
         //prevStage.close();
         
 
