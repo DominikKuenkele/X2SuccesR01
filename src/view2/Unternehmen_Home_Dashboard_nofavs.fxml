@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="708.0" prefWidth="1057.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view2.Unternehmen_Home_Dashboard_nofavsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="708.0" prefWidth="1057.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view2.Unternehmen_Home_Dashboard_nofavsController">
    <children>
       <SplitPane dividerPositions="0.09206798866855524" orientation="VERTICAL" prefHeight="708.0" prefWidth="1057.0">
         <items>
@@ -92,7 +92,7 @@
                               </ImageView>
                            </children>
                         </AnchorPane>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="674.0" prefWidth="918.0">
+                      <AnchorPane fx:id="pane" minHeight="0.0" minWidth="0.0" prefHeight="674.0" prefWidth="918.0">
                            <children>
                               <Label layoutX="274.0" layoutY="40.0" text="Willkommen bei X2Success">
                                  <font>

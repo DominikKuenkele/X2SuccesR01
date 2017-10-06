@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="674.0" prefWidth="918.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="296.0" layoutY="31.0" text="Nutzerdaten ändern">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="62.0" layoutY="87.0" text="Vorname">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="newprenom" layoutX="165.0" layoutY="85.0" prefHeight="25.0" prefWidth="206.0" />
+      <Label layoutX="411.0" layoutY="87.0" text="Nachname">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="newname" layoutX="533.0" layoutY="85.0" prefHeight="25.0" prefWidth="206.0" />
+      <Label layoutX="62.0" layoutY="132.0" text="Geschlecht">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="62.0" layoutY="177.0" text="Stadt">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="city" layoutX="166.0" layoutY="177.0" prefHeight="25.0" prefWidth="206.0" />
+      <Label layoutX="62.0" layoutY="222.0" text="Straße">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="street" layoutX="166.0" layoutY="220.0" prefHeight="25.0" prefWidth="206.0" />
+      <Label layoutX="411.0" layoutY="177.0" text="PLZ">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="411.0" layoutY="222.0" text="Nr.">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="plz" layoutX="533.0" layoutY="177.0" prefHeight="25.0" prefWidth="60.0" />
+      <TextField fx:id="streetnumber" layoutX="533.0" layoutY="220.0" prefHeight="25.0" prefWidth="57.0" />
+      <Button fx:id="changeUserDataButton" layoutX="328.0" layoutY="312.0" mnemonicParsing="false" onAction="#changeUserData" text="Daten ändern" />
+      <Label layoutX="62.0" layoutY="267.0" text="E-Mail Adresse">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="email" layoutX="165.0" layoutY="265.0" prefHeight="25.0" prefWidth="206.0" />
+      <Label layoutX="309.0" layoutY="384.0" text="Passwort ändern">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="62.0" layoutY="439.0" text="Altes Passwort">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <PasswordField fx:id="oldpassword" layoutX="166.0" layoutY="437.0" prefWidth="206.0" />
+      <Label layoutX="411.0" layoutY="441.0" text="Neues Passwort" />
+      <Label layoutX="411.0" layoutY="486.0" text="Passwort wiederholen" />
+      <PasswordField fx:id="newpassword" layoutX="548.0" layoutY="437.0" />
+      <PasswordField fx:id="newpassword2" layoutX="548.0" layoutY="482.0" />
+      <Button fx:id="changepwbutton" layoutX="321.0" layoutY="549.0" mnemonicParsing="false" onAction="#changePW" text="Passwort ändern" />
+      <ChoiceBox fx:id="newgender" layoutX="166.0" layoutY="130.0" prefHeight="25.0" prefWidth="206.0" />
+      <Label layoutX="413.0" layoutY="135.0" text="Geburtsdatum">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <DatePicker fx:id="birthdate" layoutX="533.0" layoutY="130.0" />
+   </children>
+</AnchorPane>

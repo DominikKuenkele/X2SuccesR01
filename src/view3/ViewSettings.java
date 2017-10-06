@@ -25,7 +25,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.Nutzer;
 
-public class ViewFSettings implements Initializable {
+public class ViewSettings implements Initializable {
 
 	// Liste für die Choice Boxen. Aus DB ziehen
 	ObservableList<String> GenderList = FXCollections.observableArrayList("Männlich", "Weiblich", "Anderes");

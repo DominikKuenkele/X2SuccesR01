@@ -30,6 +30,10 @@ public class User_Home_Dashboard_nofavsController {
 	@FXML
 	private ImageView userpicture;
 
+	void initiate() {
+
+	}
+
 	void changescene(String fxmlname) throws IOException {
 
 		// schliesst aktuelles Fenster
