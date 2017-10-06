@@ -5,7 +5,7 @@
 
 <AnchorPane prefHeight="366.0" prefWidth="385.0"
 	xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="view3.Controller">
+	fx:controller="view3.ViewStart">
 	<children>
 		<AnchorPane prefHeight="366.0" prefWidth="385.0">
 			<children>

@@ -80,9 +80,9 @@ public class ViewSettings implements Initializable {
 
 	@FXML
 	private Button changepwbutton;
-	
-	  @FXML
-	    private DatePicker birthdate;
+
+	@FXML
+	private DatePicker birthdate;
 
 	@FXML
 	private ChoiceBox<String> newgender;
@@ -166,21 +166,22 @@ public class ViewSettings implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		Verwaltung v = new Verwaltung();
-		Nutzer nutzer = v.getCurrentNutzer();//Daten ausfüllen
-		newprenom.setText(nutzer.getFirstName());
-		newname.setText(nutzer.getLastName());
-		city.setText(nutzer.getAddress().getCity());
-		street.setText(nutzer.getAddress().getStrasse());
-		plz.setText(nutzer.getAddress().getPlz());
-		streetnumber.setText(nutzer.getAddress().getNumber());
-		email.setText(nutzer.geteMail());
-		birthdate.setValue(nutzer.getBirthdate());
-		
-		
-		
-		newprenom.setText(nutzer.getFirstName());
-		newgender.setValue("Geschlecht auswählen"); // Anfangswert
-		newgender.setItems(GenderList); // Name der Liste
+		Nutzer nutzer = v.getCurrentNutzer();// Daten ausfüllen
+		if (nutzer != null) {
+			newprenom.setText(nutzer.getFirstName());
+			newname.setText(nutzer.getLastName());
+			city.setText(nutzer.getAddress().getCity());
+			street.setText(nutzer.getAddress().getStrasse());
+			plz.setText(nutzer.getAddress().getPlz());
+			streetnumber.setText(nutzer.getAddress().getNumber());
+			email.setText(nutzer.geteMail());
+			birthdate.setValue(nutzer.getBirthdate());
+
+			newprenom.setText(nutzer.getFirstName());
+			newgender.setValue("Geschlecht auswählen"); // Anfangswert
+			newgender.setItems(GenderList); // Name der Liste
+		}
+
 	}
 
 }
