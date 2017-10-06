@@ -18,7 +18,7 @@ public class Nutzer {
 	private String eMail;
 	private String password;
 	private Adresse address;
-	private Status status;
+	private Status status = Status.N;
 
 	/**
 	 * @param firstName

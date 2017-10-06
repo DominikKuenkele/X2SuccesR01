@@ -29,16 +29,6 @@ public class Verwaltung {
 	private Unternehmensprofil currentUnternehmen;
 	private Freelancerprofil currentFreelancer;
 
-	public Verwaltung() {
-		try {
-			currentNutzer = new Nutzer("Dominik", "sdfjkds", "m", LocalDate.of(1999, 2, 5), "d@d.de", "fsdfsdf",
-					new Adresse("1231", "hsfk", "dsjf", "2"), Status.NONE);
-		} catch (ValidateConstrArgsException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 	/**
 	 * @return the current {@link model.Nutzer}
 	 */
@@ -78,7 +68,7 @@ public class Verwaltung {
 		try {
 			String passHash = PassHash.generateStrongPasswordHash(password);
 			Nutzer nutzer = new Nutzer(fName, lName, sex, date, eMail, passHash, new Adresse(plz, city, street, number),
-					Status.NONE);
+					Status.N);
 			int nid = new NutzerDAO().addNutzer(nutzer);
 			nutzer.setId(nid);
 			currentNutzer = nutzer;
@@ -120,6 +110,38 @@ public class Verwaltung {
 			unternehmen.setId(uid);
 			currentUnternehmen = unternehmen;
 			currentNutzer.setStatus(Status.U);
+		} catch (ValidateConstrArgsException e) {
+			throw new UserInputException(e.getMessage());
+		}
+	}
+
+	/**
+	 * @param name
+	 * @param form
+	 * @param plz
+	 * @param city
+	 * @param street
+	 * @param number
+	 * @param founding
+	 * @param employees
+	 * @param description
+	 * @param benefits
+	 * @param branche
+	 * @param website
+	 * @param ceoFirstName
+	 * @param ceoLastName
+	 * @throws UserInputException
+	 */
+	public void changeUnternehmen(String name, String form, String plz, String city, String street, String number,
+			LocalDate founding, int employees, String description, String benefits, String branche, String website,
+			String ceoFirstName, String ceoLastName) throws UserInputException {
+		try {
+			Unternehmensprofil unternehmen = new Unternehmensprofil(name, form, new Adresse(plz, city, street, number),
+					founding, employees, description, benefits, branche, website, ceoFirstName, ceoLastName,
+					currentNutzer);
+			unternehmen.setId(currentUnternehmen.getId());
+			new UnternehmensprofilDAO().changeUnternehmen(unternehmen);
+			currentUnternehmen = unternehmen;
 		} catch (ValidateConstrArgsException e) {
 			throw new UserInputException(e.getMessage());
 		}
@@ -172,6 +194,30 @@ public class Verwaltung {
 					wochenstunden, currentUnternehmen);
 			int jid = new JobangebotDAO().addJobangebot(jobangebot);
 			jobangebot.setId(jid);
+		} catch (ValidateConstrArgsException e) {
+			throw new UserInputException(e.getMessage());
+		}
+	}
+
+	/**
+	 * @param fName
+	 * @param lName
+	 * @param sex
+	 * @param plz
+	 * @param city
+	 * @param street
+	 * @param number
+	 * @param date
+	 * @throws UserInputException
+	 */
+	public void changeNutzer(String fName, String lName, String sex, String plz, String city, String street,
+			String number, LocalDate date) throws UserInputException {
+		try {
+			Nutzer nutzer = new Nutzer(fName, lName, sex, date, currentNutzer.geteMail(), currentNutzer.getPassword(),
+					new Adresse(plz, city, street, number), currentNutzer.getStatus());
+			nutzer.setId(currentNutzer.getId());
+			new NutzerDAO().changeNutzer(nutzer);
+			currentNutzer = nutzer;
 		} catch (ValidateConstrArgsException e) {
 			throw new UserInputException(e.getMessage());
 		}

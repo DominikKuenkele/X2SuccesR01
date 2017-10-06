@@ -8,7 +8,7 @@ package model;
  *
  */
 public enum Status {
-	NONE(""), F("F"), U("U");
+	N("N"), F("F"), U("U");
 
 	private String text;
 
