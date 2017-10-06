@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import application.Verwaltung;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,146 +22,150 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import model.Nutzer;
 
 public class User_Settings_DashboardController implements Initializable {
-	
-	//Liste für die Choice Boxen. Aus DB ziehen
-	ObservableList<String> GenderList = FXCollections.observableArrayList("Männlich","Weiblich","Anderes");
 
-    @FXML
-    private ImageView homebutton;
+	// Liste für die Choice Boxen. Aus DB ziehen
+	ObservableList<String> GenderList = FXCollections.observableArrayList("Männlich", "Weiblich", "Anderes");
 
-    @FXML
-    private ImageView profilbutton;
+	@FXML
+	private ImageView homebutton;
 
-    @FXML
-    private ImageView searchbutton;
+	@FXML
+	private ImageView profilbutton;
 
-    @FXML
-    private ImageView settingsbutton;
+	@FXML
+	private ImageView searchbutton;
 
-    @FXML
-    private ImageView signoutbutton;
+	@FXML
+	private ImageView settingsbutton;
 
-    @FXML
-    private TextField newprenom;
+	@FXML
+	private ImageView signoutbutton;
 
-    @FXML
-    private TextField newname;
+	@FXML
+	private TextField newprenom;
 
-    @FXML
-    private TextField city;
+	@FXML
+	private TextField newname;
 
-    @FXML
-    private TextField street;
+	@FXML
+	private TextField city;
 
-    @FXML
-    private TextField plz;
+	@FXML
+	private TextField street;
 
-    @FXML
-    private TextField streetnumber;
+	@FXML
+	private TextField plz;
 
-    @FXML
-    private Button changeUserDataButton;
+	@FXML
+	private TextField streetnumber;
 
-    @FXML
-    private TextField email;
+	@FXML
+	private Button changeUserDataButton;
 
-    @FXML
-    private PasswordField oldpassword;
+	@FXML
+	private TextField email;
 
-    @FXML
-    private PasswordField newpassword;
+	@FXML
+	private PasswordField oldpassword;
 
-    @FXML
-    private PasswordField newpassword2;
+	@FXML
+	private PasswordField newpassword;
 
-    @FXML
-    private Button changepwbutton;
+	@FXML
+	private PasswordField newpassword2;
 
-    @FXML
-    private ChoiceBox<String> newgender;
+	@FXML
+	private Button changepwbutton;
 
-    @FXML
-    void changePW(ActionEvent event) {
-    	if (newpassword.getText().equals(newpassword2.getText())) {
-    		//Abfragen ob PW stimmt und wenn ja ändern
-    	} else {
-    		Alert alert = new Alert(AlertType.WARNING);
-    		alert.setTitle("Fehler");
-    		alert.setHeaderText(null);
-    		alert.setContentText("Altes Passwort falsch oder neues Passwort nicht identisch");
+	@FXML
+	private ChoiceBox<String> newgender;
 
-    		alert.showAndWait();
-    	}
+	@FXML
+	void changePW(ActionEvent event) {
+		if (newpassword.getText().equals(newpassword2.getText())) {
+			// Abfragen ob PW stimmt und wenn ja ändern
+		} else {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Fehler");
+			alert.setHeaderText(null);
+			alert.setContentText("Altes Passwort falsch oder neues Passwort nicht identisch");
 
-    }
+			alert.showAndWait();
+		}
 
-    @FXML
-    void changeUserData(ActionEvent event) {
-    	
-    	String newprenom1=newprenom.getText();
-    	String newname1=newname.getText();
-    	String city1=city.getText();
-    	String street1=street.getText();
-    	
-    	//int plz1=Integer.parseInt(plz.getText());
-    	//int streetnumber1=Integer.parseInt(streetnumber.getText());
-    	String email1=email.getText();
-    	String gender=newgender.getValue();
-    	
+	}
 
-    }  
-    
-    void changescene(String fxmlname) throws IOException {
-      	 
-      	 //schliesst aktuelles Fenster
-       	Stage stage2 = (Stage) homebutton.getScene().getWindow();
-              stage2.close();
-       	
-      	 Stage stage = new Stage();
-           stage.setTitle("X2Success");
-           Pane myPane = null;
-           myPane = FXMLLoader.load(getClass().getResource(fxmlname));
-           Scene scene = new Scene(myPane);
-           stage.setScene(scene);
-           stage.show();
+	@FXML
+	void changeUserData(ActionEvent event) {
 
-       }
+		String newprenom1 = newprenom.getText();
+		String newname1 = newname.getText();
+		String city1 = city.getText();
+		String street1 = street.getText();
 
-    @FXML
-    void openHome(MouseEvent event) throws IOException {
+		// int plz1=Integer.parseInt(plz.getText());
+		// int streetnumber1=Integer.parseInt(streetnumber.getText());
+		String email1 = email.getText();
+		String gender = newgender.getValue();
 
-    	//Abfrage ob es schon Favoriten gibt
-   if(true)     changescene("User_Home_Dashboard_nofavs.fxml");
-   else      changescene("User_Home_Dashboard_favs.fxml");
-    }
-    
+	}
 
-    @FXML
-    void openProfil(MouseEvent event) throws IOException {
-    	changescene("User_Profil.fxml");
-    }
+	void changescene(String fxmlname) throws IOException {
 
-    @FXML
-    void openSearch(MouseEvent event) throws IOException {
-    	changescene("User_Suche_Dashboard.fxml");
-    }
+		// schliesst aktuelles Fenster
+		Stage stage2 = (Stage) homebutton.getScene().getWindow();
+		stage2.close();
 
-    @FXML
-    void openSettings(MouseEvent event) throws IOException {
-    	changescene("User_Settings_Dashboard.fxml");
-    }
+		Stage stage = new Stage();
+		stage.setTitle("X2Success");
+		Pane myPane = null;
+		myPane = FXMLLoader.load(getClass().getResource(fxmlname));
+		Scene scene = new Scene(myPane);
+		stage.setScene(scene);
+		stage.show();
 
-    @FXML
-    void openSignOut(MouseEvent event) throws IOException {
-    	changescene("Einloggen.fxml");
-    }
+	}
+
+	@FXML
+	void openHome(MouseEvent event) throws IOException {
+
+		// Abfrage ob es schon Favoriten gibt
+		if (true)
+			changescene("User_Home_Dashboard_nofavs.fxml");
+		else
+			changescene("User_Home_Dashboard_favs.fxml");
+	}
+
+	@FXML
+	void openProfil(MouseEvent event) throws IOException {
+		changescene("User_Profil.fxml");
+	}
+
+	@FXML
+	void openSearch(MouseEvent event) throws IOException {
+		changescene("User_Suche_Dashboard.fxml");
+	}
+
+	@FXML
+	void openSettings(MouseEvent event) throws IOException {
+		changescene("User_Settings_Dashboard.fxml");
+	}
+
+	@FXML
+	void openSignOut(MouseEvent event) throws IOException {
+		changescene("Einloggen.fxml");
+	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		newgender.setValue("Geschlecht auswählen"); //Anfangswert
-    	newgender.setItems(GenderList); //Name der Liste
+		Verwaltung v = new Verwaltung();
+		Nutzer nutzer = v.getCurrentNutzer();
+		newprenom.setText(nutzer.getFirstName());
+		newgender.setValue("Geschlecht auswählen"); // Anfangswert
+		newgender.setItems(GenderList); // Name der Liste
 	}
 
 }

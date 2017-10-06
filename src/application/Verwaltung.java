@@ -29,6 +29,16 @@ public class Verwaltung {
 	private Unternehmensprofil currentUnternehmen;
 	private Freelancerprofil currentFreelancer;
 
+	public Verwaltung() {
+		try {
+			currentNutzer = new Nutzer("Dominik", "sdfjkds", "m", LocalDate.of(1999, 2, 5), "d@d.de", "fsdfsdf",
+					new Adresse("1231", "hsfk", "dsjf", "2"), Status.NONE);
+		} catch (ValidateConstrArgsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * @return the current {@link model.Nutzer}
 	 */
