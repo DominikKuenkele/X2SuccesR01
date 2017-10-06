@@ -3,6 +3,10 @@ package model;
 import util.Validate;
 import util.exception.ValidateConstrArgsException;
 
+/**
+ * @author domin
+ *
+ */
 public class Adresse {
 	private String strasse;
 	private String number;
@@ -14,6 +18,7 @@ public class Adresse {
 	 * @param number
 	 * @param city
 	 * @param plz
+	 * @throws ValidateConstrArgsException
 	 */
 	public Adresse(final String plz, final String city, final String strasse, final String number)
 			throws ValidateConstrArgsException {
@@ -52,7 +57,6 @@ public class Adresse {
 	public String getPlz() {
 		return plz;
 	}
-
 
 	private void validateState() throws ValidateConstrArgsException {
 		try {

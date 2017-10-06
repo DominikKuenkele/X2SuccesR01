@@ -54,7 +54,7 @@ public class JobangebotDAO {
 
 	/**
 	 * @param jobangebot
-	 * @return
+	 * @return the generated ID of the new {@link model.Jobangebot}
 	 */
 	public int addJobangebot(Jobangebot jobangebot) {
 		int unternehmensId = jobangebot.getUnternehmensproflil().getId();
@@ -79,7 +79,7 @@ public class JobangebotDAO {
 			}
 
 			List<String> sprachen = jobangebot.getSprachen();
-			
+
 			for (int i = 0; i < sprachen.size(); i++) {
 				int sid = new SpracheDAO().getId(sprachen.get(i));
 
@@ -89,7 +89,7 @@ public class JobangebotDAO {
 
 				preparedStatement.executeUpdate();
 			}
-			
+
 			for (int i = 0; i < sprachen.size(); i++) {
 				int sid = 0;
 				preparedStatement = connect.prepareStatement("SELECT SID FROM Sprachen WHERE sprache = ?");
@@ -115,8 +115,8 @@ public class JobangebotDAO {
 	}
 
 	/**
-	 * @param name
-	 * @return
+	 * @param jid
+	 * @return a {@link model.Jobangebot} with given ID
 	 */
 	public Jobangebot getJobangebot(int jid) {
 		try {
@@ -136,6 +136,9 @@ public class JobangebotDAO {
 		}
 	}
 
+	/**
+	 * @return a List of all {@link model.Jobangebot Jobangebote} in database
+	 */
 	public List<Jobangebot> getAllJobangebote() {
 		try {
 			open();
@@ -153,6 +156,9 @@ public class JobangebotDAO {
 		}
 	}
 
+	/**
+	 * @param jid
+	 */
 	public void deleteJobangebot(int jid) {
 		try {
 			open();
@@ -170,7 +176,7 @@ public class JobangebotDAO {
 	}
 
 	private List<Jobangebot> getJobangebotFromResultSet(ResultSet resultSet) throws SQLException {
-		List<Jobangebot> result = new LinkedList<Jobangebot>();
+		List<Jobangebot> result = new LinkedList<>();
 		while (resultSet.next()) {
 			int jobangebotsId = resultSet.getInt("JID");
 			int unternehmensId = resultSet.getInt("uid");
@@ -188,7 +194,7 @@ public class JobangebotDAO {
 						maxSalary, weeklyHours, unternehmen);
 				tempJobangebot.setId(jobangebotsId);
 				result.add(tempJobangebot);
-				
+
 			} catch (ValidateConstrArgsException e) {
 				e.printStackTrace();
 			}
@@ -197,7 +203,7 @@ public class JobangebotDAO {
 	}
 
 	private List<String> getLanguageInJobangebot(int jid) {
-		List<String> result = new LinkedList<String>();
+		List<String> result = new LinkedList<>();
 		try {
 			open();
 			preparedStatement = connect.prepareStatement("SELECT SID FROM SprachenzuordnungJA WHERE JID = ?");

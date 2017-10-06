@@ -7,7 +7,11 @@ import java.util.List;
 import util.Validate;
 import util.exception.ValidateConstrArgsException;
 
-public class Freelancerprofil implements Profil{
+/**
+ * @author domin
+ *
+ */
+public class Freelancerprofil implements Profil {
 	private static final int ANZAHL_STAERKEN = 3;
 
 	private int fid = -1;
@@ -26,6 +30,8 @@ public class Freelancerprofil implements Profil{
 	 * @param lebenslauf
 	 * @param benefits
 	 * @param sprachen
+	 * @param nutzer
+	 * @throws ValidateConstrArgsException
 	 */
 	public Freelancerprofil(final String abschluss, final String beschreibung, final String[] skills,
 			final String lebenslauf, final String benefits, final List<String> sprachen, Nutzer nutzer)

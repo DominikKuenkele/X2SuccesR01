@@ -46,6 +46,10 @@ public class FreelancerprofilDAO {
 		}
 	}
 
+	/**
+	 * @param freelancer
+	 * @return the generated ID of the new {@link model.Freelancerprofil}
+	 */
 	public int addFreelancerprofil(Freelancerprofil freelancer) {
 		int nutzerId = freelancer.getNutzer().getId();
 		int fid = -1;
@@ -91,6 +95,10 @@ public class FreelancerprofilDAO {
 		return fid;
 	}
 
+	/**
+	 * @param fid
+	 * @return a {@link model.Freelancerprofil} with given ID
+	 */
 	public Freelancerprofil getFreelancerprofil(int fid) {
 		try {
 			open();
@@ -110,6 +118,10 @@ public class FreelancerprofilDAO {
 		}
 	}
 
+	/**
+	 * @return a List of all {@link model.Freelancerprofil Freelancerprofile} in
+	 *         database
+	 */
 	public List<Freelancerprofil> getAllFreelancer() {
 		try {
 			open();
@@ -127,6 +139,9 @@ public class FreelancerprofilDAO {
 		}
 	}
 
+	/**
+	 * @param fid
+	 */
 	public void deleteFreelancerprofil(int fid) {
 		try {
 			open();
@@ -144,7 +159,7 @@ public class FreelancerprofilDAO {
 	}
 
 	private List<Freelancerprofil> getFreelancerprofilFromResultSet(ResultSet resultSet) throws SQLException {
-		List<Freelancerprofil> result = new LinkedList<Freelancerprofil>();
+		List<Freelancerprofil> result = new LinkedList<>();
 		while (resultSet.next()) {
 			int freelancerId = resultSet.getInt("FID");
 			int nutzerId = resultSet.getInt("NID");
@@ -171,7 +186,7 @@ public class FreelancerprofilDAO {
 	}
 
 	private List<String> getLanguageInFreelancerprofil(int fid) {
-		List<String> result = new LinkedList<String>();
+		List<String> result = new LinkedList<>();
 		try {
 			open();
 			preparedStatement = connect.prepareStatement("SELECT SID FROM SprachenzuordnungFP WHERE FID = ?");

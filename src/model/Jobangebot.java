@@ -7,6 +7,10 @@ import java.util.List;
 import util.Validate;
 import util.exception.ValidateConstrArgsException;
 
+/**
+ * @author domin
+ *
+ */
 public class Jobangebot {
 	private int jid = -1;
 	private String abschluss;
@@ -19,7 +23,6 @@ public class Jobangebot {
 	private Unternehmensprofil unternehmensproflil;
 
 	/**
-	 * @param JID
 	 * @param abschluss
 	 * @param sprachen
 	 * @param beschreibung

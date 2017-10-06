@@ -39,6 +39,10 @@ public class SpracheDAO {
 		}
 	}
 
+	/**
+	 * @param sprache
+	 * @return the Id with given language
+	 */
 	public int getId(String sprache) {
 		int result = 0;
 		try {
@@ -62,6 +66,10 @@ public class SpracheDAO {
 		return result;
 	}
 
+	/**
+	 * @param id
+	 * @return the language with given id
+	 */
 	public String getSprache(int id) {
 		String result = "";
 		try {
@@ -81,8 +89,11 @@ public class SpracheDAO {
 		return result;
 	}
 
+	/**
+	 * @return a list of all languages in database
+	 */
 	public List<String> getAllSprachen() {
-		List<String> result = new LinkedList<String>();
+		List<String> result = new LinkedList<>();
 		try {
 			open();
 			preparedStatement = connect.prepareStatement("SELECT * FROM Sprachen");
@@ -99,7 +110,7 @@ public class SpracheDAO {
 	}
 
 	private List<String> getSpracheFromResultSet(ResultSet resultSet) throws SQLException {
-		List<String> result = new LinkedList<String>();
+		List<String> result = new LinkedList<>();
 		while (resultSet.next()) {
 			String sprache = resultSet.getString("Sprache");
 			result.add(sprache);

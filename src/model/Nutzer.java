@@ -5,6 +5,10 @@ import java.time.LocalDate;
 import util.Validate;
 import util.exception.ValidateConstrArgsException;
 
+/**
+ * @author domin
+ *
+ */
 public class Nutzer {
 	private int nid = -1;
 	private String firstName;
@@ -41,6 +45,9 @@ public class Nutzer {
 		validateState();
 	}
 
+	/**
+	 * @return the status
+	 */
 	public Status getStatus() {
 		return status;
 	}
@@ -102,14 +109,16 @@ public class Nutzer {
 	}
 
 	/**
-	 * @param nid the nid to set
+	 * @param nid
+	 *            the nid to set
 	 */
 	public void setId(int nid) {
 		this.nid = nid;
 	}
 
 	/**
-	 * @param status the status to set
+	 * @param status
+	 *            the status to set
 	 */
 	public void setStatus(Status status) {
 		this.status = status;

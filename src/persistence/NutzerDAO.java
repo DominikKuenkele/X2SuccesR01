@@ -15,6 +15,10 @@ import model.Status;
 import util.exception.DuplicateEntryException;
 import util.exception.ValidateConstrArgsException;
 
+/**
+ * @author domin
+ *
+ */
 public class NutzerDAO {
 	private Connection connect = null;
 	private PreparedStatement preparedStatement = null;
@@ -44,6 +48,11 @@ public class NutzerDAO {
 		}
 	}
 
+	/**
+	 * @param nutzer
+	 * @return the generated ID of the new {@link model.Nutzer}
+	 * @throws DuplicateEntryException
+	 */
 	public int addNutzer(Nutzer nutzer) throws DuplicateEntryException {
 		Adresse address = nutzer.getAddress();
 		int nid = -1;
@@ -84,7 +93,7 @@ public class NutzerDAO {
 	}
 
 	private List<Nutzer> getNutzerFromResultSet(ResultSet resultSet) throws SQLException {
-		List<Nutzer> result = new LinkedList<Nutzer>();
+		List<Nutzer> result = new LinkedList<>();
 		while (resultSet.next()) {
 			int nutzerId = resultSet.getInt("NID");
 			String firstName = resultSet.getString("firstName");
@@ -104,7 +113,7 @@ public class NutzerDAO {
 						new Adresse(plz, city, street, number), Status.valueOf(status));
 				tempNutzer.setId(nutzerId);
 				result.add(tempNutzer);
-				
+
 			} catch (ValidateConstrArgsException e) {
 				// TODO Validaiation
 				e.printStackTrace();
@@ -113,6 +122,10 @@ public class NutzerDAO {
 		return result;
 	}
 
+	/**
+	 * @param eMail
+	 * @return a {@link model.Nutzer} with given ID
+	 */
 	public Nutzer getNutzer(String eMail) {
 		try {
 			open();
@@ -137,6 +150,10 @@ public class NutzerDAO {
 		}
 	}
 
+	/**
+	 * @param id
+	 * @return a {@link model.Nutzer} with given eMail
+	 */
 	public Nutzer getNutzer(int id) {
 		try {
 			open();
@@ -156,6 +173,9 @@ public class NutzerDAO {
 		}
 	}
 
+	/**
+	 * @return a List of all {@link model.Nutzer Nutzer} in database
+	 */
 	public List<Nutzer> getAllNutzer() {
 		try {
 			open();
@@ -173,6 +193,9 @@ public class NutzerDAO {
 		}
 	}
 
+	/**
+	 * @param eMail
+	 */
 	public void deleteNutzer(String eMail) {
 		try {
 			open();

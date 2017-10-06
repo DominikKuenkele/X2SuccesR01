@@ -5,7 +5,11 @@ import java.time.LocalDate;
 import util.Validate;
 import util.exception.ValidateConstrArgsException;
 
-public class Unternehmensprofil  implements Profil{
+/**
+ * @author domin
+ *
+ */
+public class Unternehmensprofil implements Profil {
 	private int uid = -1;
 	private String name;
 	private String legalForm;

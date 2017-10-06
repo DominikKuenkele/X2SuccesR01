@@ -46,6 +46,10 @@ public class UnternehmensprofilDAO {
 		}
 	}
 
+	/**
+	 * @param unternehmen
+	 * @return the generated ID of the new {@link model.Unternehmensprofil}
+	 */
 	public int addUnternehmensprofil(Unternehmensprofil unternehmen) {
 		Adresse address = unternehmen.getAddress();
 		int nutzerId = unternehmen.getNutzer().getId();
@@ -87,6 +91,10 @@ public class UnternehmensprofilDAO {
 		return uid;
 	}
 
+	/**
+	 * @param uid
+	 * @return a {@link model.Unternehmensprofil} with given ID
+	 */
 	public Unternehmensprofil getUnternehmensprofil(int uid) {
 		try {
 			open();
@@ -106,6 +114,10 @@ public class UnternehmensprofilDAO {
 		}
 	}
 
+	/**
+	 * @return a List of all {@link model.Unternehmensprofil Unternehmensprofile} in
+	 *         database
+	 */
 	public List<Unternehmensprofil> getAllUnternehmen() {
 		try {
 			open();
@@ -123,6 +135,9 @@ public class UnternehmensprofilDAO {
 		}
 	}
 
+	/**
+	 * @param uid
+	 */
 	public void deleteUnternehmensprofil(int uid) {
 		try {
 			open();
@@ -140,7 +155,7 @@ public class UnternehmensprofilDAO {
 	}
 
 	private List<Unternehmensprofil> getUnternehmensprofilFromResultSet(ResultSet resultSet) throws SQLException {
-		List<Unternehmensprofil> result = new LinkedList<Unternehmensprofil>();
+		List<Unternehmensprofil> result = new LinkedList<>();
 		while (resultSet.next()) {
 			int unternehmensId = resultSet.getInt("UID");
 			int nutzerId = resultSet.getInt("NID");
