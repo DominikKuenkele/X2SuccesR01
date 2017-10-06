@@ -34,7 +34,7 @@ public class Verwaltung {
 		switch (currentNutzer.getStatus()) {
 		case F:
 			return currentFreelancer;
-		case U:
+		case U: 
 			return currentUnternehmen;
 		default:
 			return null;
