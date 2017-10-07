@@ -2,6 +2,8 @@ package view3;
 
 import java.io.IOException;
 
+import application.FreelancerObserver;
+import application.Verwaltung;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -9,8 +11,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import model.Freelancerprofil;
+import model.Nutzer;
 
-public class ViewFRahmen {
+public class ViewFRahmen implements FreelancerObserver {
+
+	private Nutzer nutzer;
+	private Freelancerprofil freelancerprofil;
+
 	@FXML
 	private ImageView homebutton;
 	@FXML
@@ -46,6 +54,7 @@ public class ViewFRahmen {
 	}
 
 	public void initialize() {
+		Verwaltung.getInstance().registerAsFreelancer(this);
 		openSubScene("FDashboard.fxml", "Dashboard");
 	}
 
@@ -84,4 +93,15 @@ public class ViewFRahmen {
 	public void createNewOffer(MouseEvent event) {
 		openStage();
 	}
+
+	@Override
+	public void updateFreelancer(Freelancerprofil aFreelancer) {
+		this.freelancerprofil = aFreelancer;
+	}
+
+	@Override
+	public void updateNutzer(Nutzer aNutzer) {
+		this.nutzer = aNutzer;
+	}
+
 }

@@ -165,7 +165,7 @@ public class ViewSettings implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		Verwaltung v = new Verwaltung();
+		Verwaltung v = Verwaltung.getInstance();
 		Nutzer nutzer = v.getCurrentNutzer();// Daten ausfüllen
 		if (nutzer != null) {
 			newprenom.setText(nutzer.getFirstName());

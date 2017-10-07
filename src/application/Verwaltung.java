@@ -23,7 +23,19 @@ import util.exception.ValidateConstrArgsException;
  * @author domin
  *
  */
-public class Verwaltung {
+public class Verwaltung extends Subject {
+
+	private static Verwaltung instance;
+
+	private Verwaltung() {
+	}
+
+	public static Verwaltung getInstance() {
+		if (instance == null) {
+			instance = new Verwaltung();
+		}
+		return instance;
+	}
 
 	private Nutzer currentNutzer;
 	private Unternehmensprofil currentUnternehmen;
@@ -237,5 +249,20 @@ public class Verwaltung {
 			currentNutzer = nutzer;
 			return true;
 		}
+	}
+
+	private void setCurrentNutzer(Nutzer aNutzer) {
+		this.currentNutzer = aNutzer;
+		notifyAllObservers(currentNutzer);
+	}
+
+	private void setCurrentFreelancer(Freelancerprofil aFreelancerprofil) {
+		this.currentFreelancer = aFreelancerprofil;
+		notifyFreelancerObeserver(currentFreelancer);
+	}
+
+	private void setCurrentUnternehmensprofil(Unternehmensprofil aUnternehmensprofil) {
+		this.currentUnternehmen = aUnternehmensprofil;
+		notifyUnternehmerObeserver(currentUnternehmen);
 	}
 }
