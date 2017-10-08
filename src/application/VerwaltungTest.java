@@ -23,7 +23,7 @@ public class VerwaltungTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		v = new Verwaltung();
+		v = Verwaltung.getInstance();
 		// v.register("Olaf", "Mieller", "m", "71782", "Gera", "Hauptallee", "13",
 		// LocalDate.of(2000, 10, 2),
 		// "olaf.muelle@hsdf.de", "1234");

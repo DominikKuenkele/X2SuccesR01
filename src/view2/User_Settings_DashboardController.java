@@ -80,9 +80,9 @@ public class User_Settings_DashboardController implements Initializable {
 
 	@FXML
 	private Button changepwbutton;
-	
-	  @FXML
-	    private DatePicker birthdate;
+
+	@FXML
+	private DatePicker birthdate;
 
 	@FXML
 	private ChoiceBox<String> newgender;
@@ -165,8 +165,8 @@ public class User_Settings_DashboardController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		Verwaltung v = new Verwaltung();
-		Nutzer nutzer = v.getCurrentNutzer();//Daten ausfüllen
+		Verwaltung v = Verwaltung.getInstance();
+		Nutzer nutzer = v.getCurrentNutzer();// Daten ausfüllen
 		newprenom.setText(nutzer.getFirstName());
 		newname.setText(nutzer.getLastName());
 		city.setText(nutzer.getAddress().getCity());
@@ -175,9 +175,7 @@ public class User_Settings_DashboardController implements Initializable {
 		streetnumber.setText(nutzer.getAddress().getNumber());
 		email.setText(nutzer.geteMail());
 		birthdate.setValue(nutzer.getBirthdate());
-		
-		
-		
+
 		newprenom.setText(nutzer.getFirstName());
 		newgender.setValue("Geschlecht auswählen"); // Anfangswert
 		newgender.setItems(GenderList); // Name der Liste

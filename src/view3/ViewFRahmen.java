@@ -16,9 +16,8 @@ import model.Nutzer;
 
 public class ViewFRahmen implements FreelancerObserver {
 
-	private Nutzer nutzer;
-	private Freelancerprofil freelancerprofil;
-
+	@FXML
+	private Label labelName;
 	@FXML
 	private ImageView homebutton;
 	@FXML
@@ -96,12 +95,12 @@ public class ViewFRahmen implements FreelancerObserver {
 
 	@Override
 	public void updateFreelancer(Freelancerprofil aFreelancer) {
-		this.freelancerprofil = aFreelancer;
+
 	}
 
 	@Override
 	public void updateNutzer(Nutzer aNutzer) {
-		this.nutzer = aNutzer;
+		labelName.setText(aNutzer.getFirstName() + " " + aNutzer.getLastName());
 	}
 
 }

@@ -111,7 +111,7 @@
 												<Image url="@Icons/dtu-jnUc.jpg" />
 											</image>
 										</ImageView>
-										<Label layoutX="16.0" layoutY="119.0" text="Vorname Nachname" />
+										<Label layoutX="16.0" layoutY="119.0" text="Vorname Nachname" fx:id="labelName"/>
 									</children>
 								</AnchorPane>
 								<AnchorPane minHeight="0.0" minWidth="0.0"

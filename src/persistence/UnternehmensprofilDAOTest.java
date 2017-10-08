@@ -72,7 +72,7 @@ public class UnternehmensprofilDAOTest {
 	 */
 	@Test
 	public void testChangeUnternehmen() {
-		Verwaltung v = new Verwaltung();
+		Verwaltung v = Verwaltung.getInstance();
 		v.login("olaf.muelle@hsdf.de", "1234");
 		Nutzer nutzer = v.getCurrentNutzer();
 		Unternehmensprofil unternehmen;
