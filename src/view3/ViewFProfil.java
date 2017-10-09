@@ -96,11 +96,8 @@ public class ViewFProfil implements Initializable{
     void changefreelancer(ActionEvent event) {  //Änderungen übernehmen
     	
     	String d1=(String) degree1.getValue();
-    	String d2=(String) degree2.getValue();
-    	String d3=(String) degree3.getValue();
     	String t1=(String) topic1.getValue();
-    	String t2=(String) topic2.getValue();
-    	String t3=(String) topic3.getValue();
+
     	
     	String cv1=cv.getText();
     //	String languages1=languages.getText();
@@ -176,16 +173,8 @@ public class ViewFProfil implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		degree1.setValue("Inhalt1"); //Anfangswert
     	degree1.setItems(TestListe); //Name der Liste
-    	degree2.setValue("Inhalt1"); //Anfangswert
-    	degree2.setItems(TestListe); //Name der Liste
-    	degree3.setValue("Inhalt1"); //Anfangswert
-    	degree3.setItems(TestListe); //Name der Liste
     	topic1.setValue("Inhalt1"); //Anfangswert
     	topic1.setItems(TestListe); //Name der Liste
-    	topic2.setValue("Inhalt1"); //Anfangswert
-    	topic2.setItems(TestListe); //Name der Liste
-    	topic3.setValue("Inhalt1"); //Anfangswert
-    	topic3.setItems(TestListe); //Name der Liste
 //    	language1.setValue("Sprache1"); //Anfangswert
 //    	language1.setItems(Sprachen); //Name der Liste
 //    	language2.setValue("Sprache2"); //Anfangswert

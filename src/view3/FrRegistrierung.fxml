@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="674.0" prefWidth="918.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view3.ViewFProfil">
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="674.0" prefWidth="918.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view3.ViewFrRegistrierung">
    <children>
-      <Label layoutX="333.0" layoutY="24.0" text="Freelancerprofil bearbeiten">
+      <Label layoutX="387.0" layoutY="24.0" text="Freelancerprofil anlegen">
          <font>
             <Font size="18.0" />
          </font>
@@ -53,14 +53,9 @@
          </font>
       </Label>
       <TextArea fx:id="selfDescription" layoutX="238.0" layoutY="499.0" prefHeight="51.0" prefWidth="583.0" />
-      <Button fx:id="changefreelancerbutton" layoutX="290.0" layoutY="589.0" mnemonicParsing="false" onAction="#changefreelancer" text="Änderungen übernehmen">
+      <Button fx:id="continuebutton" layoutX="449.0" layoutY="589.0" mnemonicParsing="false" onAction="#continuetoDashboard" text="Weiter">
          <font>
-            <Font size="16.0" />
-         </font>
-      </Button>
-      <Button fx:id="showfreelancerbutton" layoutX="657.0" layoutY="589.0" mnemonicParsing="false" onAction="#showfreelancer" text="Profil ansehen">
-         <font>
-            <Font size="16.0" />
+            <Font size="18.0" />
          </font>
       </Button>
       <ChoiceBox fx:id="language1" layoutX="239.0" layoutY="292.0" prefHeight="31.0" prefWidth="278.0" />
