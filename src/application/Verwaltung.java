@@ -1,6 +1,8 @@
 package application;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import model.Adresse;
@@ -27,14 +29,10 @@ public class Verwaltung extends Subject {
 
 	private static Verwaltung instance;
 
+	/**
+	 * private Constructor prevents instantiation of this class
+	 */
 	private Verwaltung() {
-	}
-
-	public static Verwaltung getInstance() {
-		if (instance == null) {
-			instance = new Verwaltung();
-		}
-		return instance;
 	}
 
 	private Nutzer currentNutzer;
@@ -42,21 +40,31 @@ public class Verwaltung extends Subject {
 	private Freelancerprofil currentFreelancer;
 
 	/**
+	 * @return the Instance of this Singleton-Class
+	 */
+	public static Verwaltung getInstance() {
+		if (instance == null) {
+			instance = new Verwaltung();
+		}
+		return instance;
+	}
+
+	/**
 	 * @return the current {@link model.Nutzer}
 	 */
 	public Nutzer getCurrentNutzer() {
-		return currentNutzer;
+		return this.currentNutzer;
 	}
 
 	/**
 	 * @return the current profile
 	 */
 	public Profil getCurrentProfil() {
-		switch (currentNutzer.getStatus()) {
+		switch (this.currentNutzer.getStatus()) {
 		case F:
-			return currentFreelancer;
+			return this.currentFreelancer;
 		case U:
-			return currentUnternehmen;
+			return this.currentUnternehmen;
 		default:
 			return null;
 		}
@@ -75,15 +83,16 @@ public class Verwaltung extends Subject {
 	 * @param password
 	 * @throws UserInputException
 	 */
-	public void register(String fName, String lName, String sex, String plz, String city, String street, String number,
-			LocalDate date, String eMail, String password) throws UserInputException {
+	public void register(final String fName, final String lName, final String sex, final String plz, final String city,
+			final String street, final String number, final LocalDate date, final String eMail, final String password)
+			throws UserInputException {
 		try {
-			String passHash = PassHash.generateStrongPasswordHash(password);
-			Nutzer nutzer = new Nutzer(fName, lName, sex, date, eMail, passHash, new Adresse(plz, city, street, number),
-					Status.N);
-			int nid = new NutzerDAO().addNutzer(nutzer);
+			final String passHash = PassHash.generateStrongPasswordHash(password);
+			final Nutzer nutzer = new Nutzer(fName, lName, sex, date, eMail, passHash,
+					new Adresse(plz, city, street, number), Status.N);
+			final int nid = new NutzerDAO().addNutzer(nutzer);
 			nutzer.setId(nid);
-			currentNutzer = nutzer;
+			setCurrentNutzer(nutzer);
 		} catch (ValidateConstrArgsException | DuplicateEntryException e) {
 			throw new UserInputException(e.getMessage());
 		}
@@ -107,22 +116,24 @@ public class Verwaltung extends Subject {
 	 * @param ceoLastName
 	 * @throws UserInputException
 	 */
-	public void createUnternehmen(String name, String form, String plz, String city, String street, String number,
-			LocalDate founding, int employees, String description, String benefits, String branche, String website,
-			String ceoFirstName, String ceoLastName) throws UserInputException {
-		if (currentNutzer.getStatus() == Status.F) {
+	public void createUnternehmen(final String name, final String form, final String plz, final String city,
+			final String street, final String number, final LocalDate founding, final int employees,
+			final String description, final String benefits, final String branche, final String website,
+			final String ceoFirstName, final String ceoLastName) throws UserInputException {
+		if (this.currentNutzer.getStatus() == Status.F) {
 			throw new UserInputException("Nutzer ist schon Freelancer!");
 		}
 		try {
-			Unternehmensprofil unternehmen = new Unternehmensprofil(name, form, new Adresse(plz, city, street, number),
-					founding, employees, description, benefits, branche, website, ceoFirstName, ceoLastName,
-					currentNutzer);
-			UnternehmensprofilDAO unternehmensprofilDao = new UnternehmensprofilDAO();
-			int uid = unternehmensprofilDao.addUnternehmensprofil(unternehmen);
+			final Unternehmensprofil unternehmen = new Unternehmensprofil(name, form,
+					new Adresse(plz, city, street, number), founding, employees, description, benefits, branche,
+					website, ceoFirstName, ceoLastName, this.currentNutzer);
+			final UnternehmensprofilDAO unternehmensprofilDao = new UnternehmensprofilDAO();
+			final int uid = unternehmensprofilDao.addUnternehmensprofil(unternehmen);
 			unternehmen.setId(uid);
-			currentUnternehmen = unternehmen;
-			currentNutzer.setStatus(Status.U);
-		} catch (ValidateConstrArgsException e) {
+			setCurrentUnternehmensprofil(unternehmen);
+			this.currentNutzer.setStatus(Status.U);
+			new NutzerDAO().changeNutzer(currentNutzer);
+		} catch (final ValidateConstrArgsException e) {
 			throw new UserInputException(e.getMessage());
 		}
 	}
@@ -144,17 +155,18 @@ public class Verwaltung extends Subject {
 	 * @param ceoLastName
 	 * @throws UserInputException
 	 */
-	public void changeUnternehmen(String name, String form, String plz, String city, String street, String number,
-			LocalDate founding, int employees, String description, String benefits, String branche, String website,
-			String ceoFirstName, String ceoLastName) throws UserInputException {
+	public void changeUnternehmen(final String name, final String form, final String plz, final String city,
+			final String street, final String number, final LocalDate founding, final int employees,
+			final String description, final String benefits, final String branche, final String website,
+			final String ceoFirstName, final String ceoLastName) throws UserInputException {
 		try {
-			Unternehmensprofil unternehmen = new Unternehmensprofil(name, form, new Adresse(plz, city, street, number),
-					founding, employees, description, benefits, branche, website, ceoFirstName, ceoLastName,
-					currentNutzer);
-			unternehmen.setId(currentUnternehmen.getId());
+			final Unternehmensprofil unternehmen = new Unternehmensprofil(name, form,
+					new Adresse(plz, city, street, number), founding, employees, description, benefits, branche,
+					website, ceoFirstName, ceoLastName, this.currentNutzer);
+			unternehmen.setId(this.currentUnternehmen.getId());
 			new UnternehmensprofilDAO().changeUnternehmen(unternehmen);
-			currentUnternehmen = unternehmen;
-		} catch (ValidateConstrArgsException e) {
+			setCurrentUnternehmensprofil(unternehmen);
+		} catch (final ValidateConstrArgsException e) {
 			throw new UserInputException(e.getMessage());
 		}
 	}
@@ -168,20 +180,21 @@ public class Verwaltung extends Subject {
 	 * @param sprachen
 	 * @throws UserInputException
 	 */
-	public void createFreelancer(String abschluss, String beschreibung, String[] skills, String lebenslauf,
-			String benefits, List<String> sprachen) throws UserInputException {
-		if (currentNutzer.getStatus() == Status.U) {
+	public void createFreelancer(final String abschluss, final String beschreibung, final String[] skills,
+			final String lebenslauf, final String benefits, final List<String> sprachen) throws UserInputException {
+		if (this.currentNutzer.getStatus() == Status.U) {
 			throw new UserInputException("Nutzer ist schon Unternehmer!");
 		}
 		try {
-			Freelancerprofil freelancer = new Freelancerprofil(abschluss, beschreibung, skills, lebenslauf, benefits,
-					sprachen, currentNutzer);
-			FreelancerprofilDAO freelancerprofilDao = new FreelancerprofilDAO();
-			int fid = freelancerprofilDao.addFreelancerprofil(freelancer);
+			final Freelancerprofil freelancer = new Freelancerprofil(abschluss, beschreibung, skills, lebenslauf,
+					benefits, sprachen, this.currentNutzer);
+			final FreelancerprofilDAO freelancerprofilDao = new FreelancerprofilDAO();
+			final int fid = freelancerprofilDao.addFreelancerprofil(freelancer);
 			freelancer.setId(fid);
-			currentFreelancer = freelancer;
-			currentNutzer.setStatus(Status.F);
-		} catch (ValidateConstrArgsException e) {
+			setCurrentFreelancer(freelancer);
+			this.currentNutzer.setStatus(Status.F);
+			new NutzerDAO().changeNutzer(currentNutzer);
+		} catch (final ValidateConstrArgsException e) {
 			throw new UserInputException(e.getMessage());
 		}
 	}
@@ -196,17 +209,18 @@ public class Verwaltung extends Subject {
 	 * @param wochenstunden
 	 * @throws UserInputException
 	 */
-	public void createJobangebot(String abschluss, List<String> sprachen, String beschreibung, LocalDate frist,
-			int minGehalt, int maxGehalt, int wochenstunden) throws UserInputException {
-		if (currentNutzer.getStatus() == Status.F) {
+	public void createJobangebot(final String abschluss, final List<String> sprachen, final String beschreibung,
+			final LocalDate frist, final int minGehalt, final int maxGehalt, final int wochenstunden)
+			throws UserInputException {
+		if (this.currentNutzer.getStatus() == Status.F) {
 			throw new UserInputException("Ein Freelancer kann kein Jobangebot erstellen.");
 		}
 		try {
-			Jobangebot jobangebot = new Jobangebot(abschluss, sprachen, beschreibung, frist, minGehalt, maxGehalt,
-					wochenstunden, currentUnternehmen);
-			int jid = new JobangebotDAO().addJobangebot(jobangebot);
+			final Jobangebot jobangebot = new Jobangebot(abschluss, sprachen, beschreibung, frist, minGehalt, maxGehalt,
+					wochenstunden, this.currentUnternehmen);
+			final int jid = new JobangebotDAO().addJobangebot(jobangebot);
 			jobangebot.setId(jid);
-		} catch (ValidateConstrArgsException e) {
+		} catch (final ValidateConstrArgsException e) {
 			throw new UserInputException(e.getMessage());
 		}
 	}
@@ -222,15 +236,17 @@ public class Verwaltung extends Subject {
 	 * @param date
 	 * @throws UserInputException
 	 */
-	public void changeNutzer(String fName, String lName, String sex, String plz, String city, String street,
-			String number, LocalDate date) throws UserInputException {
+	public void changeNutzer(final String fName, final String lName, final String sex, final String plz,
+			final String city, final String street, final String number, final LocalDate date)
+			throws UserInputException {
 		try {
-			Nutzer nutzer = new Nutzer(fName, lName, sex, date, currentNutzer.geteMail(), currentNutzer.getPassword(),
-					new Adresse(plz, city, street, number), currentNutzer.getStatus());
-			nutzer.setId(currentNutzer.getId());
+			final Nutzer nutzer = new Nutzer(fName, lName, sex, date, this.currentNutzer.geteMail(),
+					this.currentNutzer.getPassword(), new Adresse(plz, city, street, number),
+					this.currentNutzer.getStatus());
+			nutzer.setId(this.currentNutzer.getId());
 			new NutzerDAO().changeNutzer(nutzer);
-			currentNutzer = nutzer;
-		} catch (ValidateConstrArgsException e) {
+			setCurrentNutzer(nutzer);
+		} catch (final ValidateConstrArgsException e) {
 			throw new UserInputException(e.getMessage());
 		}
 	}
@@ -240,29 +256,60 @@ public class Verwaltung extends Subject {
 	 * @param password
 	 * @return if login was successful
 	 */
-	public boolean login(String eMail, String password) {
-		Nutzer nutzer = new NutzerDAO().getNutzer(eMail);
-		boolean validation = PassHash.validatePassword(password, nutzer.getPassword());
+	public boolean login(final String eMail, final String password) {
+		final Nutzer nutzer = new NutzerDAO().getNutzer(eMail);
+		final boolean validation = PassHash.validatePassword(password, nutzer.getPassword());
 		if (validation == false) {
 			return false;
 		} else {
-			currentNutzer = nutzer;
+			setCurrentNutzer(nutzer);
 			return true;
 		}
 	}
 
-	private void setCurrentNutzer(Nutzer aNutzer) {
+	public List<Jobangebot> sucheJobangebote(String name, String abschluss, String branche, int minMitarbeiter,
+			int maxMitarbeiter, int minGehalt) {
+		JobangebotDAO jobangebotDao = new JobangebotDAO();
+
+		List<List<Jobangebot>> searchList = new LinkedList<>();
+		searchList.add(jobangebotDao.searchForName(name));
+		searchList.add(jobangebotDao.searchForAbschluss(abschluss, branche));
+		searchList.add(jobangebotDao.searchForMitarbeiter(minMitarbeiter, maxMitarbeiter));
+		searchList.add(jobangebotDao.searchForGehalt(minGehalt));
+
+		HashMap<Integer, Integer> prioList = new HashMap<>();
+		for (List<Jobangebot> sL : searchList) {
+			prioList = prioritize(prioList, sL);
+		}
+		return null;
+	}
+
+	private HashMap<Integer, Integer> prioritize(HashMap<Integer, Integer> prioList, List<Jobangebot> searchList) {
+		for (Jobangebot jobangebot : searchList) {
+			int id = jobangebot.getJID();
+			int prio;
+			if (!prioList.containsKey(id)) {
+				prio = 1;
+			} else {
+				prio = prioList.get(id) + 1;
+			}
+			prioList.put(id, prio);
+		}
+		return prioList;
+	}
+
+	private void setCurrentNutzer(final Nutzer aNutzer) {
 		this.currentNutzer = aNutzer;
-		notifyAllObservers(currentNutzer);
+		notifyAllObservers(this.currentNutzer);
 	}
 
-	private void setCurrentFreelancer(Freelancerprofil aFreelancerprofil) {
+	private void setCurrentFreelancer(final Freelancerprofil aFreelancerprofil) {
 		this.currentFreelancer = aFreelancerprofil;
-		notifyFreelancerObeserver(currentFreelancer);
+		notifyFreelancerObeserver(this.currentFreelancer);
 	}
 
-	private void setCurrentUnternehmensprofil(Unternehmensprofil aUnternehmensprofil) {
+	private void setCurrentUnternehmensprofil(final Unternehmensprofil aUnternehmensprofil) {
 		this.currentUnternehmen = aUnternehmensprofil;
-		notifyUnternehmerObeserver(currentUnternehmen);
+		notifyUnternehmerObeserver(this.currentUnternehmen);
 	}
 }

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package view;
+package view3;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
