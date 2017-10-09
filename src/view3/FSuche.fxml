@@ -1,291 +1,101 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Pagination?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="674.0"
-	prefWidth="918.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="view3.ViewFSuche">
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="674.0" prefWidth="918.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view3.ViewFSuche">
 	<children>
-		<SplitPane dividerPositions="0.22063666300768386" layoutX="2.0"
-			prefHeight="674.0" prefWidth="911.0">
+		<SplitPane dividerPositions="0.22063666300768386" layoutX="2.0" prefHeight="674.0" prefWidth="911.0">
 			<items>
-				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="670.0"
-					prefWidth="198.0">
+				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="670.0" prefWidth="198.0">
 					<children>
 						<Label layoutX="14.0" layoutY="26.0" text="Name:">
 							<font>
 								<Font size="16.0" />
 							</font>
 						</Label>
-						<TextField fx:id="searchcompanyname" layoutX="14.0"
-							layoutY="53.0" prefHeight="25.0" prefWidth="152.0" />
+						<TextField fx:id="searchcompanyname" layoutX="14.0" layoutY="53.0" prefHeight="25.0" prefWidth="152.0" />
 						<Label layoutX="14.0" layoutY="102.0" text="Benötigter Abschluss:">
 							<font>
 								<Font size="16.0" />
 							</font>
 						</Label>
-						<ChoiceBox fx:id="searchnecessarydegree" accessibleRole="IMAGE_VIEW"
-							layoutX="15.0" layoutY="127.0" prefHeight="25.0" prefWidth="152.0" />
+						<ChoiceBox fx:id="searchnecessarydegree" accessibleRole="IMAGE_VIEW" layoutX="15.0" layoutY="127.0" prefHeight="25.0" prefWidth="152.0" />
 						<Label layoutX="15.0" layoutY="172.0" text="Branche:">
 							<font>
 								<Font size="16.0" />
 							</font>
 						</Label>
-						<ChoiceBox fx:id="searchbranche" accessibleRole="IMAGE_VIEW"
-							layoutX="14.0" layoutY="197.0" prefHeight="25.0" prefWidth="152.0" />
+						<ChoiceBox fx:id="searchbranche" accessibleRole="IMAGE_VIEW" layoutX="14.0" layoutY="197.0" prefHeight="25.0" prefWidth="152.0" />
 						<Label layoutX="15.0" layoutY="241.0" text="Mitarbeiteranzahl:">
 							<font>
 								<Font size="16.0" />
 							</font>
 						</Label>
-						<Label layoutX="21.0" layoutY="312.0" text="Mindestgehalt:">
+						<Label layoutX="18.0" layoutY="323.0" text="Mindestgehalt:">
 							<font>
 								<Font size="16.0" />
 							</font>
 						</Label>
-						<TextField fx:id="minimumemployees" layoutX="20.0"
-							layoutY="270.0" prefHeight="25.0" prefWidth="46.0" />
-						<Label layoutX="110.0" layoutY="381.0" text="€ / Monat">
+						<TextField fx:id="minimumemployees" layoutX="20.0" layoutY="270.0" prefHeight="25.0" prefWidth="46.0" />
+						<Label layoutX="105.0" layoutY="408.0" text="€ / Monat">
 							<font>
 								<Font size="16.0" />
 							</font>
 						</Label>
-						<Slider fx:id="salarySlider" layoutX="10.0" layoutY="343.0"
-							majorTickUnit="1000.0" max="7500.0" minorTickCount="0"
-							onMouseClicked="#dragdone" prefHeight="38.0" prefWidth="165.0"
-							showTickLabels="true" showTickMarks="true" />
-						<TextField fx:id="Salary" layoutX="22.0" layoutY="381.0"
-							onKeyReleased="#changeslider" prefHeight="25.0" prefWidth="81.0"
-							text="0" />
+						<Slider fx:id="salarySlider" layoutX="7.0" layoutY="354.0" majorTickUnit="1000.0" max="7500.0" minorTickCount="0" onMouseClicked="#dragdone" prefHeight="38.0" prefWidth="165.0" showTickLabels="true" showTickMarks="true" />
+						<TextField fx:id="Salary" layoutX="17.0" layoutY="408.0" onKeyReleased="#changeslider" prefHeight="25.0" prefWidth="81.0" text="0" />
 						<Label layoutX="80.0" layoutY="270.0" text="bis">
 							<font>
 								<Font size="16.0" />
 							</font>
 						</Label>
-						<TextField fx:id="maximumemployees" layoutX="113.0"
-							layoutY="270.0" prefHeight="25.0" prefWidth="60.0" />
-						<Label layoutX="23.0" layoutY="415.0" text="Skills:">
-							<font>
-								<Font size="16.0" />
-							</font>
-						</Label>
-						<Button fx:id="serachoffers" layoutX="69.0" layoutY="602.0"
-							mnemonicParsing="false" onAction="#searchoffers" text="Suchen">
+						<TextField fx:id="maximumemployees" layoutX="113.0" layoutY="270.0" prefHeight="25.0" prefWidth="60.0" />
+						<Button fx:id="serachoffers" layoutX="69.0" layoutY="602.0" mnemonicParsing="false" onAction="#searchoffers" text="Suchen">
 							<font>
 								<Font name="System Italic" size="14.0" />
 							</font>
 						</Button>
 					</children>
 				</AnchorPane>
-				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0"
-					prefWidth="100.0">
+				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
 					<children>
-						<Pagination onMouseClicked="#paginationSwitch"
-							prefHeight="672.0" prefWidth="707.0" />
-						<AnchorPane id="result1" fx:id="result1" layoutX="10.0"
-							layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity"
-							minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#showresult1"
-							prefHeight="250.0" prefWidth="200.0">
-							<children>
-								<ImageView fitHeight="70.0" fitWidth="70.0"
-									pickOnBounds="true" preserveRatio="true">
-									<image>
-										<Image url="@Icons/Bk.png" />
-									</image>
-								</ImageView>
-								<Label layoutX="79.0" layoutY="4.0" text="Burgerking">
-									<font>
-										<Font name="System Bold" size="14.0" />
-									</font>
-								</Label>
-								<Label layoutX="76.0" layoutY="27.0" text="Gründung: 1982" />
-								<Label layoutX="74.0" layoutY="53.0" text="Mitarbeiter: 5000" />
-								<Label layoutX="14.0" layoutY="98.0" text="Burgerbrater">
-									<font>
-										<Font name="System Bold" size="14.0" />
-									</font>
-								</Label>
-								<Label layoutX="14.0" layoutY="124.0" text="Anforderungen: Ausbildung" />
-								<Label layoutX="14.0" layoutY="150.0" text="40 Stunden/Woche" />
-								<Label layoutX="14.0" layoutY="174.0" text="xxxx€ / Monat" />
-							</children>
-							<cursor>
-								<Cursor fx:constant="HAND" />
-							</cursor>
-						</AnchorPane>
-						<Separator layoutX="9.0" layoutY="293.0" prefWidth="707.0" />
-						<AnchorPane id="result4" fx:id="result4" layoutX="14.0"
-							layoutY="314.0" maxHeight="-Infinity" maxWidth="-Infinity"
-							minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#showresult4"
-							prefHeight="250.0" prefWidth="200.0">
-							<children>
-								<ImageView fitHeight="70.0" fitWidth="70.0"
-									pickOnBounds="true" preserveRatio="true">
-									<image>
-										<Image url="@Icons/Bk.png" />
-									</image>
-								</ImageView>
-								<Label layoutX="79.0" layoutY="4.0" text="Burgerking">
-									<font>
-										<Font name="System Bold" size="14.0" />
-									</font>
-								</Label>
-								<Label layoutX="76.0" layoutY="27.0" text="Gründung: 1982" />
-								<Label layoutX="74.0" layoutY="53.0" text="Mitarbeiter: 5000" />
-								<Label layoutX="22.0" layoutY="104.0" text="Burgerbrater">
-									<font>
-										<Font name="System Bold" size="14.0" />
-									</font>
-								</Label>
-								<Label layoutX="14.0" layoutY="124.0" text="Anforderungen: Abitur" />
-								<Label layoutX="14.0" layoutY="150.0" text="35 Stunden/Woche" />
-								<Label layoutX="14.0" layoutY="174.0" text="xxxx€ / Monat" />
-							</children>
-							<cursor>
-								<Cursor fx:constant="HAND" />
-							</cursor>
-						</AnchorPane>
-						<Separator layoutX="220.0" orientation="VERTICAL"
-							prefHeight="588.0" prefWidth="6.0" />
-						<AnchorPane id="result3" fx:id="result3" layoutX="493.0"
-							layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity"
-							minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#showresult3"
-							prefHeight="250.0" prefWidth="200.0">
-							<children>
-								<ImageView fitHeight="70.0" fitWidth="70.0"
-									pickOnBounds="true" preserveRatio="true">
-									<image>
-										<Image url="@Icons/xbox-logo_318-9975.jpg" />
-									</image>
-								</ImageView>
-								<Label layoutX="79.0" layoutY="4.0" text="XBoX">
-									<font>
-										<Font name="System Bold" size="14.0" />
-									</font>
-								</Label>
-								<Label layoutX="76.0" layoutY="27.0" text="Gründung: 1982" />
-								<Label layoutX="74.0" layoutY="53.0" text="Mitarbeiter: 5000" />
-								<Label layoutX="14.0" layoutY="98.0" text="Entwickler">
-									<font>
-										<Font name="System Bold" size="14.0" />
-									</font>
-								</Label>
-								<Label layoutX="14.0" layoutY="124.0"
-									text="Anforderungen: Bsc. Informatik" />
-								<Label layoutX="14.0" layoutY="150.0" text="? Stunden/Woche" />
-								<Label layoutX="14.0" layoutY="174.0" text="xxxx€ / Monat" />
-							</children>
-							<cursor>
-								<Cursor fx:constant="HAND" />
-							</cursor>
-						</AnchorPane>
-						<AnchorPane id="result6" fx:id="result6" layoutX="493.0"
-							layoutY="314.0" maxHeight="-Infinity" maxWidth="-Infinity"
-							minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#showresult6"
-							prefHeight="250.0" prefWidth="200.0">
-							<children>
-								<ImageView fitHeight="70.0" fitWidth="70.0"
-									pickOnBounds="true" preserveRatio="true">
-									<image>
-										<Image url="@Icons/Bk.png" />
-									</image>
-								</ImageView>
-								<Label layoutX="79.0" layoutY="4.0" text="Burgerking">
-									<font>
-										<Font name="System Bold" size="14.0" />
-									</font>
-								</Label>
-								<Label layoutX="76.0" layoutY="27.0" text="Gründung: 1982" />
-								<Label layoutX="74.0" layoutY="53.0" text="Mitarbeiter: 5000" />
-								<Label layoutX="14.0" layoutY="98.0" text="Burgerbrater">
-									<font>
-										<Font name="System Bold" size="14.0" />
-									</font>
-								</Label>
-								<Label layoutX="14.0" layoutY="124.0" text="Anforderungen: Abitur" />
-								<Label layoutX="14.0" layoutY="150.0" text="35 Stunden/Woche" />
-								<Label layoutX="14.0" layoutY="174.0" text="xxxx€ / Monat" />
-							</children>
-							<cursor>
-								<Cursor fx:constant="HAND" />
-							</cursor>
-						</AnchorPane>
-						<Separator layoutX="479.0" layoutY="10.0" orientation="VERTICAL"
-							prefHeight="588.0" prefWidth="6.0" />
-						<AnchorPane id="result2" fx:id="result2" layoutX="254.0"
-							layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity"
-							minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#showresult2"
-							prefHeight="250.0" prefWidth="200.0">
-							<children>
-								<ImageView fitHeight="70.0" fitWidth="70.0"
-									pickOnBounds="true" preserveRatio="true">
-									<image>
-										<Image url="@Icons/apple-logo_318-40184.jpg" />
-									</image>
-								</ImageView>
-								<Label layoutX="79.0" layoutY="4.0" text="Apple">
-									<font>
-										<Font name="System Bold" size="14.0" />
-									</font>
-								</Label>
-								<Label layoutX="76.0" layoutY="27.0" text="Gründung: 1982" />
-								<Label layoutX="74.0" layoutY="53.0" text="Mitarbeiter: 50000" />
-								<Label layoutX="14.0" layoutY="98.0" text="Duales Studium WI">
-									<font>
-										<Font name="System Bold" size="14.0" />
-									</font>
-								</Label>
-								<Label layoutX="14.0" layoutY="124.0" text="Anforderungen: Abitur" />
-								<Label layoutX="14.0" layoutY="150.0" text="35 Stunden/Woche" />
-								<Label layoutX="14.0" layoutY="174.0" text="xxxx€ / Monat" />
-							</children>
-							<cursor>
-								<Cursor fx:constant="HAND" />
-							</cursor>
-						</AnchorPane>
-						<AnchorPane id="result5" fx:id="result5" layoutX="243.0"
-							layoutY="314.0" maxHeight="-Infinity" maxWidth="-Infinity"
-							minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#showresult5"
-							prefHeight="250.0" prefWidth="200.0">
-							<children>
-								<ImageView fitHeight="70.0" fitWidth="70.0"
-									pickOnBounds="true" preserveRatio="true">
-									<image>
-										<Image url="@Icons/Bk.png" />
-									</image>
-								</ImageView>
-								<Label layoutX="79.0" layoutY="4.0" text="Burgerking">
-									<font>
-										<Font name="System Bold" size="14.0" />
-									</font>
-								</Label>
-								<Label layoutX="76.0" layoutY="27.0" text="Gründung: 1982" />
-								<Label layoutX="74.0" layoutY="53.0" text="Mitarbeiter: 5000" />
-								<Label layoutX="14.0" layoutY="98.0" text="Burgerbrater">
-									<font>
-										<Font name="System Bold" size="14.0" />
-									</font>
-								</Label>
-								<Label layoutX="14.0" layoutY="124.0" text="Anforderungen: Abitur" />
-								<Label layoutX="14.0" layoutY="150.0" text="35 Stunden/Woche" />
-								<Label layoutX="14.0" layoutY="174.0" text="xxxx€ / Monat" />
-							</children>
-							<cursor>
-								<Cursor fx:constant="HAND" />
-							</cursor>
-						</AnchorPane>
+						<Separator layoutX="479.0" layoutY="10.0" orientation="VERTICAL" prefHeight="588.0" prefWidth="6.0" />
+                  <BorderPane prefHeight="672.0" prefWidth="704.0">
+                     <top>
+                        <ScrollPane fitToHeight="true" prefHeight="672.0" prefWidth="704.0" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                                 <children>
+                                    <GridPane prefHeight="672.0" prefWidth="685.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                    </GridPane>
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </ScrollPane>
+                     </top>
+                  </BorderPane>
 					</children>
 				</AnchorPane>
 			</items>
