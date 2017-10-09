@@ -49,6 +49,9 @@ public class ViewFSuche implements Initializable{
 
     @FXML
     private ChoiceBox<String> searchnecessarydegree;
+    
+    @FXML
+    private ChoiceBox<String> searchtopic;
 
     @FXML
     private ChoiceBox<String> searchbranche;
@@ -232,6 +235,8 @@ public class ViewFSuche implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 		searchnecessarydegree.setValue("Inhalt1"); //Anfangswert
 		searchnecessarydegree.setItems(TestListe); //Name der Liste
+		searchtopic.setValue("Inhalt1"); //Anfangswert
+    	searchtopic.setItems(TestListe); //Name der Liste
     	searchbranche.setValue("Inhalt1"); //Anfangswert
     	searchbranche.setItems(TestListe); //Name der Liste
 		

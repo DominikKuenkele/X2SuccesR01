@@ -33,41 +33,55 @@
 							</font>
 						</Label>
 						<ChoiceBox fx:id="searchnecessarydegree" accessibleRole="IMAGE_VIEW" layoutX="15.0" layoutY="127.0" prefHeight="25.0" prefWidth="152.0" />
-						<Label layoutX="15.0" layoutY="172.0" text="Branche:">
+						<Label layoutX="15.0" layoutY="172.0" text="in:">
 							<font>
 								<Font size="16.0" />
 							</font>
 						</Label>
-						<ChoiceBox fx:id="searchbranche" accessibleRole="IMAGE_VIEW" layoutX="14.0" layoutY="197.0" prefHeight="25.0" prefWidth="152.0" />
-						<Label layoutX="15.0" layoutY="241.0" text="Mitarbeiteranzahl:">
-							<font>
-								<Font size="16.0" />
-							</font>
-						</Label>
-						<Label layoutX="18.0" layoutY="323.0" text="Mindestgehalt:">
-							<font>
-								<Font size="16.0" />
-							</font>
-						</Label>
-						<TextField fx:id="minimumemployees" layoutX="20.0" layoutY="270.0" prefHeight="25.0" prefWidth="46.0" />
-						<Label layoutX="105.0" layoutY="408.0" text="€ / Monat">
-							<font>
-								<Font size="16.0" />
-							</font>
-						</Label>
-						<Slider fx:id="salarySlider" layoutX="7.0" layoutY="354.0" majorTickUnit="1000.0" max="7500.0" minorTickCount="0" onMouseClicked="#dragdone" prefHeight="38.0" prefWidth="165.0" showTickLabels="true" showTickMarks="true" />
-						<TextField fx:id="Salary" layoutX="17.0" layoutY="408.0" onKeyReleased="#changeslider" prefHeight="25.0" prefWidth="81.0" text="0" />
-						<Label layoutX="80.0" layoutY="270.0" text="bis">
-							<font>
-								<Font size="16.0" />
-							</font>
-						</Label>
-						<TextField fx:id="maximumemployees" layoutX="113.0" layoutY="270.0" prefHeight="25.0" prefWidth="60.0" />
+						<ChoiceBox fx:id="searchtopic" accessibleRole="IMAGE_VIEW" layoutX="14.0" layoutY="197.0" prefHeight="25.0" prefWidth="152.0" />
+                  <AnchorPane layoutX="16.0" layoutY="305.0">
+                     <children>
+      						<Label text="Mitarbeiteranzahl:">
+      							<font>
+      								<Font size="16.0" />
+      							</font>
+      						</Label>
+      						<TextField fx:id="minimumemployees" layoutX="5.0" layoutY="29.0" prefHeight="25.0" prefWidth="46.0" />
+      						<Label layoutX="65.0" layoutY="29.0" text="bis">
+      							<font>
+      								<Font size="16.0" />
+      							</font>
+      						</Label>
+      						<TextField fx:id="maximumemployees" layoutX="98.0" layoutY="29.0" prefHeight="25.0" prefWidth="60.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="5.0" layoutY="387.0">
+                     <children>
+      						<Label layoutX="14.0" text="Mindestgehalt:">
+      							<font>
+      								<Font size="16.0" />
+      							</font>
+      						</Label>
+      						<Label layoutX="101.0" layoutY="85.0" text="€ / Monat">
+      							<font>
+      								<Font size="16.0" />
+      							</font>
+      						</Label>
+      						<Slider fx:id="salarySlider" layoutX="3.0" layoutY="31.0" majorTickUnit="1000.0" max="7500.0" minorTickCount="0" onMouseClicked="#dragdone" prefHeight="38.0" prefWidth="165.0" showTickLabels="true" showTickMarks="true" />
+      						<TextField fx:id="Salary" layoutX="13.0" layoutY="85.0" onKeyReleased="#changeslider" prefHeight="25.0" prefWidth="81.0" text="0" />
+                     </children>
+                  </AnchorPane>
 						<Button fx:id="serachoffers" layoutX="69.0" layoutY="602.0" mnemonicParsing="false" onAction="#searchoffers" text="Suchen">
 							<font>
 								<Font name="System Italic" size="14.0" />
 							</font>
 						</Button>
+                  <Label layoutX="20.0" layoutY="244.0" text="Branche:">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <ChoiceBox fx:id="searchbranche" layoutX="16.0" layoutY="274.0" prefWidth="150.0" />
 					</children>
 				</AnchorPane>
 				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
