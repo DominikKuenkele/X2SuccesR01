@@ -277,25 +277,30 @@ public class Verwaltung extends Subject {
 		searchList.add(jobangebotDao.searchForMitarbeiter(minMitarbeiter, maxMitarbeiter));
 		searchList.add(jobangebotDao.searchForGehalt(minGehalt));
 
-		HashMap<Integer, Integer> prioList = new HashMap<>();
-		for (List<Jobangebot> sL : searchList) {
-			prioList = prioritize(prioList, sL);
-		}
+		HashMap<Integer, Integer> prioList = prioritize(searchList);
+
 		return null;
 	}
 
-	private HashMap<Integer, Integer> prioritize(HashMap<Integer, Integer> prioList, List<Jobangebot> searchList) {
-		for (Jobangebot jobangebot : searchList) {
-			int id = jobangebot.getJID();
-			int prio;
-			if (!prioList.containsKey(id)) {
-				prio = 1;
-			} else {
-				prio = prioList.get(id) + 1;
+	private HashMap<Integer, Integer> prioritize(List<List<Jobangebot>> searchList) {
+		HashMap<Integer, Integer> prioList = new HashMap<>();
+		for (List<Jobangebot> sL : searchList) {
+			for (Jobangebot jobangebot : sL) {
+				int id = jobangebot.getJID();
+				int prio;
+				if (!prioList.containsKey(id)) {
+					prio = 1;
+				} else {
+					prio = prioList.get(id) + 1;
+				}
+				prioList.put(id, prio);
 			}
-			prioList.put(id, prio);
 		}
 		return prioList;
+	}
+
+	private class Test {
+		int test;
 	}
 
 	private void setCurrentNutzer(final Nutzer aNutzer) {
