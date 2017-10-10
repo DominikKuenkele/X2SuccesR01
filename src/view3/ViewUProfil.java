@@ -118,17 +118,6 @@ public class ViewUProfil implements Initializable{
 
    }
 
-   @FXML
-   void openSettings(MouseEvent event) throws IOException {
-   	changescene("Unternehmen_Settings_Dashboard.fxml");
-
-   }
-
-   @FXML
-   void openSignOut(MouseEvent event) throws IOException {
-   	changescene("Einloggen.fxml");
-   }
-
     @FXML
     void savechanges(ActionEvent event) {
     	
