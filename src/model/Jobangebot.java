@@ -19,8 +19,7 @@ public class Jobangebot {
 	private List<String> sprachen;
 	private String beschreibung;
 	private LocalDate frist;
-	private int minGehalt;
-	private int maxGehalt;
+	private int gehalt;
 	private int wochenstunden;
 	private Unternehmensprofil unternehmensproflil;
 
@@ -37,15 +36,13 @@ public class Jobangebot {
 	 * @throws ValidateConstrArgsException
 	 */
 	public Jobangebot(String abschluss, String branche, List<String> sprachen, String beschreibung, LocalDate frist,
-			int minGehalt, int maxGehalt, int wochenstunden, Unternehmensprofil unternehmensprofil)
-			throws ValidateConstrArgsException {
+			int gehalt, int wochenstunden, Unternehmensprofil unternehmensprofil) throws ValidateConstrArgsException {
 		this.abschluss = abschluss;
 		this.branche = branche;
 		this.sprachen = sprachen;
 		this.beschreibung = beschreibung;
 		this.frist = frist;
-		this.minGehalt = minGehalt;
-		this.maxGehalt = maxGehalt;
+		this.gehalt = gehalt;
 		this.wochenstunden = wochenstunden;
 		this.unternehmensproflil = unternehmensprofil;
 
@@ -95,17 +92,10 @@ public class Jobangebot {
 	}
 
 	/**
-	 * @return the minGehalt
+	 * @return the gehalt
 	 */
-	public int getMinGehalt() {
-		return minGehalt;
-	}
-
-	/**
-	 * @return the maxGehalt
-	 */
-	public int getMaxGehalt() {
-		return maxGehalt;
+	public int getGehalt() {
+		return gehalt;
 	}
 
 	/**
@@ -134,8 +124,7 @@ public class Jobangebot {
 		try {
 			Validate.checkForAlpha(branche);
 			Validate.checkForAlphaNumeric(beschreibung);
-			Validate.checkForPositive(minGehalt);
-			Validate.checkForGreaterValue(maxGehalt, minGehalt);
+			Validate.checkForPositive(gehalt);
 			Validate.checkForPositive(wochenstunden);
 			// TODO validate unternehmensprofil
 		} catch (IllegalArgumentException e) {
@@ -163,7 +152,7 @@ public class Jobangebot {
 	public String toString() {
 		return "Jobangebot [jid=" + this.jid + ", abschluss=" + this.abschluss + ", branche=" + this.branche
 				+ ", sprachen=" + this.sprachen + ", beschreibung=" + this.beschreibung + ", frist=" + this.frist
-				+ ", minGehalt=" + this.minGehalt + ", maxGehalt=" + this.maxGehalt + ", wochenstunden="
-				+ this.wochenstunden + ", unternehmensproflil=" + this.unternehmensproflil + "]";
+				+ ", gehalt=" + this.gehalt + ", wochenstunden=" + this.wochenstunden + ", unternehmensproflil="
+				+ this.unternehmensproflil + "]";
 	}
 }

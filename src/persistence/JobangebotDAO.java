@@ -224,10 +224,38 @@ public class JobangebotDAO {
 		List<Jobangebot> result = new LinkedList<>();
 		try {
 			open();
+			String name = aName.replace("!", "!!").replace("%", "!%").replace("_", "!_").replace("[", "![").replace("*",
+					"%");
 			preparedStatement = connect.prepareStatement("SELECT jobangebot.JID " + "FROM jobangebot "
 					+ "INNER JOIN unternehmensprofil ON jobangebot.UID=unternehmensprofil.UID "
 					+ "WHERE unternehmensprofil.name LIKE ?");
-			preparedStatement.setString(1, "%" + aName + "%");
+			preparedStatement.setString(1, name);
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				int jid = resultSet.getInt("jobangebot.JID");
+				result.add(new JobangebotDAO().getJobangebot(jid));
+			}
+		} catch (SQLException e) {
+			System.out.println(e); // TODO syso
+		} catch (ClassNotFoundException e) {
+			System.out.println(e);
+		} finally {
+			close();
+		}
+		return result;
+	}
+
+	public List<Jobangebot> searchForAbschlussTest(String abschluss, String branche) {
+
+	}
+
+	public List<Jobangebot> searchForGehalt(int aGehalt) {
+		List<Jobangebot> result = new LinkedList<>();
+		try {
+			open();
+			preparedStatement = connect
+					.prepareStatement("SELECT jobangebot.JID FROM jobangebot WHERE jobangebot.gehalt > ?");
+			preparedStatement.setInt(1, aGehalt);
 			resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				int jid = resultSet.getInt("jobangebot.JID");
