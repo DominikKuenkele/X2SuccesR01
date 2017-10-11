@@ -15,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -77,7 +78,7 @@ public class ViewFSuche implements Initializable {
 	private Button serachoffers;
 
 	@FXML
-	private GridPane searchGrid;
+	private ScrollPane scrollPane;
 
 	@FXML
 	void changeslider(KeyEvent event) {
@@ -123,16 +124,18 @@ public class ViewFSuche implements Initializable {
 		HashMap<Jobangebot, Integer> searchList = v.sucheJobangebote("", "", "", 1, 2, 5);
 
 		JobangebotAnzeige[] jA = new JobangebotAnzeige[searchList.size()];
-		int r=0;
-		int c=0;
+		int r = 0;
+		int c = 0;
+		GridPane searchGrid = new GridPane();
 
 		for (int i = 0; i < searchList.size(); i++) {
 
 			jA[i] = new JobangebotAnzeige();
 			jA[i].setGehalt("4");
-			searchGrid.add(jA[i],i%3, i/3);	
+			searchGrid.add(jA[i], i % 3, i / 3);
 
 		}
+		scrollPane.setContent(searchGrid);
 
 	}
 

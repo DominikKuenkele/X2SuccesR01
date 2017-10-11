@@ -180,12 +180,12 @@ public class JobangebotDAO {
 			String description = resultSet.getString("jobangebot.description");
 			Date deadlineSQL = resultSet.getDate("jobangebot.deadline");
 			LocalDate deadline = deadlineSQL.toLocalDate();
-			int minSalary = resultSet.getInt("jobangebot.minSalary");
+			int salary = resultSet.getInt("jobangebot.salary");
 			int weeklyHours = resultSet.getInt("jobangebot.weeklyHours");
 			List<String> sprachen = getLanguageInJobangebot(jobangebotsId);
 			try {
-				Jobangebot tempJobangebot = new Jobangebot(graduation, branche, sprachen, description, deadline,
-						minSalary, weeklyHours, unternehmen);
+				Jobangebot tempJobangebot = new Jobangebot(graduation, branche, sprachen, description, deadline, salary,
+						weeklyHours, unternehmen);
 				tempJobangebot.setId(jobangebotsId);
 				result.add(tempJobangebot);
 
@@ -275,8 +275,8 @@ public class JobangebotDAO {
 		try {
 			Jobangebot[] jA = new Jobangebot[4];
 			for (int i = 0; i < 4; i++) {
-				jA[i] = new Jobangebot("sdf", "sdf", new LinkedList<String>(), "sdf", LocalDate.of(1999, 12, 1), 1,
-						3, null);
+				jA[i] = new Jobangebot("sdf", "sdf", new LinkedList<String>(), "sdf", LocalDate.of(1999, 12, 1), 1, 3,
+						null);
 				jA[i].setId(i * 2);
 			}
 			list = Arrays.asList(jA);
@@ -291,8 +291,8 @@ public class JobangebotDAO {
 		try {
 			Jobangebot[] jA = new Jobangebot[4];
 			for (int i = 0; i < 4; i++) {
-				jA[i] = new Jobangebot("sdf", "sdf", new LinkedList<String>(), "sdf", LocalDate.of(1999, 12, 1), 1,
-						3, null);
+				jA[i] = new Jobangebot("sdf", "sdf", new LinkedList<String>(), "sdf", LocalDate.of(1999, 12, 1), 1, 3,
+						null);
 				jA[i].setId(i * 2);
 			}
 			list = Arrays.asList(jA);

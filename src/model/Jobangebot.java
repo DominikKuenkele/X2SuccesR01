@@ -29,8 +29,7 @@ public class Jobangebot {
 	 * @param sprachen
 	 * @param beschreibung
 	 * @param frist
-	 * @param minGehalt
-	 * @param maxGehalt
+	 * @param gehalt
 	 * @param wochenstunden
 	 * @param unternehmensprofil
 	 * @throws ValidateConstrArgsException
