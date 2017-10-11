@@ -130,13 +130,8 @@ public class ViewFSuche implements Initializable {
 
 			jA[i] = new JobangebotAnzeige();
 			jA[i].setGehalt("4");
-			if (c==3){
-			searchGrid.addRow(r, jA[i]);	
-			r++;
-			c=0;
-			}
-			else searchGrid.add(jA[i], r, c);
-			c++;
+			searchGrid.add(jA[i],i%3, i/3);	
+
 		}
 
 	}
