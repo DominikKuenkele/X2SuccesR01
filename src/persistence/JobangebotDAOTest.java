@@ -81,7 +81,7 @@ public class JobangebotDAOTest {
 	@Test
 	public void testSearchForName() {
 
-		List<Jobangebot> list = new JobangebotDAO().searchForNameTest("Apple");
+		List<Jobangebot> list = new JobangebotDAO().searchForNameTest("*le");
 		for (Jobangebot j : list) {
 			System.out.println(j);
 		}
