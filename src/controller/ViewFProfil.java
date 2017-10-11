@@ -29,22 +29,10 @@ public class ViewFProfil implements Initializable {
 	ObservableList<String> TestListe = FXCollections.observableArrayList("Inhalt1", "Inhalt2", "Inhalt3");
 
 	// Liste für die Choice Boxen. Aus DB ziehen
-	ObservableList<String> Sprachen = FXCollections.observableArrayList("Deutsch", "Englisch", "Französisch");
+	ObservableList<String> Sprachen = FXCollections.observableArrayList("Deutsch", "Englisch", "Französisch","Spanisch","Türkisch");
 
 	@FXML
 	private ImageView homebutton;
-
-	@FXML
-	private ImageView profilbutton;
-
-	@FXML
-	private ImageView searchbutton;
-
-	@FXML
-	private ImageView settingsbutton;
-
-	@FXML
-	private ImageView signoutbutton;
 
 	@FXML
 	private ImageView userpicture;
@@ -53,19 +41,7 @@ public class ViewFProfil implements Initializable {
 	private ChoiceBox degree1;
 
 	@FXML
-	private ChoiceBox degree2;
-
-	@FXML
 	private ChoiceBox topic1;
-
-	@FXML
-	private ChoiceBox topic2;
-
-	@FXML
-	private ChoiceBox degree3;
-
-	@FXML
-	private ChoiceBox topic3;
 
 	@FXML
 	private TextArea cv;
@@ -154,10 +130,10 @@ public class ViewFProfil implements Initializable {
 		degree1.setValue(f.getAbschluss());
 		cv.setText(f.getLebenslauf());
 
-		language1.setValue(f.getSprachen());// falsch
-		language1.setValue(f.getSprachen());// falsch
-		language1.setValue(f.getSprachen());// falsch
-		language1.setValue(f.getSprachen());// falsch
+		language1.setValue(f.getSprachen().get(0));
+		language1.setValue(f.getSprachen().get(1));
+		language1.setValue(f.getSprachen().get(2));
+		language1.setValue(f.getSprachen().get(3));
 		String skill[] = f.getSkills();
 		skills.setText(skill[0] + "/n" + skill[1] + "/n" + skill[3]);
 		selfDescription.setText(f.getBeschreibung());
