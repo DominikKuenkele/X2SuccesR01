@@ -220,28 +220,30 @@ public class JobangebotDAO {
 		return result;
 	}
 
+	public List<Jobangebot> searchForNameTest(String aName) {
+		List<Jobangebot> result = new LinkedList<>();
+		try {
+			open();
+			preparedStatement = connect.prepareStatement("SELECT jobangebot.JID " + "FROM jobangebot "
+					+ "INNER JOIN unternehmensprofil ON jobangebot.UID=unternehmensprofil.UID "
+					+ "WHERE unternehmensprofil.name LIKE ?");
+			preparedStatement.setString(1, "%" + aName + "%");
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				int jid = resultSet.getInt("jobangebot.JID");
+				result.add(new JobangebotDAO().getJobangebot(jid));
+			}
+		} catch (SQLException e) {
+			System.out.println(e); // TODO syso
+		} catch (ClassNotFoundException e) {
+			System.out.println(e);
+		} finally {
+			close();
+		}
+		return result;
+	}
+
 	public List<Jobangebot> searchForName(String aName) {
-		// List<Jobangebot> result = new LinkedList<>();
-		// try {
-		// open();
-		// preparedStatement = connect.prepareStatement("SELECT jobangebot.JID " + "FROM
-		// jobangebot "
-		// + "INNER JOIN unternehmensprofil ON jobangebot.UID=unternehmensprofil.UID "
-		// + "WHERE unternehmensprofil.name LIKE '%?'");
-		// preparedStatement.setString(1, aName);
-		// resultSet = preparedStatement.executeQuery();
-		// while (resultSet.next()) {
-		// int jid = resultSet.getInt("jobangebot.JID");
-		// result.add(new JobangebotDAO().getJobangebot(jid));
-		// }
-		// } catch (SQLException e) {
-		// System.out.println(e); // TODO syso
-		// } catch (ClassNotFoundException e) {
-		// System.out.println(e);
-		// } finally {
-		// close();
-		// }
-		// return result;
 
 		List<Jobangebot> list = new LinkedList<>();
 		try {

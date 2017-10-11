@@ -30,19 +30,23 @@ public class JobangebotDAOTest {
 	// public void testAddJobangebot() {
 	// List<String> sprachen = new LinkedList<>();
 	// sprachen.add("Englisch");
-	// Jobangebot j = null;
+	// Jobangebot[] j = new Jobangebot[5];
 	// try {
-	// j = new Jobangebot("Ausbildung", "Banken", sprachen, "beschreibung",
-	// LocalDate.of(2019, 10, 5), 100, 200,
-	// 20, new UnternehmensprofilDAO().getUnternehmensprofil(1));
+	// for (int i = 0; i < j.length; i++) {
+	// j[i] = new Jobangebot("Ausbildung", "Banken", sprachen, "beschreibung",
+	// LocalDate.of(2019, 10, 5), 100,
+	// 200, 20, new UnternehmensprofilDAO().getUnternehmensprofil(i + 7));
+	//
+	// new JobangebotDAO().addJobangebot(j[i]);
+	// // j.setId(jid);
+	// // System.out.println(j);
+	// }
 	// } catch (ValidateConstrArgsException e) {
 	// e.printStackTrace();
 	// }
-	// int jid = new JobangebotDAO().addJobangebot(j);
-	// j.setId(jid);
-	// System.out.println(j);
-	// }
 	//
+	// }
+
 	// /**
 	// * Test method for {@link persistence.JobangebotDAO#getJobangebot(int)}.
 	// */
@@ -69,14 +73,15 @@ public class JobangebotDAOTest {
 	// public void testDeleteJobangebot() {
 	// fail("Not yet implemented");
 	// }
-	//
+
 	/**
 	 * Test method for
 	 * {@link persistence.JobangebotDAO#searchForName(java.lang.String)}.
 	 */
 	@Test
 	public void testSearchForName() {
-		List<Jobangebot> list = new JobangebotDAO().searchForName("");
+
+		List<Jobangebot> list = new JobangebotDAO().searchForNameTest("Apple");
 		for (Jobangebot j : list) {
 			System.out.println(j);
 		}
