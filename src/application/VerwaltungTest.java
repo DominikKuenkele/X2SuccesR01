@@ -6,7 +6,8 @@ package application;
 import static org.junit.Assert.fail;
 
 import java.time.LocalDate;
-import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -108,12 +109,11 @@ public class VerwaltungTest {
 	 * Test method for
 	 * {@link application.Verwaltung#sucheJobangebote(String name, String abschluss, String branche, int minMitarbeiter, int maxMitarbeiter, int minGehalt)}.
 	 */
-	@Ignore
 	@Test
 	public void testSucheJobangebote() {
-		HashMap<Jobangebot, Integer> map = Verwaltung.getInstance().sucheJobangebote("name", "abscluss", "branche", 1,
-				2, 3);
-		System.out.println(map);
+		Set<Entry<Jobangebot, Integer>> set = Verwaltung.getInstance().sucheJobangebote("name", "abscluss", "branche",
+				1, 2, 3);
+		System.out.println(set);
 		// for (int i = 0; i < map.size(); i++) {
 		// System.out.println(map.entrySet());
 		// }

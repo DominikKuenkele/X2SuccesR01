@@ -55,7 +55,7 @@ public class JobangebotDAO {
 	 * @throws SQLException
 	 */
 	public int addJobangebot(Jobangebot jobangebot) throws SQLException {
-		int unternehmensId = jobangebot.getUnternehmensproflil().getId();
+		int unternehmensId = jobangebot.getUnternehmensprofil().getId();
 		int jid = -1;
 		try {
 			open();
@@ -259,8 +259,32 @@ public class JobangebotDAO {
 		return result;
 	}
 
-	public List<Jobangebot> searchForAbschlussTest(String abschluss, String branche) {
-		return null;
+	public List<Jobangebot> searchForAbschlussTest(String aAbschluss, String aBranche) throws SQLException {
+		List<Jobangebot> result = new LinkedList<>();
+		try {
+			open();
+
+			String branche = aBranche.replace("!", "!!").replace("%", "!%").replace("_", "!_").replace("[", "![")
+					.replace("*", "%");
+
+			int hierarchy = new AbschlussDAO().getHierarchy(aAbschluss);
+
+			preparedStatement = connect.prepareStatement(
+					"SELECT jobangebot.JID FROM jobangebot " + "INNER JOIN branche ON jobangebot.BID = branche.BID "
+							+ "INNER JOIN graduation ON jobangebot.GID = graduation.GID "
+							+ "WHERE branche.branche LIKE ? " + "AND graduation.hierarchy <= ?");
+			preparedStatement.setString(1, branche);
+			preparedStatement.setInt(2, hierarchy);
+
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				int jid = resultSet.getInt("jobangebot.JID");
+				result.add(new JobangebotDAO().getJobangebot(jid));
+			}
+		} finally {
+			close();
+		}
+		return result;
 	}
 
 	/**
@@ -287,8 +311,27 @@ public class JobangebotDAO {
 		return result;
 	}
 
-	public List<Jobangebot> searchForName(String aName) {
+	public List<Jobangebot> searchForMitarbeiterTest(int min, int max) throws SQLException {
+		List<Jobangebot> result = new LinkedList<>();
+		try {
+			open();
+			preparedStatement = connect.prepareStatement("SELECT jobangebot.JID " + "FROM jobangebot "
+					+ "INNER JOIN unternehmensprofil ON jobangebot.UID=unternehmensprofil.UID "
+					+ "WHERE unternehmensprofil.employees >= ? AND unternehmensprofil.employees <= ?");
+			preparedStatement.setInt(1, min);
+			preparedStatement.setInt(2, max);
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				int jid = resultSet.getInt("jobangebot.JID");
+				result.add(new JobangebotDAO().getJobangebot(jid));
+			}
+		} finally {
+			close();
+		}
+		return result;
+	}
 
+	public List<Jobangebot> searchForName(String aName) {
 		List<Jobangebot> list = new LinkedList<>();
 		try {
 			Jobangebot[] jA = new Jobangebot[4];

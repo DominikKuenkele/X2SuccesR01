@@ -23,7 +23,7 @@ import javafx.stage.Stage;
 import util.exception.DBException;
 import util.exception.UserInputException;
 
-public class ViewFRegistrierung implements Initializable {
+public class ViewRegistrierung implements Initializable {
 
 	ObservableList<String> GenderList = FXCollections.observableArrayList("Männlich", "Weiblich", "Anderes");
 
@@ -68,7 +68,6 @@ public class ViewFRegistrierung implements Initializable {
 	@FXML
 	private Button addcompanyb;
 
-	@FXML
 	void changescene(String fxmlname) throws IOException {
 
 		// schliesst aktuelles Fenster

@@ -107,7 +107,7 @@ public class Jobangebot {
 	/**
 	 * @return the unternehmensproflil
 	 */
-	public Unternehmensprofil getUnternehmensproflil() {
+	public Unternehmensprofil getUnternehmensprofil() {
 		return unternehmensproflil;
 	}
 
@@ -121,7 +121,6 @@ public class Jobangebot {
 
 	private void validateState() throws ValidateConstrArgsException {
 		try {
-			Validate.checkForAlpha(branche);
 			Validate.checkForAlphaNumeric(beschreibung);
 			Validate.checkForPositive(gehalt);
 			Validate.checkForPositive(wochenstunden);

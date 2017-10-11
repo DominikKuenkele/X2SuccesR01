@@ -103,15 +103,20 @@ public class JobangebotDAOTest {
 	@Ignore
 	@Test
 	public void testChangeJobangebot() {
+		List<String> sprachen = new LinkedList<>();
+		sprachen.add("Deutsch");
 		try {
-			Jobangebot j = new JobangebotDAO().getJobangebot(3);
-			List<String> sprachen = new LinkedList<>();
-			sprachen.add("Deutsch");
-			Jobangebot j2 = new Jobangebot(j.getAbschluss(), j.getBranche(), sprachen, j.getBeschreibung(),
-					j.getFrist(), 2000, j.getWochenstunden(), j.getUnternehmensproflil());
-			j2.setId(j.getJID());
-			new JobangebotDAO().changeJobangebot(j2);
+			for (int i = 1; i < 10; i++) {
+				Jobangebot j = new JobangebotDAO().getJobangebot(i);
+				String branche = new BrancheDAO().getBranche(i % 5 + 1);
+				String abschluss = new AbschlussDAO().getAbschluss((i % 4) + 4);
+				Jobangebot j2 = new Jobangebot(abschluss, branche, sprachen, j.getBeschreibung(), j.getFrist(), 2000,
+						j.getWochenstunden(), j.getUnternehmensprofil());
+				j2.setId(j.getJID());
+				new JobangebotDAO().changeJobangebot(j2);
+			}
 		} catch (ValidateConstrArgsException | SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -140,15 +145,25 @@ public class JobangebotDAOTest {
 	 * Test method for
 	 * {@link persistence.JobangebotDAO#searchForAbschluss(java.lang.String, java.lang.String)}.
 	 */
-	@Ignore
 	@Test
 	public void testSearchForAbschluss() {
-		fail("Not yet implemented");
+		List<Jobangebot> list;
+		try {
+			list = new JobangebotDAO().searchForAbschlussTest("Ausbildung", "*");
+			for (Jobangebot j : list) {
+				System.out.println(j);
+			}
+			System.out.println(list.size() + " results");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
 	 * Test method for {@link persistence.JobangebotDAO#searchForGehalt(int)}.
 	 */
+	@Ignore
 	@Test
 	public void testSearchForGehalt() {
 		List<Jobangebot> list;
@@ -157,11 +172,11 @@ public class JobangebotDAOTest {
 			for (Jobangebot j : list) {
 				System.out.println(j);
 			}
+			System.out.println(list.size() + " results");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
@@ -171,7 +186,16 @@ public class JobangebotDAOTest {
 	@Ignore
 	@Test
 	public void testSearchForMitarbeiter() {
-		fail("Not yet implemented");
+		List<Jobangebot> list;
+		try {
+			list = new JobangebotDAO().searchForMitarbeiterTest(100, 400);
+			for (Jobangebot j : list) {
+				System.out.println(j);
+			}
+			System.out.println(list.size() + " results");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

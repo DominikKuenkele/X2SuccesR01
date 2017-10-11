@@ -12,7 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 
-public class ViewFrRegistrierung implements Initializable{
+public class ViewFProfilErstellen implements Initializable{
 	
 	//Liste für die Choice Boxen. Aus DB ziehen
 	ObservableList<String> TestListe = FXCollections.observableArrayList("Inhalt1","Inhalt2","Inhalt3");

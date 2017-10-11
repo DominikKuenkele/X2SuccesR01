@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.111"
-	xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ViewURegistrierung">
+	xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ViewUProfilErstellen">
 	<children>
 		<AnchorPane prefHeight="550.0" prefWidth="630.0">
 			<children>

@@ -86,4 +86,26 @@ public class AbschlussDAO {
 		}
 		return result;
 	}
+
+	/**
+	 * @param aAbschluss
+	 * @return
+	 * @throws SQLException
+	 */
+	public int getHierarchy(String aAbschluss) throws SQLException {
+		int hier = -1;
+		try {
+			open();
+			preparedStatement = connect.prepareStatement("SELECT hierarchy FROM graduation WHERE graduation=?");
+			preparedStatement.setString(1, aAbschluss);
+
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				hier = resultSet.getInt("hierarchy");
+			}
+		} finally {
+			close();
+		}
+		return hier;
+	}
 }

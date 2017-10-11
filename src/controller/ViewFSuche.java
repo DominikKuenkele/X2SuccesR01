@@ -2,8 +2,9 @@ package controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import application.Verwaltung;
 import javafx.collections.FXCollections;
@@ -121,7 +122,7 @@ public class ViewFSuche implements Initializable {
 		// result1.setVisible(true); // Je nachdem sichtbar machen
 
 		Verwaltung v = Verwaltung.getInstance();
-		HashMap<Jobangebot, Integer> searchList = v.sucheJobangebote("", "", "", 1, 2, 5);
+		Set<Entry<Jobangebot, Integer>> searchList = v.sucheJobangebote("", "", "", 1, 2, 5);
 
 		JobangebotAnzeige[] jA = new JobangebotAnzeige[searchList.size()];
 		int r = 0;

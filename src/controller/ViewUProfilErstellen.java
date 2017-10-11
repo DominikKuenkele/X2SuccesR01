@@ -24,7 +24,7 @@ import javafx.stage.Stage;
 import util.exception.DBException;
 import util.exception.UserInputException;
 
-public class ViewURegistrierung implements Initializable {
+public class ViewUProfilErstellen implements Initializable {
 
 	ObservableList<String> Branchenliste = FXCollections.observableArrayList("Branche1", "Branche2", "Branche3");
 

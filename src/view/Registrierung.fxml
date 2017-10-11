@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.102"
-	xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ViewFRegistrierung">
+	xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ViewRegistrierung">
 	<children>
 		<AnchorPane prefHeight="469.0" prefWidth="542.0">
 			<children>

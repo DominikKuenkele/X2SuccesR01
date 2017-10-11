@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import model.Adresse;
 import model.Freelancerprofil;
@@ -307,7 +309,7 @@ public class Verwaltung extends Subject {
 	 * @param minGehalt
 	 * @return a List of {@link model.Jobangebot Jobangebote} with search-Priority
 	 */
-	public HashMap<Jobangebot, Integer> sucheJobangebote(String name, String abschluss, String branche,
+	public Set<Entry<Jobangebot, Integer>> sucheJobangebote(String name, String abschluss, String branche,
 			int minMitarbeiter, int maxMitarbeiter, int minGehalt) {
 		JobangebotDAO jobangebotDao = new JobangebotDAO();
 
@@ -317,12 +319,12 @@ public class Verwaltung extends Subject {
 		searchList.add(jobangebotDao.searchForMitarbeiter(minMitarbeiter, maxMitarbeiter));
 		searchList.add(jobangebotDao.searchForGehalt(minGehalt));
 
-		HashMap<Jobangebot, Integer> prioList = prioritize(searchList);
+		Set<Entry<Jobangebot, Integer>> prioList = prioritize(searchList);
 
 		return prioList;
 	}
 
-	private HashMap<Jobangebot, Integer> prioritize(List<List<Jobangebot>> searchList) {
+	private Set<Entry<Jobangebot, Integer>> prioritize(List<List<Jobangebot>> searchList) {
 		HashMap<Jobangebot, Integer> prioList = new HashMap<>();
 		for (List<Jobangebot> sL : searchList) {
 			for (Jobangebot jobangebot : sL) {
@@ -335,7 +337,7 @@ public class Verwaltung extends Subject {
 				prioList.put(jobangebot, prio);
 			}
 		}
-		return prioList;
+		return prioList.entrySet();
 	}
 
 	private void setCurrentNutzer(final Nutzer aNutzer) {
