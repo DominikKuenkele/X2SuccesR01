@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -221,5 +222,68 @@ public class JobangebotDAO {
 			close();
 		}
 		return result;
+	}
+
+	public List<Jobangebot> searchForName(String aName) {
+		List<Jobangebot> list = new LinkedList<>();
+		try {
+			Jobangebot[] jA = new Jobangebot[4];
+			for (int i = 0; i < 4; i++) {
+				jA[i] = new Jobangebot("sdf", new LinkedList<String>(), "sdf", LocalDate.of(1999, 12, 1), 1, 2, 3,
+						null);
+				jA[i].setId(i);
+			}
+			list = Arrays.asList(jA);
+		} catch (ValidateConstrArgsException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public List<Jobangebot> searchForAbschluss(String abschluss, String branche) {
+		List<Jobangebot> list = new LinkedList<>();
+		try {
+			Jobangebot[] jA = new Jobangebot[4];
+			for (int i = 0; i < 4; i++) {
+				jA[i] = new Jobangebot("sdf", new LinkedList<String>(), "sdf", LocalDate.of(1999, 12, 1), 1, 2, 3,
+						null);
+				jA[i].setId(i * 2);
+			}
+			list = Arrays.asList(jA);
+		} catch (ValidateConstrArgsException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public List<Jobangebot> searchForGehalt(int gehalt) {
+		List<Jobangebot> list = new LinkedList<>();
+		try {
+			Jobangebot[] jA = new Jobangebot[4];
+			for (int i = 0; i < 4; i++) {
+				jA[i] = new Jobangebot("dg", new LinkedList<String>(), "sdf", LocalDate.of(1999, 12, 1), 1, 2, 3, null);
+				jA[i].setId(i * 3);
+			}
+			list = Arrays.asList(jA);
+		} catch (ValidateConstrArgsException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public List<Jobangebot> searchForMitarbeiter(int min, int max) {
+		List<Jobangebot> list = new LinkedList<>();
+		try {
+			Jobangebot[] jA = new Jobangebot[4];
+			for (int i = 0; i < 4; i++) {
+				jA[i] = new Jobangebot(Integer.toString(i), new LinkedList<String>(), "sdf", LocalDate.of(1999, 12, 1),
+						1, 2, 3, null);
+				jA[i].setId(4 - i);
+			}
+			list = Arrays.asList(jA);
+		} catch (ValidateConstrArgsException e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 }

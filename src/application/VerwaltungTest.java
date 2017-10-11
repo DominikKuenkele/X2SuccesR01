@@ -4,10 +4,12 @@
 package application;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import model.Jobangebot;
 import util.exception.UserInputException;
 
 /**
@@ -98,6 +100,20 @@ public class VerwaltungTest {
 	// public void testCreateJobangebot() {
 	// fail("Not yet implemented");
 	// }
+
+	/**
+	 * Test method for
+	 * {@link application.Verwaltung#sucheJobangebote(String name, String abschluss, String branche, int minMitarbeiter, int maxMitarbeiter, int minGehalt)}.
+	 */
+	@Test
+	public void testSucheJobangebote() {
+		HashMap<Jobangebot, Integer> map = Verwaltung.getInstance().sucheJobangebote("name", "abscluss", "branche", 1,
+				2, 3);
+		System.out.println(map);
+		// for (int i = 0; i < map.size(); i++) {
+		// System.out.println(map.entrySet());
+		// }
+	}
 
 	/**
 	 * Test method for

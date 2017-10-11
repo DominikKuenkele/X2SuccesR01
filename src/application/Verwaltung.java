@@ -110,7 +110,6 @@ public class Verwaltung extends Subject {
 	 * @param employees
 	 * @param description
 	 * @param benefits
-	 * @param branche
 	 * @param website
 	 * @param ceoFirstName
 	 * @param ceoLastName
@@ -118,15 +117,15 @@ public class Verwaltung extends Subject {
 	 */
 	public void createUnternehmen(final String name, final String form, final String plz, final String city,
 			final String street, final String number, final LocalDate founding, final int employees,
-			final String description, final String benefits, final String branche, final String website,
-			final String ceoFirstName, final String ceoLastName) throws UserInputException {
+			final String description, final String benefits, final String website, final String ceoFirstName,
+			final String ceoLastName) throws UserInputException {
 		if (this.currentNutzer.getStatus() == Status.F) {
 			throw new UserInputException("Nutzer ist schon Freelancer!");
 		}
 		try {
 			final Unternehmensprofil unternehmen = new Unternehmensprofil(name, form,
-					new Adresse(plz, city, street, number), founding, employees, description, benefits, branche,
-					website, ceoFirstName, ceoLastName, this.currentNutzer);
+					new Adresse(plz, city, street, number), founding, employees, description, benefits, website,
+					ceoFirstName, ceoLastName, this.currentNutzer);
 			final UnternehmensprofilDAO unternehmensprofilDao = new UnternehmensprofilDAO();
 			final int uid = unternehmensprofilDao.addUnternehmensprofil(unternehmen);
 			unternehmen.setId(uid);
@@ -149,7 +148,6 @@ public class Verwaltung extends Subject {
 	 * @param employees
 	 * @param description
 	 * @param benefits
-	 * @param branche
 	 * @param website
 	 * @param ceoFirstName
 	 * @param ceoLastName
@@ -157,12 +155,12 @@ public class Verwaltung extends Subject {
 	 */
 	public void changeUnternehmen(final String name, final String form, final String plz, final String city,
 			final String street, final String number, final LocalDate founding, final int employees,
-			final String description, final String benefits, final String branche, final String website,
-			final String ceoFirstName, final String ceoLastName) throws UserInputException {
+			final String description, final String benefits, final String website, final String ceoFirstName,
+			final String ceoLastName) throws UserInputException {
 		try {
 			final Unternehmensprofil unternehmen = new Unternehmensprofil(name, form,
-					new Adresse(plz, city, street, number), founding, employees, description, benefits, branche,
-					website, ceoFirstName, ceoLastName, this.currentNutzer);
+					new Adresse(plz, city, street, number), founding, employees, description, benefits, website,
+					ceoFirstName, ceoLastName, this.currentNutzer);
 			unternehmen.setId(this.currentUnternehmen.getId());
 			new UnternehmensprofilDAO().changeUnternehmen(unternehmen);
 			setCurrentUnternehmensprofil(unternehmen);
@@ -267,8 +265,8 @@ public class Verwaltung extends Subject {
 		}
 	}
 
-	public List<Jobangebot> sucheJobangebote(String name, String abschluss, String branche, int minMitarbeiter,
-			int maxMitarbeiter, int minGehalt) {
+	public HashMap<Jobangebot, Integer> sucheJobangebote(String name, String abschluss, String branche,
+			int minMitarbeiter, int maxMitarbeiter, int minGehalt) {
 		JobangebotDAO jobangebotDao = new JobangebotDAO();
 
 		List<List<Jobangebot>> searchList = new LinkedList<>();
@@ -277,23 +275,22 @@ public class Verwaltung extends Subject {
 		searchList.add(jobangebotDao.searchForMitarbeiter(minMitarbeiter, maxMitarbeiter));
 		searchList.add(jobangebotDao.searchForGehalt(minGehalt));
 
-		HashMap<Integer, Integer> prioList = prioritize(searchList);
+		HashMap<Jobangebot, Integer> prioList = prioritize(searchList);
 
-		return null;
+		return prioList;
 	}
 
-	private HashMap<Integer, Integer> prioritize(List<List<Jobangebot>> searchList) {
-		HashMap<Integer, Integer> prioList = new HashMap<>();
+	private HashMap<Jobangebot, Integer> prioritize(List<List<Jobangebot>> searchList) {
+		HashMap<Jobangebot, Integer> prioList = new HashMap<>();
 		for (List<Jobangebot> sL : searchList) {
 			for (Jobangebot jobangebot : sL) {
-				int id = jobangebot.getJID();
 				int prio;
-				if (!prioList.containsKey(id)) {
+				if (!prioList.containsKey(jobangebot)) {
 					prio = 1;
 				} else {
-					prio = prioList.get(id) + 1;
+					prio = prioList.get(jobangebot) + 1;
 				}
-				prioList.put(id, prio);
+				prioList.put(jobangebot, prio);
 			}
 		}
 		return prioList;

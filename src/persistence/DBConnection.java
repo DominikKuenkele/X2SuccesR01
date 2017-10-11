@@ -17,7 +17,10 @@ public class DBConnection {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		connect = DriverManager.getConnection("jdbc:mysql://localhost/x2succes?" + "user=root&password=password");
+
+		String connectionURL = "jdbc:mysql://localhost/x2succes?autoReconnect=true&useSSL=false";
+		connect = DriverManager.getConnection(connectionURL, "root", "password");
+
 		// TODO Password in configfile
 		return connect;
 	}

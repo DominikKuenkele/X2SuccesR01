@@ -83,7 +83,7 @@ public class NutzerDAO {
 				nid = this.resultSet.getInt("last_insert_id()");
 			}
 		} catch (final SQLException e) {
-			System.out.println(e); // TODO syso
+			e.printStackTrace();
 		} catch (final ClassNotFoundException e) {
 			System.out.println(e);
 		} finally {
@@ -200,8 +200,9 @@ public class NutzerDAO {
 		final Adresse address = nutzer.getAddress();
 		try {
 			open();
-			this.preparedStatement = this.connect.prepareStatement(
-					"UPDATE Nutzer SET firstName = ?, lastName = ?, sex = ?, birthdate = ?, plz = ?, city = ?, street = ?, number = ?, status = ? WHERE NID = ?");
+			this.preparedStatement = this.connect
+					.prepareStatement("UPDATE Nutzer SET firstName = ?, lastName = ?, sex = ?, birthdate = ?, "
+							+ "plz = ?, city = ?, street = ?, number = ?, status = ? WHERE NID = ?");
 			this.preparedStatement.setString(1, nutzer.getFirstName());
 			this.preparedStatement.setString(2, nutzer.getLastName());
 			this.preparedStatement.setString(3, nutzer.getSex());

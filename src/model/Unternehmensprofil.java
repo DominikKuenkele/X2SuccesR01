@@ -18,7 +18,6 @@ public class Unternehmensprofil implements Profil {
 	private int employees;
 	private String description;
 	private String benefits;
-	private String branche;
 	private String website;
 	private String ceoFirstName;
 	private String ceoLastName;
@@ -32,7 +31,6 @@ public class Unternehmensprofil implements Profil {
 	 * @param employees
 	 * @param description
 	 * @param benefits
-	 * @param branche
 	 * @param website
 	 * @param ceoFirstName
 	 * @param ceoLastName
@@ -40,8 +38,8 @@ public class Unternehmensprofil implements Profil {
 	 * @throws ValidateConstrArgsException
 	 */
 	public Unternehmensprofil(String name, String legalForm, Adresse address, LocalDate founding, int employees,
-			String description, String benefits, String branche, String website, String ceoFirstName,
-			String ceoLastName, Nutzer nutzer) throws ValidateConstrArgsException {
+			String description, String benefits, String website, String ceoFirstName, String ceoLastName, Nutzer nutzer)
+			throws ValidateConstrArgsException {
 		this.name = name;
 		this.legalForm = legalForm;
 		this.address = address;
@@ -49,7 +47,6 @@ public class Unternehmensprofil implements Profil {
 		this.employees = employees;
 		this.description = description;
 		this.benefits = benefits;
-		this.branche = branche;
 		this.website = website;
 		this.ceoFirstName = ceoFirstName;
 		this.ceoLastName = ceoLastName;
@@ -115,13 +112,6 @@ public class Unternehmensprofil implements Profil {
 	}
 
 	/**
-	 * @return the branche
-	 */
-	public String getBranche() {
-		return branche;
-	}
-
-	/**
 	 * @return the website
 	 */
 	public String getWebsite() {
@@ -153,7 +143,6 @@ public class Unternehmensprofil implements Profil {
 		try {
 			// TODO Validations
 			Validate.checkForContent(name);
-			Validate.checkForAlphaNumeric(branche);
 			Validate.checkForContent(description);
 			Validate.checkForAlpha(ceoFirstName);
 			Validate.checkForAlpha(ceoLastName);
@@ -168,5 +157,14 @@ public class Unternehmensprofil implements Profil {
 	 */
 	public void setId(int uid) {
 		this.uid = uid;
+	}
+
+	@Override
+	public String toString() {
+		return "Unternehmensprofil [uid=" + this.uid + ", name=" + this.name + ", legalForm=" + this.legalForm
+				+ ", address=" + this.address + ", founding=" + this.founding + ", employees=" + this.employees
+				+ ", description=" + this.description + ", benefits=" + this.benefits + ", website=" + this.website
+				+ ", ceoFirstName=" + this.ceoFirstName + ", ceoLastName=" + this.ceoLastName + ", nutzer="
+				+ this.nutzer + "]";
 	}
 }

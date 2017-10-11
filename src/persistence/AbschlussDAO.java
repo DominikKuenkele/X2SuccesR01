@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package persistence;
 
 import java.sql.Connection;
@@ -11,7 +14,7 @@ import java.util.List;
  * @author domin
  *
  */
-public class SpracheDAO {
+public class AbschlussDAO {
 	private Connection connect = null;
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
@@ -40,21 +43,42 @@ public class SpracheDAO {
 	}
 
 	/**
-	 * @param sprache
-	 * @return the Id with given language
+	 * @param gid
+	 * @return a {@link model.Freelancerprofil} with given ID
 	 */
-	public int getId(String sprache) {
-		int result = 0;
+	public String getAbschluss(int gid) {
 		try {
 			open();
-			preparedStatement = connect.prepareStatement("SELECT SID FROM Sprachen WHERE sprache = ?");
-			preparedStatement.setString(1, sprache);
+			preparedStatement = connect.prepareStatement("SELECT graduation FROM graduation WHERE GID=?");
+			preparedStatement.setInt(1, gid);
 
 			resultSet = preparedStatement.executeQuery();
+			return getAbschlussFromResultSet(resultSet).get(0);
+		} catch (SQLException e) {
+			System.out.println(e); // TODO syso
+			return null;
+		} catch (ClassNotFoundException e) {
+			System.out.println(e);
+			return null;
+		} finally {
+			close();
+		}
+	}
 
+	/**
+	 * @param abschluss
+	 * @return a {@link model.Freelancerprofil} with given ID
+	 */
+	public int getAbschluss(String abschluss) {
+		int gid = -1;
+		try {
+			open();
+			preparedStatement = connect.prepareStatement("SELECT GID FROM graduation WHERE graduation=?");
+			preparedStatement.setString(1, abschluss);
+
+			resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
-				int sid = resultSet.getInt("SID");
-				result = sid;
+				gid = resultSet.getInt("GID");
 			}
 		} catch (SQLException e) {
 			System.out.println(e); // TODO syso
@@ -63,57 +87,14 @@ public class SpracheDAO {
 		} finally {
 			close();
 		}
-		return result;
+		return gid;
 	}
 
-	/**
-	 * @param id
-	 * @return the language with given id
-	 */
-	public String getSprache(int sid) {
-		String result = "";
-		try {
-			open();
-			preparedStatement = connect.prepareStatement("SELECT * FROM Sprachen WHERE SID = ?");
-			preparedStatement.setInt(1, sid);
-
-			resultSet = preparedStatement.executeQuery();
-			result = getSpracheFromResultSet(resultSet).get(0);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			System.out.println(e);
-		} finally {
-			close();
-		}
-		return result;
-	}
-
-	/**
-	 * @return a list of all languages in database
-	 */
-	public List<String> getAllSprachen() {
-		List<String> result = new LinkedList<>();
-		try {
-			open();
-			preparedStatement = connect.prepareStatement("SELECT * FROM Sprachen");
-			resultSet = preparedStatement.executeQuery();
-			result = getSpracheFromResultSet(resultSet);
-		} catch (SQLException e) {
-			System.out.println(e); // TODO syso
-		} catch (ClassNotFoundException e) {
-			System.out.println(e);
-		} finally {
-			close();
-		}
-		return result;
-	}
-
-	private List<String> getSpracheFromResultSet(ResultSet resultSet) throws SQLException {
+	private List<String> getAbschlussFromResultSet(ResultSet resultSet) throws SQLException {
 		List<String> result = new LinkedList<>();
 		while (resultSet.next()) {
-			String sprache = resultSet.getString("Sprache");
-			result.add(sprache);
+			String abschluss = resultSet.getString("graduation");
+			result.add(abschluss);
 		}
 		return result;
 	}

@@ -3,6 +3,7 @@ package model;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import util.Validate;
 import util.exception.ValidateConstrArgsException;
@@ -131,4 +132,19 @@ public class Jobangebot {
 		}
 	}
 
+	@Override
+	public boolean equals(Object object) {
+		boolean result = false;
+		if (object != null && object instanceof Jobangebot) {
+			if (((Jobangebot) object).getJID() == jid) {
+				result = true;
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(jid);
+	}
 }

@@ -58,7 +58,7 @@ public class UnternehmensprofilDAO {
 			open();
 
 			preparedStatement = connect.prepareStatement(
-					"INSERT INTO Unternehmensprofil values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+					"INSERT INTO Unternehmensprofil values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			preparedStatement.setInt(1, nutzerId);
 			preparedStatement.setString(2, unternehmen.getName());
 			preparedStatement.setString(3, unternehmen.getLegalForm());
@@ -66,14 +66,13 @@ public class UnternehmensprofilDAO {
 			preparedStatement.setInt(5, unternehmen.getEmployees());
 			preparedStatement.setString(6, unternehmen.getDescription());
 			preparedStatement.setString(7, unternehmen.getBenefits());
-			preparedStatement.setString(8, unternehmen.getBranche());
-			preparedStatement.setString(9, unternehmen.getWebsite());
-			preparedStatement.setString(10, unternehmen.getCeoFirstName());
-			preparedStatement.setString(11, unternehmen.getCeoLastName());
-			preparedStatement.setString(12, address.getPlz());
-			preparedStatement.setString(13, address.getCity());
-			preparedStatement.setString(14, address.getStrasse());
-			preparedStatement.setString(15, address.getNumber());
+			preparedStatement.setString(8, unternehmen.getWebsite());
+			preparedStatement.setString(9, unternehmen.getCeoFirstName());
+			preparedStatement.setString(10, unternehmen.getCeoLastName());
+			preparedStatement.setString(11, address.getPlz());
+			preparedStatement.setString(12, address.getCity());
+			preparedStatement.setString(13, address.getStrasse());
+			preparedStatement.setString(14, address.getNumber());
 			preparedStatement.executeUpdate();
 
 			preparedStatement = connect.prepareStatement("SELECT LAST_INSERT_ID()");
@@ -98,7 +97,10 @@ public class UnternehmensprofilDAO {
 	public Unternehmensprofil getUnternehmensprofil(int uid) {
 		try {
 			open();
-			preparedStatement = connect.prepareStatement("SELECT * FROM Unternehmensprofil WHERE UID = ?");
+			preparedStatement = connect
+					.prepareStatement("SELECT UID, NID, name, legalForm, founding, employees, description, "
+							+ "benefits, website, ceoFirstName, ceoLastName, plz, city, street, "
+							+ "number FROM Unternehmensprofil WHERE UID = ?");
 			preparedStatement.setInt(1, uid);
 
 			resultSet = preparedStatement.executeQuery();
@@ -121,7 +123,10 @@ public class UnternehmensprofilDAO {
 	public List<Unternehmensprofil> getAllUnternehmen() {
 		try {
 			open();
-			preparedStatement = connect.prepareStatement("SELECT * FROM Unternehmensprofil");
+			preparedStatement = connect
+					.prepareStatement("SELECT UID, NID, name, legalForm, founding, employees, description, "
+							+ "benefits, website, ceoFirstName, ceoLastName, plz, city, street, "
+							+ "number FROM Unternehmensprofil");
 			resultSet = preparedStatement.executeQuery();
 			return getUnternehmensprofilFromResultSet(resultSet);
 		} catch (SQLException e) {
@@ -164,10 +169,9 @@ public class UnternehmensprofilDAO {
 			String legalForm = resultSet.getString("legalForm");
 			Date foundingSQL = resultSet.getDate("founding");
 			LocalDate founding = foundingSQL.toLocalDate();
-			int employees = resultSet.getInt("lastName");
+			int employees = resultSet.getInt("employees");
 			String description = resultSet.getString("description");
 			String benefits = resultSet.getString("benefits");
-			String branche = resultSet.getString("branche");
 			String website = resultSet.getString("website");
 			String ceoFirstName = resultSet.getString("ceoFirstName");
 			String ceoLastName = resultSet.getString("ceoLastName");
@@ -177,8 +181,8 @@ public class UnternehmensprofilDAO {
 			String number = resultSet.getString("number");
 			try {
 				Unternehmensprofil tempUnternehmen = new Unternehmensprofil(name, legalForm,
-						new Adresse(plz, city, street, number), founding, employees, description, benefits, branche,
-						website, ceoFirstName, ceoLastName, nutzer);
+						new Adresse(plz, city, street, number), founding, employees, description, benefits, website,
+						ceoFirstName, ceoLastName, nutzer);
 				tempUnternehmen.setId(unternehmensId);
 				result.add(tempUnternehmen);
 			} catch (ValidateConstrArgsException e) {
@@ -198,7 +202,7 @@ public class UnternehmensprofilDAO {
 			open();
 			this.preparedStatement = this.connect.prepareStatement(
 					"UPDATE Unternehmensprofil SET NID = ?, name = ?, legalForm = ?, founding = ?, employees = ?, description = ?, "
-							+ "benefits = ?, branche = ?, website = ?, ceoFirstName = ?, ceoLastName = ?, plz = ?, city = ?, street = ?,"
+							+ "benefits = ?, website = ?, ceoFirstName = ?, ceoLastName = ?, plz = ?, city = ?, street = ?,"
 							+ " number = ? WHERE UID = ?");
 			preparedStatement.setInt(1, nutzerId);
 			preparedStatement.setString(2, aUnternehmen.getName());
@@ -207,15 +211,14 @@ public class UnternehmensprofilDAO {
 			preparedStatement.setInt(5, aUnternehmen.getEmployees());
 			preparedStatement.setString(6, aUnternehmen.getDescription());
 			preparedStatement.setString(7, aUnternehmen.getBenefits());
-			preparedStatement.setString(8, aUnternehmen.getBranche());
-			preparedStatement.setString(9, aUnternehmen.getWebsite());
-			preparedStatement.setString(10, aUnternehmen.getCeoFirstName());
-			preparedStatement.setString(11, aUnternehmen.getCeoLastName());
-			preparedStatement.setString(12, address.getPlz());
-			preparedStatement.setString(13, address.getCity());
-			preparedStatement.setString(14, address.getStrasse());
-			preparedStatement.setString(15, address.getNumber());
-			preparedStatement.setInt(16, aUnternehmen.getId());
+			preparedStatement.setString(8, aUnternehmen.getWebsite());
+			preparedStatement.setString(9, aUnternehmen.getCeoFirstName());
+			preparedStatement.setString(10, aUnternehmen.getCeoLastName());
+			preparedStatement.setString(11, address.getPlz());
+			preparedStatement.setString(12, address.getCity());
+			preparedStatement.setString(13, address.getStrasse());
+			preparedStatement.setString(14, address.getNumber());
+			preparedStatement.setInt(15, aUnternehmen.getId());
 			preparedStatement.executeUpdate();
 		} catch (final SQLException e) {
 			System.out.println(e); // TODO syso

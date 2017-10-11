@@ -57,15 +57,18 @@ public class FreelancerprofilDAO {
 			open();
 
 			preparedStatement = connect
-					.prepareStatement("INSERT INTO Freelancerprofil values (default, ?, ?, ?, ?, ?, ?)");
+					.prepareStatement("INSERT INTO Freelancerprofil values (default, ?, ?, ?, ?, ?, ?, ?)");
 			preparedStatement.setInt(1, nutzerId);
-			preparedStatement.setString(2, freelancer.getAbschluss());
-			preparedStatement.setString(3, freelancer.getBeschreibung());
+			int gid = new AbschlussDAO().getAbschluss(freelancer.getAbschluss());
+			preparedStatement.setInt(2, gid);
+			int bid = new BrancheDAO().getBranche(freelancer.getBranche());
+			preparedStatement.setInt(3, bid);
+			preparedStatement.setString(4, freelancer.getBeschreibung());
 			Gson gson = new GsonBuilder().create();
 			String skillsJSON = gson.toJson(freelancer.getSkills());
-			preparedStatement.setString(4, skillsJSON);
-			preparedStatement.setString(5, freelancer.getLebenslauf());
-			preparedStatement.setString(6, freelancer.getBenefits());
+			preparedStatement.setString(5, skillsJSON);
+			preparedStatement.setString(6, freelancer.getLebenslauf());
+			preparedStatement.setString(7, freelancer.getBenefits());
 
 			preparedStatement.executeUpdate();
 
@@ -102,13 +105,17 @@ public class FreelancerprofilDAO {
 	public Freelancerprofil getFreelancerprofil(int fid) {
 		try {
 			open();
-			preparedStatement = connect.prepareStatement("SELECT * FROM Freelancerprofil WHERE FID = ?");
+			preparedStatement = connect.prepareStatement(
+					"SELECT FID, NID, graduation.graduation, branche.branche, description, skills, career, benefits "
+							+ "FROM freelancerprofil  "
+							+ "INNER JOIN graduation ON freelancerprofil.GID=graduation.GID "
+							+ "INNER JOIN branche ON freelancerprofil.BID = branche.BID " + "WHERE FID = ?");
 			preparedStatement.setInt(1, fid);
 
 			resultSet = preparedStatement.executeQuery();
 			return getFreelancerprofilFromResultSet(resultSet).get(0);
 		} catch (SQLException e) {
-			System.out.println(e); // TODO syso
+			e.printStackTrace();
 			return null;
 		} catch (ClassNotFoundException e) {
 			System.out.println(e);
@@ -125,7 +132,11 @@ public class FreelancerprofilDAO {
 	public List<Freelancerprofil> getAllFreelancer() {
 		try {
 			open();
-			preparedStatement = connect.prepareStatement("SELECT * FROM Freelancerprofil");
+			preparedStatement = connect.prepareStatement(
+					"SELECT FID, NID, graduation.graduation, branche.branche, description, skills, career, benefits "
+							+ "FROM Freelancerprofil  "
+							+ "INNER JOIN graduation ON freelancerprofil.GID=graduation.GID "
+							+ "INNER JOIN branche ON freelancerprofil.GID=branche.BID ");
 			resultSet = preparedStatement.executeQuery();
 			return getFreelancerprofilFromResultSet(resultSet);
 		} catch (SQLException e) {
@@ -164,7 +175,8 @@ public class FreelancerprofilDAO {
 			int freelancerId = resultSet.getInt("FID");
 			int nutzerId = resultSet.getInt("NID");
 			Nutzer nutzer = new NutzerDAO().getNutzer(nutzerId);
-			String graduation = resultSet.getString("graduation");
+			String graduation = resultSet.getString("graduation.graduation");
+			String branche = resultSet.getString("branche.branche");
 			String description = resultSet.getString("description");
 			String skillsJSON = resultSet.getString("skills");
 			Gson gson = new GsonBuilder().create();
@@ -174,7 +186,7 @@ public class FreelancerprofilDAO {
 			List<String> sprachen = getLanguageInFreelancerprofil(freelancerId);
 
 			try {
-				Freelancerprofil tempFreelancer = new Freelancerprofil(graduation, description, skills, career,
+				Freelancerprofil tempFreelancer = new Freelancerprofil(graduation, branche, description, skills, career,
 						benefits, sprachen, nutzer);
 				tempFreelancer.setId(freelancerId);
 				result.add(tempFreelancer);
@@ -185,23 +197,24 @@ public class FreelancerprofilDAO {
 		return result;
 	}
 
-	private List<String> getLanguageInFreelancerprofil(int fid) {
+	private List<String> getLanguageInFreelancerprofil(int fid) throws SQLException {
 		List<String> result = new LinkedList<>();
+		ResultSet resultSetSprache = null;
 		try {
 			open();
 			preparedStatement = connect.prepareStatement("SELECT SID FROM SprachenzuordnungFP WHERE FID = ?");
 			preparedStatement.setInt(1, fid);
+			resultSetSprache = preparedStatement.executeQuery();
 
-			while (resultSet.next()) {
-				int sid = resultSet.getInt("SID");
-
+			while (resultSetSprache.next()) {
+				int sid = resultSetSprache.getInt("SID");
 				String sprache = new SpracheDAO().getSprache(sid);
 				result.add(sprache);
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		} finally {
-			close();
+			resultSetSprache.close();
 		}
 		return result;
 	}

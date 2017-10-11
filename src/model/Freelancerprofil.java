@@ -16,6 +16,7 @@ public class Freelancerprofil implements Profil {
 
 	private int fid = -1;
 	private String abschluss;
+	private String branche;
 	private String beschreibung;
 	private String[] skills = new String[ANZAHL_STAERKEN];
 	private String lebenslauf;
@@ -25,6 +26,7 @@ public class Freelancerprofil implements Profil {
 
 	/**
 	 * @param abschluss
+	 * @param branche
 	 * @param beschreibung
 	 * @param skills
 	 * @param lebenslauf
@@ -33,10 +35,11 @@ public class Freelancerprofil implements Profil {
 	 * @param nutzer
 	 * @throws ValidateConstrArgsException
 	 */
-	public Freelancerprofil(final String abschluss, final String beschreibung, final String[] skills,
-			final String lebenslauf, final String benefits, final List<String> sprachen, Nutzer nutzer)
-			throws ValidateConstrArgsException {
+	public Freelancerprofil(final String abschluss, final String branche, final String beschreibung,
+			final String[] skills, final String lebenslauf, final String benefits, final List<String> sprachen,
+			Nutzer nutzer) throws ValidateConstrArgsException {
 		this.abschluss = abschluss;
+		this.branche = branche;
 		this.beschreibung = beschreibung;
 		this.skills = Arrays.copyOf(skills, skills.length);
 		this.lebenslauf = lebenslauf;
@@ -45,6 +48,14 @@ public class Freelancerprofil implements Profil {
 		this.nutzer = nutzer;
 
 		validateState();
+	}
+
+	@Override
+	public String toString() {
+		return "Freelancerprofil [fid=" + this.fid + ", abschluss=" + this.abschluss + ", branche=" + this.branche
+				+ ", beschreibung=" + this.beschreibung + ", skills=" + Arrays.toString(this.skills) + ", lebenslauf="
+				+ this.lebenslauf + ", benefits=" + this.benefits + ", sprachen=" + this.sprachen + ", nutzer="
+				+ this.nutzer + "]";
 	}
 
 	/**
@@ -59,6 +70,13 @@ public class Freelancerprofil implements Profil {
 	 */
 	public String getBeschreibung() {
 		return beschreibung;
+	}
+
+	/**
+	 * @return the branche
+	 */
+	public String getBranche() {
+		return this.branche;
 	}
 
 	/**
@@ -123,6 +141,7 @@ public class Freelancerprofil implements Profil {
 	private void validateState() throws ValidateConstrArgsException {
 		try {
 			Validate.checkForContent(abschluss);
+			Validate.checkForAlpha(branche);
 			Validate.checkForContent(beschreibung);
 			validateSkills(skills);
 			Validate.checkForContent(lebenslauf);

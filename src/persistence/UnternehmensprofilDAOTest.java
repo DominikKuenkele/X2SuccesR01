@@ -3,15 +3,7 @@
  */
 package persistence;
 
-import java.time.LocalDate;
-
 import org.junit.Test;
-
-import application.Verwaltung;
-import model.Adresse;
-import model.Nutzer;
-import model.Unternehmensprofil;
-import util.exception.ValidateConstrArgsException;
 
 /**
  * @author domin
@@ -39,14 +31,14 @@ public class UnternehmensprofilDAOTest {
 	// fail("Not yet implemented");
 	// }
 	//
-	// /**
-	// * Test method for {@link
-	// persistence.UnternehmensprofilDAO#getUnternehmensprofil(int)}.
-	// */
-	// @Test
-	// public void testGetUnternehmensprofil() {
-	// fail("Not yet implemented");
-	// }
+	/**
+	 * Test method for
+	 * {@link persistence.UnternehmensprofilDAO#getUnternehmensprofil(int)}.
+	 */
+	@Test
+	public void testGetUnternehmensprofil() {
+		System.out.println(new UnternehmensprofilDAO().getUnternehmensprofil(1));
+	}
 	//
 	// /**
 	// * Test method for {@link
@@ -66,25 +58,27 @@ public class UnternehmensprofilDAOTest {
 	// fail("Not yet implemented");
 	// }
 
-	/**
-	 * Test method for
-	 * {@link persistence.UnternehmensprofilDAO#changeUnternehmen(model.Unternehmensprofil)}.
-	 */
-	@Test
-	public void testChangeUnternehmen() {
-		Verwaltung v = Verwaltung.getInstance();
-		v.login("olaf.muelle@hsdf.de", "1234");
-		Nutzer nutzer = v.getCurrentNutzer();
-		Unternehmensprofil unternehmen;
-		try {
-			unternehmen = new Unternehmensprofil("Test", "GmbH", new Adresse("8746", "kjhsk", "gslkfjg", "23"),
-					LocalDate.of(1244, 12, 4), 50, "sd", "df", "df", "www.fg.vv", "sdg", "fs", nutzer);
-			unternehmen.setId(1);
-			new UnternehmensprofilDAO().changeUnternehmen(unternehmen);
-		} catch (ValidateConstrArgsException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+	// /**
+	// * Test method for
+	// * {@link
+	// persistence.UnternehmensprofilDAO#changeUnternehmen(model.Unternehmensprofil)}.
+	// */
+	// @Test
+	// public void testChangeUnternehmen() {
+	// Verwaltung v = Verwaltung.getInstance();
+	// v.login("olaf.muelle@hsdf.de", "1234");
+	// Nutzer nutzer = v.getCurrentNutzer();
+	// Unternehmensprofil unternehmen;
+	// try {
+	// unternehmen = new Unternehmensprofil("Test", "GmbH", new Adresse("8746",
+	// "kjhsk", "gslkfjg", "23"),
+	// LocalDate.of(1244, 12, 4), 50, "sd", "df", "www.fg.vv", "sdg", "fs", nutzer);
+	// unternehmen.setId(1);
+	// new UnternehmensprofilDAO().changeUnternehmen(unternehmen);
+	// } catch (ValidateConstrArgsException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// }
 
 }
