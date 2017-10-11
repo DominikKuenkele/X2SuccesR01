@@ -1,7 +1,7 @@
 /**
  * 
  */
-package controller;
+package view;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

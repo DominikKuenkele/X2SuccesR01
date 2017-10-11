@@ -3,6 +3,12 @@
  */
 package persistence;
 
+import java.util.List;
+
+import org.junit.Test;
+
+import model.Jobangebot;
+
 /**
  * @author domin
  *
@@ -64,14 +70,17 @@ public class JobangebotDAOTest {
 	// fail("Not yet implemented");
 	// }
 	//
-	// /**
-	// * Test method for {@link
-	// persistence.JobangebotDAO#searchForName(java.lang.String)}.
-	// */
-	// @Test
-	// public void testSearchForName() {
-	// fail("Not yet implemented");
-	// }
+	/**
+	 * Test method for
+	 * {@link persistence.JobangebotDAO#searchForName(java.lang.String)}.
+	 */
+	@Test
+	public void testSearchForName() {
+		List<Jobangebot> list = new JobangebotDAO().searchForName("");
+		for (Jobangebot j : list) {
+			System.out.println(j);
+		}
+	}
 	//
 	// /**
 	// * Test method for {@link
