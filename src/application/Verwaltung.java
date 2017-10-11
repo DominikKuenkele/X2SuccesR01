@@ -205,20 +205,19 @@ public class Verwaltung extends Subject {
 	 * @param sprachen
 	 * @param beschreibung
 	 * @param frist
-	 * @param minGehalt
-	 * @param maxGehalt
+	 * @param gehalt
 	 * @param wochenstunden
 	 * @throws UserInputException
 	 */
 	public void createJobangebot(final String abschluss, final String branche, final List<String> sprachen,
-			final String beschreibung, final LocalDate frist, final int minGehalt, final int maxGehalt,
-			final int wochenstunden) throws UserInputException {
+			final String beschreibung, final LocalDate frist, final int gehalt, final int wochenstunden)
+			throws UserInputException {
 		if (this.currentNutzer.getStatus() == Status.F) {
 			throw new UserInputException("Ein Freelancer kann kein Jobangebot erstellen.");
 		}
 		try {
-			final Jobangebot jobangebot = new Jobangebot(abschluss, branche, sprachen, beschreibung, frist, minGehalt,
-					maxGehalt, wochenstunden, this.currentUnternehmen);
+			final Jobangebot jobangebot = new Jobangebot(abschluss, branche, sprachen, beschreibung, frist, gehalt,
+					wochenstunden, this.currentUnternehmen);
 			final int jid = new JobangebotDAO().addJobangebot(jobangebot);
 			jobangebot.setId(jid);
 		} catch (final ValidateConstrArgsException e) {
