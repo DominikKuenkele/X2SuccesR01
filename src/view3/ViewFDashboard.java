@@ -47,39 +47,10 @@ public class ViewFDashboard {
 	}
 
 	@FXML
-	void openHome(MouseEvent event) throws IOException {
-
-		// Abfrage ob es schon Favoriten gibt
-		if (true)
-			changescene("User_Home_Dashboard_nofavs.fxml");
-		else
-			changescene("User_Home_Dashboard_favs.fxml");
-	}
-
-	@FXML
-	void openProfil(MouseEvent event) throws IOException {
-
-		changescene("User_Profil.fxml");
-
-	}
-
-	@FXML
 	void openSearch(MouseEvent event) throws IOException {
 
 		changescene("User_Suche_Dashboard.fxml");
 
-	}
-
-	@FXML
-	void openSettings(MouseEvent event) throws IOException {
-
-		changescene("User_Settings_Dashboard.fxml");
-
-	}
-
-	@FXML
-	void openSignOut(MouseEvent event) throws IOException {
-		changescene("Einloggen.fxml");
 	}
 
 }

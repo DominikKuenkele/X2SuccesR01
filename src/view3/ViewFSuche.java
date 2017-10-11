@@ -29,26 +29,15 @@ public class ViewFSuche implements Initializable{
 	//Liste für die Choice Boxen. Aus DB ziehen
 		ObservableList<String> TestListe = FXCollections.observableArrayList("Inhalt1","Inhalt2","Inhalt3");
 
-    @FXML
-    private ImageView homebutton;
-
-    @FXML
-    private ImageView profilbutton;
-
-    @FXML
-    private ImageView searchbutton;
-
-    @FXML
-    private ImageView settingsbutton;
-
-    @FXML
-    private ImageView signoutbutton;
 
     @FXML
     private TextField searchcompanyname;
 
     @FXML
     private ChoiceBox<String> searchnecessarydegree;
+    
+    @FXML
+    private ChoiceBox<String> searchtopic;
 
     @FXML
     private ChoiceBox<String> searchbranche;
@@ -103,7 +92,7 @@ public class ViewFSuche implements Initializable{
  void changescene(String fxmlname) throws IOException {
 	 
 	 //schliesst aktuelles Fenster
- 	Stage stage2 = (Stage) homebutton.getScene().getWindow();
+ 	Stage stage2 = (Stage) serachoffers.getScene().getWindow();
         stage2.close();
  	
 	 Stage stage = new Stage();
@@ -115,42 +104,6 @@ public class ViewFSuche implements Initializable{
      stage.show();
 
  }
-
-    @FXML
-    void openHome(MouseEvent event) throws IOException {
-
-    	//Abfrage ob es schon Favoriten gibt
-   if(true)     changescene("User_Home_Dashboard_nofavs.fxml");
-   else      changescene("User_Home_Dashboard_favs.fxml");
-       
-    }
-
-    @FXML
-    void openProfil(MouseEvent event) throws IOException {
-    	
-    	changescene("User_Profil.fxml");
-
-    }
-
-    @FXML
-    void openSearch(MouseEvent event) throws IOException {
-
-    	changescene("User_Suche_Dashboard.fxml");
-    }
-
-
-    @FXML
-    void openSettings(MouseEvent event) throws IOException {
-    	
-    	changescene("User_Settings_Dashboard.fxml");
-
-    }
-
-    @FXML
-    void openSignOut(MouseEvent event) throws IOException {
-
-    	changescene("Einloggen.fxml");
-    }
 
     @FXML
     void searchoffers(ActionEvent event) {
@@ -178,12 +131,7 @@ public class ViewFSuche implements Initializable{
      stage.show();
 
     }
-    
-    @FXML
-    void paginationSwitch(MouseEvent event) {
 
-    	//searchcompanyname.setText("wawasdawsds");
-    }
     @FXML
     void showresult1(MouseEvent event) throws IOException {
     	
@@ -232,6 +180,8 @@ public class ViewFSuche implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 		searchnecessarydegree.setValue("Inhalt1"); //Anfangswert
 		searchnecessarydegree.setItems(TestListe); //Name der Liste
+		searchtopic.setValue("Inhalt1"); //Anfangswert
+    	searchtopic.setItems(TestListe); //Name der Liste
     	searchbranche.setValue("Inhalt1"); //Anfangswert
     	searchbranche.setItems(TestListe); //Name der Liste
 		
