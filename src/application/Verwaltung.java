@@ -171,6 +171,7 @@ public class Verwaltung extends Subject {
 
 	/**
 	 * @param abschluss
+	 * @param branche
 	 * @param beschreibung
 	 * @param skills
 	 * @param lebenslauf
@@ -178,14 +179,15 @@ public class Verwaltung extends Subject {
 	 * @param sprachen
 	 * @throws UserInputException
 	 */
-	public void createFreelancer(final String abschluss, final String beschreibung, final String[] skills,
-			final String lebenslauf, final String benefits, final List<String> sprachen) throws UserInputException {
+	public void createFreelancer(final String abschluss, final String branche, final String beschreibung,
+			final String[] skills, final String lebenslauf, final String benefits, final List<String> sprachen)
+			throws UserInputException {
 		if (this.currentNutzer.getStatus() == Status.U) {
 			throw new UserInputException("Nutzer ist schon Unternehmer!");
 		}
 		try {
-			final Freelancerprofil freelancer = new Freelancerprofil(abschluss, beschreibung, skills, lebenslauf,
-					benefits, sprachen, this.currentNutzer);
+			final Freelancerprofil freelancer = new Freelancerprofil(abschluss, branche, beschreibung, skills,
+					lebenslauf, benefits, sprachen, this.currentNutzer);
 			final FreelancerprofilDAO freelancerprofilDao = new FreelancerprofilDAO();
 			final int fid = freelancerprofilDao.addFreelancerprofil(freelancer);
 			freelancer.setId(fid);
@@ -199,6 +201,7 @@ public class Verwaltung extends Subject {
 
 	/**
 	 * @param abschluss
+	 * @param branche
 	 * @param sprachen
 	 * @param beschreibung
 	 * @param frist
@@ -207,15 +210,15 @@ public class Verwaltung extends Subject {
 	 * @param wochenstunden
 	 * @throws UserInputException
 	 */
-	public void createJobangebot(final String abschluss, final List<String> sprachen, final String beschreibung,
-			final LocalDate frist, final int minGehalt, final int maxGehalt, final int wochenstunden)
-			throws UserInputException {
+	public void createJobangebot(final String abschluss, final String branche, final List<String> sprachen,
+			final String beschreibung, final LocalDate frist, final int minGehalt, final int maxGehalt,
+			final int wochenstunden) throws UserInputException {
 		if (this.currentNutzer.getStatus() == Status.F) {
 			throw new UserInputException("Ein Freelancer kann kein Jobangebot erstellen.");
 		}
 		try {
-			final Jobangebot jobangebot = new Jobangebot(abschluss, sprachen, beschreibung, frist, minGehalt, maxGehalt,
-					wochenstunden, this.currentUnternehmen);
+			final Jobangebot jobangebot = new Jobangebot(abschluss, branche, sprachen, beschreibung, frist, minGehalt,
+					maxGehalt, wochenstunden, this.currentUnternehmen);
 			final int jid = new JobangebotDAO().addJobangebot(jobangebot);
 			jobangebot.setId(jid);
 		} catch (final ValidateConstrArgsException e) {
@@ -265,6 +268,15 @@ public class Verwaltung extends Subject {
 		}
 	}
 
+	/**
+	 * @param name
+	 * @param abschluss
+	 * @param branche
+	 * @param minMitarbeiter
+	 * @param maxMitarbeiter
+	 * @param minGehalt
+	 * @return a List of {@link model.Jobangebot Jobangebote} with search-Priority
+	 */
 	public HashMap<Jobangebot, Integer> sucheJobangebote(String name, String abschluss, String branche,
 			int minMitarbeiter, int maxMitarbeiter, int minGehalt) {
 		JobangebotDAO jobangebotDao = new JobangebotDAO();
@@ -294,10 +306,6 @@ public class Verwaltung extends Subject {
 			}
 		}
 		return prioList;
-	}
-
-	private class Test {
-		int test;
 	}
 
 	private void setCurrentNutzer(final Nutzer aNutzer) {

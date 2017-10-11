@@ -57,7 +57,7 @@ public class FreelancerprofilDAO {
 			open();
 
 			preparedStatement = connect
-					.prepareStatement("INSERT INTO Freelancerprofil values (default, ?, ?, ?, ?, ?, ?, ?)");
+					.prepareStatement("INSERT INTO Freelancerprofil values (default, ?, ?, ?, ?, ?, ?, ?, ?)");
 			preparedStatement.setInt(1, nutzerId);
 			int gid = new AbschlussDAO().getAbschluss(freelancer.getAbschluss());
 			preparedStatement.setInt(2, gid);
@@ -136,7 +136,7 @@ public class FreelancerprofilDAO {
 					"SELECT FID, NID, graduation.graduation, branche.branche, description, skills, career, benefits "
 							+ "FROM Freelancerprofil  "
 							+ "INNER JOIN graduation ON freelancerprofil.GID=graduation.GID "
-							+ "INNER JOIN branche ON freelancerprofil.GID=branche.BID ");
+							+ "INNER JOIN branche ON freelancerprofil.GID=branche.BID");
 			resultSet = preparedStatement.executeQuery();
 			return getFreelancerprofilFromResultSet(resultSet);
 		} catch (SQLException e) {

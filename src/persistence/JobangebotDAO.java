@@ -63,14 +63,17 @@ public class JobangebotDAO {
 		try {
 			open();
 			preparedStatement = connect
-					.prepareStatement("INSERT INTO Jobangebot values (default, ?, ?, ?, ?, ?, ?, ?)");
+					.prepareStatement("INSERT INTO Jobangebot values (default, ?, ?, ?, ?, ?, ?, ?, ?)");
 			preparedStatement.setInt(1, unternehmensId);
-			preparedStatement.setString(2, jobangebot.getAbschluss());
-			preparedStatement.setString(3, jobangebot.getBeschreibung());
-			preparedStatement.setObject(4, jobangebot.getFrist());
-			preparedStatement.setInt(5, jobangebot.getMinGehalt());
-			preparedStatement.setInt(6, jobangebot.getMaxGehalt());
-			preparedStatement.setInt(7, jobangebot.getWochenstunden());
+			int gid = new AbschlussDAO().getAbschluss(jobangebot.getAbschluss());
+			preparedStatement.setInt(2, gid);
+			int bid = new BrancheDAO().getBranche(jobangebot.getBranche());
+			preparedStatement.setInt(3, bid);
+			preparedStatement.setString(4, jobangebot.getBeschreibung());
+			preparedStatement.setObject(5, jobangebot.getFrist());
+			preparedStatement.setInt(6, jobangebot.getMinGehalt());
+			preparedStatement.setInt(7, jobangebot.getMaxGehalt());
+			preparedStatement.setInt(8, jobangebot.getWochenstunden());
 			preparedStatement.executeUpdate();
 
 			preparedStatement = connect.prepareStatement("SELECT LAST_INSERT_ID()");
@@ -90,23 +93,8 @@ public class JobangebotDAO {
 
 				preparedStatement.executeUpdate();
 			}
-
-			for (int i = 0; i < sprachen.size(); i++) {
-				int sid = 0;
-				preparedStatement = connect.prepareStatement("SELECT SID FROM Sprachen WHERE sprache = ?");
-				preparedStatement.setString(1, sprachen.get(i));
-				resultSet = preparedStatement.executeQuery();
-				while (resultSet.next()) {
-					sid = resultSet.getInt("SID");
-				}
-				preparedStatement = connect.prepareStatement("INSERT INTO SprachenzuordnungJA values (?, ?)");
-				preparedStatement.setInt(1, jid);
-				preparedStatement.setInt(2, sid);
-
-				preparedStatement.executeUpdate();
-			}
 		} catch (SQLException e) {
-			System.out.println(e); // TODO syso
+			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			System.out.println(e);
 		} finally {
@@ -122,7 +110,10 @@ public class JobangebotDAO {
 	public Jobangebot getJobangebot(int jid) {
 		try {
 			open();
-			preparedStatement = connect.prepareStatement("SELECT * FROM Jobangebot WHERE JID = ?");
+			preparedStatement = connect.prepareStatement("SELECT JID, UID, graduation.graduation, branche.branche, "
+					+ "description, deadline, minSalary, maxSalary, weeklyHours " + "FROM jobangebot "
+					+ "INNER JOIN graduation ON jobangebot.GID=graduation.GID "
+					+ "INNER JOIN branche ON jobangebot.BID = branche.BID " + "WHERE JID = ?");
 			preparedStatement.setInt(1, jid);
 			resultSet = preparedStatement.executeQuery();
 			return getJobangebotFromResultSet(resultSet).get(0);
@@ -143,7 +134,10 @@ public class JobangebotDAO {
 	public List<Jobangebot> getAllJobangebote() {
 		try {
 			open();
-			preparedStatement = connect.prepareStatement("SELECT * FROM Jobangebot");
+			preparedStatement = connect.prepareStatement("SELECT JID, UID, graduation.graduation, branche.branche, "
+					+ "description, deadline, minSalary, maxSalary, weeklyHours " + "FROM jobangebot "
+					+ "INNER JOIN graduation ON jobangebot.GID=graduation.GID "
+					+ "INNER JOIN branche ON jobangebot.BID = branche.BID");
 			resultSet = preparedStatement.executeQuery();
 			return getJobangebotFromResultSet(resultSet);
 		} catch (SQLException e) {
@@ -182,7 +176,8 @@ public class JobangebotDAO {
 			int jobangebotsId = resultSet.getInt("JID");
 			int unternehmensId = resultSet.getInt("uid");
 			Unternehmensprofil unternehmen = new UnternehmensprofilDAO().getUnternehmensprofil(unternehmensId);
-			String graduation = resultSet.getString("graduation");
+			String graduation = resultSet.getString("graduation.graduation");
+			String branche = resultSet.getString("branche.branche");
 			String description = resultSet.getString("description");
 			Date deadlineSQL = resultSet.getDate("deadline");
 			LocalDate deadline = deadlineSQL.toLocalDate();
@@ -191,8 +186,8 @@ public class JobangebotDAO {
 			int weeklyHours = resultSet.getInt("weeklyHours");
 			List<String> sprachen = getLanguageInJobangebot(jobangebotsId);
 			try {
-				Jobangebot tempJobangebot = new Jobangebot(graduation, sprachen, description, deadline, minSalary,
-						maxSalary, weeklyHours, unternehmen);
+				Jobangebot tempJobangebot = new Jobangebot(graduation, branche, sprachen, description, deadline,
+						minSalary, maxSalary, weeklyHours, unternehmen);
 				tempJobangebot.setId(jobangebotsId);
 				result.add(tempJobangebot);
 
@@ -203,23 +198,24 @@ public class JobangebotDAO {
 		return result;
 	}
 
-	private List<String> getLanguageInJobangebot(int jid) {
+	private List<String> getLanguageInJobangebot(int jid) throws SQLException {
 		List<String> result = new LinkedList<>();
+		ResultSet resultSetSprache = null;
 		try {
-			open();
 			preparedStatement = connect.prepareStatement("SELECT SID FROM SprachenzuordnungJA WHERE JID = ?");
 			preparedStatement.setInt(1, jid);
+			resultSetSprache = preparedStatement.executeQuery();
 
-			while (resultSet.next()) {
-				int sid = resultSet.getInt("SID");
+			while (resultSetSprache.next()) {
+				int sid = resultSetSprache.getInt("SID");
 
 				String sprache = new SpracheDAO().getSprache(sid);
 				result.add(sprache);
 			}
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			close();
+			resultSetSprache.close();
 		}
 		return result;
 	}
@@ -229,8 +225,8 @@ public class JobangebotDAO {
 		try {
 			Jobangebot[] jA = new Jobangebot[4];
 			for (int i = 0; i < 4; i++) {
-				jA[i] = new Jobangebot("sdf", new LinkedList<String>(), "sdf", LocalDate.of(1999, 12, 1), 1, 2, 3,
-						null);
+				jA[i] = new Jobangebot("sdf", "sdf", new LinkedList<String>(), "sdf", LocalDate.of(1999, 12, 1), 1, 2,
+						3, null);
 				jA[i].setId(i);
 			}
 			list = Arrays.asList(jA);
@@ -245,8 +241,8 @@ public class JobangebotDAO {
 		try {
 			Jobangebot[] jA = new Jobangebot[4];
 			for (int i = 0; i < 4; i++) {
-				jA[i] = new Jobangebot("sdf", new LinkedList<String>(), "sdf", LocalDate.of(1999, 12, 1), 1, 2, 3,
-						null);
+				jA[i] = new Jobangebot("sdf", "sdf", new LinkedList<String>(), "sdf", LocalDate.of(1999, 12, 1), 1, 2,
+						3, null);
 				jA[i].setId(i * 2);
 			}
 			list = Arrays.asList(jA);
@@ -261,7 +257,8 @@ public class JobangebotDAO {
 		try {
 			Jobangebot[] jA = new Jobangebot[4];
 			for (int i = 0; i < 4; i++) {
-				jA[i] = new Jobangebot("dg", new LinkedList<String>(), "sdf", LocalDate.of(1999, 12, 1), 1, 2, 3, null);
+				jA[i] = new Jobangebot("dg", "sdf", new LinkedList<String>(), "sdf", LocalDate.of(1999, 12, 1), 1, 2, 3,
+						null);
 				jA[i].setId(i * 3);
 			}
 			list = Arrays.asList(jA);
@@ -276,8 +273,8 @@ public class JobangebotDAO {
 		try {
 			Jobangebot[] jA = new Jobangebot[4];
 			for (int i = 0; i < 4; i++) {
-				jA[i] = new Jobangebot(Integer.toString(i), new LinkedList<String>(), "sdf", LocalDate.of(1999, 12, 1),
-						1, 2, 3, null);
+				jA[i] = new Jobangebot(Integer.toString(i), "sdf", new LinkedList<String>(), "sdf",
+						LocalDate.of(1999, 12, 1), 1, 2, 3, null);
 				jA[i].setId(4 - i);
 			}
 			list = Arrays.asList(jA);

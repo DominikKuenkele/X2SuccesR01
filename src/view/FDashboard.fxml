@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="611.0"
+	prefWidth="910.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="view.ViewFDashboard">
+	<children>
+		<Label layoutX="274.0" layoutY="37.0" text="Willkommen bei X2Success">
+			<font>
+				<Font size="18.0" />
+			</font>
+		</Label>
+		<Label layoutX="43.0" layoutY="138.0" prefHeight="25.0"
+			prefWidth="356.0" text="Hier werden in Zukunft ihre Favoriten angezeigt.">
+			<font>
+				<Font size="16.0" />
+			</font>
+		</Label>
+		<Label layoutX="43.0" layoutY="179.0" prefHeight="25.0"
+			prefWidth="249.0" text="Sie können Jobangebote über die ">
+			<font>
+				<Font size="16.0" />
+			</font>
+		</Label>
+		<Label layoutX="285.0" layoutY="179.0" onMouseClicked="#openSearch"
+			text="Suche" textFill="BLUE" underline="true">
+			<font>
+				<Font size="16.0" />
+			</font>
+			<cursor>
+				<Cursor fx:constant="HAND" />
+			</cursor>
+		</Label>
+		<Label layoutX="328.0" layoutY="179.0" text=" zu ihren Favoriten hinzufügen">
+			<font>
+				<Font size="16.0" />
+			</font>
+		</Label>
+	</children>
+</AnchorPane>
