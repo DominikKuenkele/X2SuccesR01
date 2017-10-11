@@ -1,4 +1,4 @@
-package view;
+package controller;
 
 import java.io.IOException;
 
@@ -25,7 +25,7 @@ public class ViewStart {
 
 		Stage stage = new Stage();
 		stage.setTitle("X2Success - Freelancer");
-		Pane myPane = FXMLLoader.load(getClass().getResource("FRahmen.fxml"));
+		Pane myPane = FXMLLoader.load(getClass().getResource("/view/FRahmen.fxml"));
 		Scene scene = new Scene(myPane);
 		stage.setScene(scene);
 		stage.show();
@@ -38,7 +38,7 @@ public class ViewStart {
 
 		Stage stage = new Stage();
 		stage.setTitle("X2Success - Unternehmen");
-		Pane myPane = FXMLLoader.load(getClass().getResource("URahmen.fxml"));
+		Pane myPane = FXMLLoader.load(getClass().getResource("/view/URahmen.fxml"));
 		Scene scene = new Scene(myPane);
 		stage.setScene(scene);
 		stage.show();

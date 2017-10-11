@@ -7,7 +7,7 @@
 
 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="622.0"
 	prefWidth="913.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="view.ViewUDashboard">
+	fx:controller="controller.ViewUDashboard">
 	<children>
 		<Label layoutX="274.0" layoutY="40.0" text="Willkommen bei X2Success">
 			<font>

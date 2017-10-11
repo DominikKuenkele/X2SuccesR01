@@ -1,4 +1,4 @@
-package view;
+package controller;
 
 import java.io.IOException;
 
@@ -43,7 +43,7 @@ public class ViewFRahmen implements FreelancerObserver {
 
 	private void openSubScene(String datei, String name) {
 		try {
-			Pane myPane = FXMLLoader.load(getClass().getResource(datei));
+			Pane myPane = FXMLLoader.load(getClass().getResource("/view/" + datei));
 			pane.getChildren().clear();
 			pane.getChildren().add(myPane);
 			titel.setText(name);
