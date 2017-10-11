@@ -2,8 +2,10 @@ package controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import application.Verwaltung;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,6 +19,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import model.Freelancerprofil;
+import model.Nutzer;
+import model.Profil;
 
 public class ViewFProfil implements Initializable {
 
@@ -119,7 +124,9 @@ public class ViewFProfil implements Initializable {
 	}
 
 	@FXML
-	void showfreelancer(ActionEvent event) throws IOException { // Eigenes Profil anzeigen
+	void showfreelancer(ActionEvent event) throws IOException { // Eigenes
+																// Profil
+																// anzeigen
 
 		changescene("Freelancerprofil.fxml");
 
@@ -132,14 +139,28 @@ public class ViewFProfil implements Initializable {
 		degree1.setItems(TestListe); // Name der Liste
 		topic1.setValue("Inhalt1"); // Anfangswert
 		topic1.setItems(TestListe); // Name der Liste
-		// language1.setValue("Sprache1"); //Anfangswert
-		// language1.setItems(Sprachen); //Name der Liste
-		// language2.setValue("Sprache2"); //Anfangswert
-		// language2.setItems(Sprachen); //Name der Liste
-		// language3.setValue("Sprache3"); //Anfangswert
-		// language3.setItems(Sprachen); //Name der Liste
-		// language4.setValue("Sprache4"); //Anfangswert
-		// language4.setItems(Sprachen); //Name der Liste
+		language1.setValue("Sprache1"); // Anfangswert
+		language1.setItems(Sprachen); // Name der Liste
+		language2.setValue("Sprache2"); // Anfangswert
+		language2.setItems(Sprachen); // Name der Liste
+		language3.setValue("Sprache3"); // Anfangswert
+		language3.setItems(Sprachen); // Name der Liste
+		language4.setValue("Sprache4"); // Anfangswert
+		language4.setItems(Sprachen); // Name der Liste
+		Verwaltung v = Verwaltung.getInstance();
+		// Nutzer c = v.getCurrentNutzer();
+		Profil p = v.getCurrentProfil();
+		Freelancerprofil f = (Freelancerprofil) v.getCurrentProfil();
+		degree1.setValue(f.getAbschluss());
+		cv.setText(f.getLebenslauf());
+
+		language1.setValue(f.getSprachen());// falsch
+		language1.setValue(f.getSprachen());// falsch
+		language1.setValue(f.getSprachen());// falsch
+		language1.setValue(f.getSprachen());// falsch
+		String skill[] = f.getSkills();
+		skills.setText(skill[0] + "/n" + skill[1] + "/n" + skill[3]);
+		selfDescription.setText(f.getBeschreibung());
 
 	}
 

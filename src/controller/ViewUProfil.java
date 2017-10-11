@@ -4,6 +4,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
+import application.Verwaltung;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import model.Unternehmensprofil;
 
 public class ViewUProfil implements Initializable{
 
@@ -137,6 +139,17 @@ public class ViewUProfil implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		cbranche.setValue("Inhalt1"); //Anfangswert
     	cbranche.setItems(Branche); //Name der Liste
+    	Verwaltung v= Verwaltung.getInstance();
+    	Unternehmensprofil u = (Unternehmensprofil) v.getCurrentProfil();
+    	cbranche.setValue(u.getBenefits());//ändern
+    	cname.setText(u.getName());
+    	cdate.setValue(u.getFounding());
+    	cemployees.setText(Integer.toString(u.getEmployees()));
+    	ccity.setText(u.getAddress().getCity());
+    	cstreet.setText(u.getAddress().getStrasse());
+    	cplz.setText(u.getAddress().getPlz());
+    	cnumber.setText(u.getAddress().getNumber());
+    	cdescription.setText(u.getDescription());
 		
 	}
 

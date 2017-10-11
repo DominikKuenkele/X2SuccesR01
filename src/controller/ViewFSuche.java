@@ -123,10 +123,20 @@ public class ViewFSuche implements Initializable {
 		HashMap<Jobangebot, Integer> searchList = v.sucheJobangebote("", "", "", 1, 2, 5);
 
 		JobangebotAnzeige[] jA = new JobangebotAnzeige[searchList.size()];
+		int r=0;
+		int c=0;
+
 		for (int i = 0; i < searchList.size(); i++) {
+
 			jA[i] = new JobangebotAnzeige();
 			jA[i].setGehalt("4");
-			searchGrid.addRow(i, jA[i]);
+			if (c==3){
+			searchGrid.addRow(r, jA[i]);	
+			r++;
+			c=0;
+			}
+			else searchGrid.add(jA[i], r, c);
+			c++;
 		}
 
 	}
