@@ -154,10 +154,10 @@ public class ViewFProfil implements Initializable {
 		degree1.setValue(f.getAbschluss());
 		cv.setText(f.getLebenslauf());
 
-		language1.setValue(f.getSprachen());// falsch
-		language1.setValue(f.getSprachen());// falsch
-		language1.setValue(f.getSprachen());// falsch
-		language1.setValue(f.getSprachen());// falsch
+		language1.setValue(f.getSprachen().get(0));// falsch
+		language1.setValue(f.getSprachen().get(1));// falsch
+		language1.setValue(f.getSprachen().get(2));// falsch
+		language1.setValue(f.getSprachen().get(3));// falsch
 		String skill[] = f.getSkills();
 		skills.setText(skill[0] + "/n" + skill[1] + "/n" + skill[3]);
 		selfDescription.setText(f.getBeschreibung());
