@@ -17,16 +17,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import util.exception.DBException;
 import util.exception.UserInputException;
 
-public class ViewFRegistrierung implements Initializable{
-	
-	
-	ObservableList<String> GenderList = FXCollections.observableArrayList("Männlich","Weiblich","Anderes");
+public class ViewFRegistrierung implements Initializable {
+
+	ObservableList<String> GenderList = FXCollections.observableArrayList("Männlich", "Weiblich", "Anderes");
 
 	private Verwaltung verwaltung;
 
@@ -65,28 +64,26 @@ public class ViewFRegistrierung implements Initializable{
 
 	@FXML
 	private Button addfreelancerb;
-	
+
 	@FXML
 	private Button addcompanyb;
-	
-	
 
 	@FXML
-	 void changescene(String fxmlname) throws IOException {
-		 
-		 //schliesst aktuelles Fenster
-	 	Stage stage2 = (Stage) addfreelancerb.getScene().getWindow();
-	        stage2.close();
-	 	
-		 Stage stage = new Stage();
-	     stage.setTitle("X2Success");
-	     Pane myPane = null;
-	     myPane = FXMLLoader.load(getClass().getResource(fxmlname));
-	     Scene scene = new Scene(myPane);
-	     stage.setScene(scene);
-	     stage.show();
+	void changescene(String fxmlname) throws IOException {
 
-	 }
+		// schliesst aktuelles Fenster
+		Stage stage2 = (Stage) addfreelancerb.getScene().getWindow();
+		stage2.close();
+
+		Stage stage = new Stage();
+		stage.setTitle("X2Success");
+		Pane myPane = null;
+		myPane = FXMLLoader.load(getClass().getResource(fxmlname));
+		Scene scene = new Scene(myPane);
+		stage.setScene(scene);
+		stage.show();
+
+	}
 
 	@FXML
 	private void NutzerAnlegen() {
@@ -113,7 +110,7 @@ public class ViewFRegistrierung implements Initializable{
 			try {
 				verwaltung.register(vorname, nachname, geschlecht, stadt, plz, strasse, hausnummer, localDate, eMail,
 						passwort);
-			} catch (UserInputException e) {
+			} catch (UserInputException | DBException e) {
 				// TODO VALIDIERUNG!
 				e.printStackTrace();
 			}
@@ -121,23 +118,23 @@ public class ViewFRegistrierung implements Initializable{
 			// (eMail,passwort,Vorname,Nachname,Geschlecht,Geburtsdatum);
 		}
 	}
-	
 
-    @FXML
-    void addcompanyb(ActionEvent event) throws IOException {
-    	NutzerAnlegen();
-    	changescene("Unternehmensregistration.fxml");
-    }
+	@FXML
+	void addcompanyb(ActionEvent event) throws IOException {
+		NutzerAnlegen();
+		changescene("Unternehmensregistration.fxml");
+	}
 
-    @FXML
-    void addfreelancer(ActionEvent event) throws IOException {
-    	NutzerAnlegen();
-    	changescene("Freelancerregistration.fxml");
-    }
-    @Override
+	@FXML
+	void addfreelancer(ActionEvent event) throws IOException {
+		NutzerAnlegen();
+		changescene("Freelancerregistration.fxml");
+	}
+
+	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		UserGeschlecht.setValue("Geschlecht auswählen"); //Anfangswert
-    	UserGeschlecht.setItems(GenderList); //Name der Liste
+		UserGeschlecht.setValue("Geschlecht auswählen"); // Anfangswert
+		UserGeschlecht.setItems(GenderList); // Name der Liste
 	}
 
 }

@@ -19,34 +19,31 @@ public class AbschlussDAO {
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 
-	private void open() throws SQLException, ClassNotFoundException {
+	private void open() throws SQLException {
 		DBConnection dbconnection = new DBConnection();
 		connect = dbconnection.getConnection();
 	}
 
-	private void close() {
-		try {
-			if (resultSet != null) {
-				resultSet.close();
-			}
+	private void close() throws SQLException {
+		if (resultSet != null) {
+			resultSet.close();
+		}
 
-			if (preparedStatement != null) {
-				preparedStatement.close();
-			}
+		if (preparedStatement != null) {
+			preparedStatement.close();
+		}
 
-			if (connect != null) {
-				connect.close();
-			}
-		} catch (SQLException e) {
-			System.out.println(e); // TODO syso
+		if (connect != null) {
+			connect.close();
 		}
 	}
 
 	/**
 	 * @param gid
-	 * @return a {@link model.Freelancerprofil} with given ID
+	 * @return the name of the graduation with given ID
+	 * @throws SQLException
 	 */
-	public String getAbschluss(int gid) {
+	public String getAbschluss(int gid) throws SQLException {
 		try {
 			open();
 			preparedStatement = connect.prepareStatement("SELECT graduation FROM graduation WHERE GID=?");
@@ -54,12 +51,6 @@ public class AbschlussDAO {
 
 			resultSet = preparedStatement.executeQuery();
 			return getAbschlussFromResultSet(resultSet).get(0);
-		} catch (SQLException e) {
-			System.out.println(e); // TODO syso
-			return null;
-		} catch (ClassNotFoundException e) {
-			System.out.println(e);
-			return null;
 		} finally {
 			close();
 		}
@@ -67,9 +58,10 @@ public class AbschlussDAO {
 
 	/**
 	 * @param abschluss
-	 * @return a {@link model.Freelancerprofil} with given ID
+	 * @return the id of the graduation with given name
+	 * @throws SQLException
 	 */
-	public int getAbschluss(String abschluss) {
+	public int getAbschluss(String abschluss) throws SQLException {
 		int gid = -1;
 		try {
 			open();
@@ -80,10 +72,6 @@ public class AbschlussDAO {
 			while (resultSet.next()) {
 				gid = resultSet.getInt("GID");
 			}
-		} catch (SQLException e) {
-			System.out.println(e); // TODO syso
-		} catch (ClassNotFoundException e) {
-			System.out.println(e);
 		} finally {
 			close();
 		}

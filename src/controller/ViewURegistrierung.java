@@ -21,6 +21,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import util.exception.DBException;
 import util.exception.UserInputException;
 
 public class ViewURegistrierung implements Initializable {
@@ -97,7 +98,7 @@ public class ViewURegistrierung implements Initializable {
 			verwaltung.createUnternehmen(name, form, plz, stadt, strasse, hausnummer, gruendung, mitarbeiter,
 					beschreibung, "benefits", "www.test.de", "Vorname", "Nachname");
 			switchScene("Unternehmen_Home_Dashboard_nofavs.fxml");
-		} catch (UserInputException e) {
+		} catch (UserInputException | DBException e) {
 			Alert alert = new Alert(AlertType.ERROR); // Statt .Error geht auch .Warning etc
 			alert.setTitle("Error"); // Fenstername
 			alert.setHeaderText("Registrierung fehlgeschlagen");
@@ -109,6 +110,7 @@ public class ViewURegistrierung implements Initializable {
 			// Höchste UnternehmensID aus DB holen
 			// UID = UID+1;
 			// Unternehmensprofil XY =new Unternehmensprofil(Name,Beschreibung,Branche,)
+
 		}
 
 	}

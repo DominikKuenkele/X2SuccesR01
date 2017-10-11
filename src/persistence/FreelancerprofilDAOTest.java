@@ -3,6 +3,8 @@
  */
 package persistence;
 
+import java.sql.SQLException;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -50,8 +52,14 @@ public class FreelancerprofilDAOTest {
 	 */
 	@Test
 	public void testGetFreelancerprofil() {
-		Freelancerprofil f = new FreelancerprofilDAO().getFreelancerprofil(5);
-		System.out.println(f);
+		Freelancerprofil f;
+		try {
+			f = new FreelancerprofilDAO().getFreelancerprofil(5);
+			System.out.println(f);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	// /**

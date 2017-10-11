@@ -23,34 +23,31 @@ public class UnternehmensprofilDAO {
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 
-	private void open() throws SQLException, ClassNotFoundException {
+	private void open() throws SQLException {
 		DBConnection dbconnection = new DBConnection();
 		connect = dbconnection.getConnection();
 	}
 
-	private void close() {
-		try {
-			if (resultSet != null) {
-				resultSet.close();
-			}
+	private void close() throws SQLException {
+		if (resultSet != null) {
+			resultSet.close();
+		}
 
-			if (preparedStatement != null) {
-				preparedStatement.close();
-			}
+		if (preparedStatement != null) {
+			preparedStatement.close();
+		}
 
-			if (connect != null) {
-				connect.close();
-			}
-		} catch (SQLException e) {
-			System.out.println(e); // TODO syso
+		if (connect != null) {
+			connect.close();
 		}
 	}
 
 	/**
 	 * @param unternehmen
 	 * @return the generated ID of the new {@link model.Unternehmensprofil}
+	 * @throws SQLException
 	 */
-	public int addUnternehmensprofil(Unternehmensprofil unternehmen) {
+	public int addUnternehmensprofil(Unternehmensprofil unternehmen) throws SQLException {
 		Adresse address = unternehmen.getAddress();
 		int nutzerId = unternehmen.getNutzer().getId();
 		int uid = -1;
@@ -80,10 +77,6 @@ public class UnternehmensprofilDAO {
 			while (resultSet.next()) {
 				uid = resultSet.getInt("last_insert_id()");
 			}
-		} catch (SQLException e) {
-			System.out.println(e); // TODO syso
-		} catch (ClassNotFoundException e) {
-			System.out.println(e);
 		} finally {
 			close();
 		}
@@ -93,8 +86,9 @@ public class UnternehmensprofilDAO {
 	/**
 	 * @param uid
 	 * @return a {@link model.Unternehmensprofil} with given ID
+	 * @throws SQLException
 	 */
-	public Unternehmensprofil getUnternehmensprofil(int uid) {
+	public Unternehmensprofil getUnternehmensprofil(int uid) throws SQLException {
 		try {
 			open();
 			preparedStatement = connect
@@ -105,12 +99,6 @@ public class UnternehmensprofilDAO {
 
 			resultSet = preparedStatement.executeQuery();
 			return getUnternehmensprofilFromResultSet(resultSet).get(0);
-		} catch (SQLException e) {
-			System.out.println(e); // TODO syso
-			return null;
-		} catch (ClassNotFoundException e) {
-			System.out.println(e);
-			return null;
 		} finally {
 			close();
 		}
@@ -119,8 +107,9 @@ public class UnternehmensprofilDAO {
 	/**
 	 * @return a List of all {@link model.Unternehmensprofil Unternehmensprofile} in
 	 *         database
+	 * @throws SQLException
 	 */
-	public List<Unternehmensprofil> getAllUnternehmen() {
+	public List<Unternehmensprofil> getAllUnternehmen() throws SQLException {
 		try {
 			open();
 			preparedStatement = connect
@@ -129,12 +118,6 @@ public class UnternehmensprofilDAO {
 							+ "number FROM Unternehmensprofil");
 			resultSet = preparedStatement.executeQuery();
 			return getUnternehmensprofilFromResultSet(resultSet);
-		} catch (SQLException e) {
-			System.out.println(e); // TODO syso
-			return null;
-		} catch (ClassNotFoundException e) {
-			System.out.println(e);
-			return null;
 		} finally {
 			close();
 		}
@@ -142,18 +125,15 @@ public class UnternehmensprofilDAO {
 
 	/**
 	 * @param uid
+	 * @throws SQLException
 	 */
-	public void deleteUnternehmensprofil(int uid) {
+	public void deleteUnternehmensprofil(int uid) throws SQLException {
 		try {
 			open();
 			preparedStatement = connect.prepareStatement("DELETE FROM Unternehmesnprofil WHERE UID = ?");
 			preparedStatement.setInt(1, uid);
 
 			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			System.out.println(e); // TODO syso
-		} catch (ClassNotFoundException e) {
-			System.out.println(e);
 		} finally {
 			close();
 		}
@@ -186,7 +166,7 @@ public class UnternehmensprofilDAO {
 				tempUnternehmen.setId(unternehmensId);
 				result.add(tempUnternehmen);
 			} catch (ValidateConstrArgsException e) {
-				e.printStackTrace();
+				throw new SQLException("Datenbank ist inkonsistent!", e);
 			}
 		}
 		return result;
@@ -194,8 +174,9 @@ public class UnternehmensprofilDAO {
 
 	/**
 	 * @param aUnternehmen
+	 * @throws SQLException
 	 */
-	public void changeUnternehmen(Unternehmensprofil aUnternehmen) {
+	public void changeUnternehmen(Unternehmensprofil aUnternehmen) throws SQLException {
 		Adresse address = aUnternehmen.getAddress();
 		int nutzerId = aUnternehmen.getNutzer().getId();
 		try {
@@ -220,10 +201,6 @@ public class UnternehmensprofilDAO {
 			preparedStatement.setString(14, address.getNumber());
 			preparedStatement.setInt(15, aUnternehmen.getId());
 			preparedStatement.executeUpdate();
-		} catch (final SQLException e) {
-			System.out.println(e); // TODO syso
-		} catch (final ClassNotFoundException e) {
-			System.out.println(e);
 		} finally {
 			close();
 		}

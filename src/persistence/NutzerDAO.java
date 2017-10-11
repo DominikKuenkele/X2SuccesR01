@@ -24,36 +24,34 @@ public class NutzerDAO {
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 
-	private void open() throws SQLException, ClassNotFoundException {
+	private void open() throws SQLException {
 		final DBConnection dbconnection = new DBConnection();
 		this.connect = dbconnection.getConnection();
 	}
 
 	// You need to close the resultSet
-	private void close() {
-		try {
-			if (this.resultSet != null) {
-				this.resultSet.close();
-			}
-
-			if (this.preparedStatement != null) {
-				this.preparedStatement.close();
-			}
-
-			if (this.connect != null) {
-				this.connect.close();
-			}
-		} catch (final SQLException e) {
-			System.out.println(e); // TODO syso
+	private void close() throws SQLException {
+		if (this.resultSet != null) {
+			this.resultSet.close();
 		}
+
+		if (this.preparedStatement != null) {
+			this.preparedStatement.close();
+		}
+
+		if (this.connect != null) {
+			this.connect.close();
+		}
+
 	}
 
 	/**
 	 * @param nutzer
 	 * @return the generated ID of the new {@link model.Nutzer}
 	 * @throws DuplicateEntryException
+	 * @throws SQLException
 	 */
-	public int addNutzer(final Nutzer nutzer) throws DuplicateEntryException {
+	public int addNutzer(final Nutzer nutzer) throws DuplicateEntryException, SQLException {
 		final Adresse address = nutzer.getAddress();
 		int nid = -1;
 		if (getNutzer(nutzer.geteMail()) != null) {
@@ -82,10 +80,6 @@ public class NutzerDAO {
 			while (this.resultSet.next()) {
 				nid = this.resultSet.getInt("last_insert_id()");
 			}
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		} catch (final ClassNotFoundException e) {
-			System.out.println(e);
 		} finally {
 			close();
 		}
@@ -115,8 +109,7 @@ public class NutzerDAO {
 				result.add(tempNutzer);
 
 			} catch (final ValidateConstrArgsException e) {
-				// TODO Validaiation
-				e.printStackTrace();
+				throw new SQLException("Datenbank ist inkonsistent!", e);
 			}
 		}
 		return result;
@@ -125,8 +118,9 @@ public class NutzerDAO {
 	/**
 	 * @param eMail
 	 * @return a {@link model.Nutzer} with given ID
+	 * @throws SQLException
 	 */
-	public Nutzer getNutzer(final String eMail) {
+	public Nutzer getNutzer(final String eMail) throws SQLException {
 		try {
 			open();
 			this.preparedStatement = this.connect.prepareStatement("SELECT * FROM Nutzer WHERE eMail = ?");
@@ -139,12 +133,6 @@ public class NutzerDAO {
 			} else {
 				return result.get(0);
 			}
-		} catch (final SQLException e) {
-			System.out.println(e); // TODO syso
-			return null;
-		} catch (final ClassNotFoundException e) {
-			System.out.println(e);
-			return null;
 		} finally {
 			close();
 		}
@@ -153,8 +141,9 @@ public class NutzerDAO {
 	/**
 	 * @param id
 	 * @return a {@link model.Nutzer} with given eMail
+	 * @throws SQLException
 	 */
-	public Nutzer getNutzer(final int id) {
+	public Nutzer getNutzer(final int id) throws SQLException {
 		try {
 			open();
 			this.preparedStatement = this.connect.prepareStatement("SELECT * FROM Nutzer WHERE NID = ?");
@@ -162,12 +151,6 @@ public class NutzerDAO {
 
 			this.resultSet = this.preparedStatement.executeQuery();
 			return getNutzerFromResultSet(this.resultSet).get(0);
-		} catch (final SQLException e) {
-			System.out.println(e); // TODO syso
-			return null;
-		} catch (final ClassNotFoundException e) {
-			System.out.println(e);
-			return null;
 		} finally {
 			close();
 		}
@@ -175,19 +158,14 @@ public class NutzerDAO {
 
 	/**
 	 * @return a List of all {@link model.Nutzer Nutzer} in database
+	 * @throws SQLException
 	 */
-	public List<Nutzer> getAllNutzer() {
+	public List<Nutzer> getAllNutzer() throws SQLException {
 		try {
 			open();
 			this.preparedStatement = this.connect.prepareStatement("SELECT * FROM Nutzer");
 			this.resultSet = this.preparedStatement.executeQuery();
 			return getNutzerFromResultSet(this.resultSet);
-		} catch (final SQLException e) {
-			System.out.println(e); // TODO syso
-			return null;
-		} catch (final ClassNotFoundException e) {
-			System.out.println(e);
-			return null;
 		} finally {
 			close();
 		}
@@ -195,8 +173,9 @@ public class NutzerDAO {
 
 	/**
 	 * @param nutzer
+	 * @throws SQLException
 	 */
-	public void changeNutzer(Nutzer nutzer) {
+	public void changeNutzer(Nutzer nutzer) throws SQLException {
 		final Adresse address = nutzer.getAddress();
 		try {
 			open();
@@ -214,10 +193,6 @@ public class NutzerDAO {
 			this.preparedStatement.setString(9, nutzer.getStatus().getText());
 			this.preparedStatement.setInt(10, nutzer.getId());
 			this.preparedStatement.executeUpdate();
-		} catch (final SQLException e) {
-			System.out.println(e); // TODO syso
-		} catch (final ClassNotFoundException e) {
-			System.out.println(e);
 		} finally {
 			close();
 		}
@@ -225,18 +200,15 @@ public class NutzerDAO {
 
 	/**
 	 * @param eMail
+	 * @throws SQLException
 	 */
-	public void deleteNutzer(final String eMail) {
+	public void deleteNutzer(final String eMail) throws SQLException {
 		try {
 			open();
 			this.preparedStatement = this.connect.prepareStatement("DELETE FROM Nutzer WHERE eMail = ?");
 			this.preparedStatement.setString(1, eMail);
 
 			this.preparedStatement.executeUpdate();
-		} catch (final SQLException e) {
-			System.out.println(e); // TODO syso
-		} catch (final ClassNotFoundException e) {
-			System.out.println(e);
 		} finally {
 			close();
 		}

@@ -1,5 +1,6 @@
 package application;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -17,6 +18,7 @@ import persistence.JobangebotDAO;
 import persistence.NutzerDAO;
 import persistence.UnternehmensprofilDAO;
 import util.PassHash;
+import util.exception.DBException;
 import util.exception.DuplicateEntryException;
 import util.exception.UserInputException;
 import util.exception.ValidateConstrArgsException;
@@ -82,10 +84,11 @@ public class Verwaltung extends Subject {
 	 * @param eMail
 	 * @param password
 	 * @throws UserInputException
+	 * @throws DBException
 	 */
 	public void register(final String fName, final String lName, final String sex, final String plz, final String city,
 			final String street, final String number, final LocalDate date, final String eMail, final String password)
-			throws UserInputException {
+			throws UserInputException, DBException {
 		try {
 			final String passHash = PassHash.generateStrongPasswordHash(password);
 			final Nutzer nutzer = new Nutzer(fName, lName, sex, date, eMail, passHash,
@@ -95,6 +98,9 @@ public class Verwaltung extends Subject {
 			setCurrentNutzer(nutzer);
 		} catch (ValidateConstrArgsException | DuplicateEntryException e) {
 			throw new UserInputException(e.getMessage());
+		} catch (SQLException e) {
+			throw new DBException(
+					"Auf die Datenbank kann im Moment nicht zugegriffen werden. Versuchen Sie es später erneut!");
 		}
 
 	}
@@ -114,11 +120,12 @@ public class Verwaltung extends Subject {
 	 * @param ceoFirstName
 	 * @param ceoLastName
 	 * @throws UserInputException
+	 * @throws DBException
 	 */
 	public void createUnternehmen(final String name, final String form, final String plz, final String city,
 			final String street, final String number, final LocalDate founding, final int employees,
 			final String description, final String benefits, final String website, final String ceoFirstName,
-			final String ceoLastName) throws UserInputException {
+			final String ceoLastName) throws UserInputException, DBException {
 		if (this.currentNutzer.getStatus() == Status.F) {
 			throw new UserInputException("Nutzer ist schon Freelancer!");
 		}
@@ -134,6 +141,9 @@ public class Verwaltung extends Subject {
 			new NutzerDAO().changeNutzer(currentNutzer);
 		} catch (final ValidateConstrArgsException e) {
 			throw new UserInputException(e.getMessage());
+		} catch (SQLException e) {
+			throw new DBException(
+					"Auf die Datenbank kann im Moment nicht zugegriffen werden. Versuchen Sie es später erneut!");
 		}
 	}
 
@@ -152,11 +162,12 @@ public class Verwaltung extends Subject {
 	 * @param ceoFirstName
 	 * @param ceoLastName
 	 * @throws UserInputException
+	 * @throws DBException
 	 */
 	public void changeUnternehmen(final String name, final String form, final String plz, final String city,
 			final String street, final String number, final LocalDate founding, final int employees,
 			final String description, final String benefits, final String website, final String ceoFirstName,
-			final String ceoLastName) throws UserInputException {
+			final String ceoLastName) throws UserInputException, DBException {
 		try {
 			final Unternehmensprofil unternehmen = new Unternehmensprofil(name, form,
 					new Adresse(plz, city, street, number), founding, employees, description, benefits, website,
@@ -166,6 +177,9 @@ public class Verwaltung extends Subject {
 			setCurrentUnternehmensprofil(unternehmen);
 		} catch (final ValidateConstrArgsException e) {
 			throw new UserInputException(e.getMessage());
+		} catch (SQLException e) {
+			throw new DBException(
+					"Auf die Datenbank kann im Moment nicht zugegriffen werden. Versuchen Sie es später erneut!");
 		}
 	}
 
@@ -178,10 +192,11 @@ public class Verwaltung extends Subject {
 	 * @param benefits
 	 * @param sprachen
 	 * @throws UserInputException
+	 * @throws DBException
 	 */
 	public void createFreelancer(final String abschluss, final String branche, final String beschreibung,
 			final String[] skills, final String lebenslauf, final String benefits, final List<String> sprachen)
-			throws UserInputException {
+			throws UserInputException, DBException {
 		if (this.currentNutzer.getStatus() == Status.U) {
 			throw new UserInputException("Nutzer ist schon Unternehmer!");
 		}
@@ -196,6 +211,9 @@ public class Verwaltung extends Subject {
 			new NutzerDAO().changeNutzer(currentNutzer);
 		} catch (final ValidateConstrArgsException e) {
 			throw new UserInputException(e.getMessage());
+		} catch (SQLException e) {
+			throw new DBException(
+					"Auf die Datenbank kann im Moment nicht zugegriffen werden. Versuchen Sie es später erneut!");
 		}
 	}
 
@@ -208,10 +226,11 @@ public class Verwaltung extends Subject {
 	 * @param gehalt
 	 * @param wochenstunden
 	 * @throws UserInputException
+	 * @throws DBException
 	 */
 	public void createJobangebot(final String abschluss, final String branche, final List<String> sprachen,
 			final String beschreibung, final LocalDate frist, final int gehalt, final int wochenstunden)
-			throws UserInputException {
+			throws UserInputException, DBException {
 		if (this.currentNutzer.getStatus() == Status.F) {
 			throw new UserInputException("Ein Freelancer kann kein Jobangebot erstellen.");
 		}
@@ -222,6 +241,9 @@ public class Verwaltung extends Subject {
 			jobangebot.setId(jid);
 		} catch (final ValidateConstrArgsException e) {
 			throw new UserInputException(e.getMessage());
+		} catch (SQLException e) {
+			throw new DBException(
+					"Auf die Datenbank kann im Moment nicht zugegriffen werden. Versuchen Sie es später erneut!");
 		}
 	}
 
@@ -235,10 +257,11 @@ public class Verwaltung extends Subject {
 	 * @param number
 	 * @param date
 	 * @throws UserInputException
+	 * @throws DBException
 	 */
 	public void changeNutzer(final String fName, final String lName, final String sex, final String plz,
 			final String city, final String street, final String number, final LocalDate date)
-			throws UserInputException {
+			throws UserInputException, DBException {
 		try {
 			final Nutzer nutzer = new Nutzer(fName, lName, sex, date, this.currentNutzer.geteMail(),
 					this.currentNutzer.getPassword(), new Adresse(plz, city, street, number),
@@ -248,23 +271,31 @@ public class Verwaltung extends Subject {
 			setCurrentNutzer(nutzer);
 		} catch (final ValidateConstrArgsException e) {
 			throw new UserInputException(e.getMessage());
+		} catch (SQLException e) {
+			throw new DBException(
+					"Auf die Datenbank kann im Moment nicht zugegriffen werden. Versuchen Sie es später erneut!");
 		}
 	}
 
 	/**
 	 * @param eMail
 	 * @param password
-	 * @return if login was successful
+	 * @return true, if login was successful
 	 */
 	public boolean login(final String eMail, final String password) {
-		final Nutzer nutzer = new NutzerDAO().getNutzer(eMail);
-		final boolean validation = PassHash.validatePassword(password, nutzer.getPassword());
-		if (validation == false) {
-			return false;
-		} else {
-			setCurrentNutzer(nutzer);
-			return true;
+		boolean result = false;
+		try {
+			Nutzer nutzer = new NutzerDAO().getNutzer(eMail);
+			final boolean validation = PassHash.validatePassword(password, nutzer.getPassword());
+
+			if (validation == true) {
+				setCurrentNutzer(nutzer);
+				result = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
+		return result;
 	}
 
 	/**

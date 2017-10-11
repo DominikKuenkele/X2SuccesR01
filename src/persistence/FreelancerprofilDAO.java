@@ -23,34 +23,31 @@ public class FreelancerprofilDAO {
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 
-	private void open() throws SQLException, ClassNotFoundException {
+	private void open() throws SQLException {
 		DBConnection dbconnection = new DBConnection();
 		connect = dbconnection.getConnection();
 	}
 
-	private void close() {
-		try {
-			if (resultSet != null) {
-				resultSet.close();
-			}
+	private void close() throws SQLException {
+		if (resultSet != null) {
+			resultSet.close();
+		}
 
-			if (preparedStatement != null) {
-				preparedStatement.close();
-			}
+		if (preparedStatement != null) {
+			preparedStatement.close();
+		}
 
-			if (connect != null) {
-				connect.close();
-			}
-		} catch (SQLException e) {
-			System.out.println(e); // TODO syso
+		if (connect != null) {
+			connect.close();
 		}
 	}
 
 	/**
 	 * @param freelancer
 	 * @return the generated ID of the new {@link model.Freelancerprofil}
+	 * @throws SQLException
 	 */
-	public int addFreelancerprofil(Freelancerprofil freelancer) {
+	public int addFreelancerprofil(Freelancerprofil freelancer) throws SQLException {
 		int nutzerId = freelancer.getNutzer().getId();
 		int fid = -1;
 		try {
@@ -88,10 +85,6 @@ public class FreelancerprofilDAO {
 
 				preparedStatement.executeUpdate();
 			}
-		} catch (SQLException e) {
-			System.out.println(e); // TODO syso
-		} catch (ClassNotFoundException e) {
-			System.out.println(e);
 		} finally {
 			close();
 		}
@@ -101,8 +94,9 @@ public class FreelancerprofilDAO {
 	/**
 	 * @param fid
 	 * @return a {@link model.Freelancerprofil} with given ID
+	 * @throws SQLException
 	 */
-	public Freelancerprofil getFreelancerprofil(int fid) {
+	public Freelancerprofil getFreelancerprofil(int fid) throws SQLException {
 		try {
 			open();
 			preparedStatement = connect.prepareStatement(
@@ -114,22 +108,17 @@ public class FreelancerprofilDAO {
 
 			resultSet = preparedStatement.executeQuery();
 			return getFreelancerprofilFromResultSet(resultSet).get(0);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		} catch (ClassNotFoundException e) {
-			System.out.println(e);
-			return null;
 		} finally {
 			close();
 		}
 	}
 
 	/**
-	 * @return a List of all {@link model.Freelancerprofil Freelancerprofile} in
+	 * @return a List of all {@link model.Freelancerprofil Freelancerprofile} in the
 	 *         database
+	 * @throws SQLException
 	 */
-	public List<Freelancerprofil> getAllFreelancer() {
+	public List<Freelancerprofil> getAllFreelancer() throws SQLException {
 		try {
 			open();
 			preparedStatement = connect.prepareStatement(
@@ -139,12 +128,6 @@ public class FreelancerprofilDAO {
 							+ "INNER JOIN branche ON freelancerprofil.GID=branche.BID");
 			resultSet = preparedStatement.executeQuery();
 			return getFreelancerprofilFromResultSet(resultSet);
-		} catch (SQLException e) {
-			System.out.println(e); // TODO syso
-			return null;
-		} catch (ClassNotFoundException e) {
-			System.out.println(e);
-			return null;
 		} finally {
 			close();
 		}
@@ -152,18 +135,15 @@ public class FreelancerprofilDAO {
 
 	/**
 	 * @param fid
+	 * @throws SQLException
 	 */
-	public void deleteFreelancerprofil(int fid) {
+	public void deleteFreelancerprofil(int fid) throws SQLException {
 		try {
 			open();
 			preparedStatement = connect.prepareStatement("DELETE FROM Freelancer WHERE fid = ?");
 			preparedStatement.setInt(1, fid);
 
 			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			System.out.println(e); // TODO syso
-		} catch (ClassNotFoundException e) {
-			System.out.println(e);
 		} finally {
 			close();
 		}
@@ -191,7 +171,7 @@ public class FreelancerprofilDAO {
 				tempFreelancer.setId(freelancerId);
 				result.add(tempFreelancer);
 			} catch (ValidateConstrArgsException e) {
-				e.printStackTrace();
+				throw new SQLException("Datenbank ist inkonsistent!", e);
 			}
 		}
 		return result;
@@ -211,8 +191,6 @@ public class FreelancerprofilDAO {
 				String sprache = new SpracheDAO().getSprache(sid);
 				result.add(sprache);
 			}
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
 		} finally {
 			resultSetSprache.close();
 		}

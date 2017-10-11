@@ -16,34 +16,31 @@ public class SpracheDAO {
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 
-	private void open() throws SQLException, ClassNotFoundException {
+	private void open() throws SQLException {
 		DBConnection dbconnection = new DBConnection();
 		connect = dbconnection.getConnection();
 	}
 
-	private void close() {
-		try {
-			if (resultSet != null) {
-				resultSet.close();
-			}
+	private void close() throws SQLException {
+		if (resultSet != null) {
+			resultSet.close();
+		}
 
-			if (preparedStatement != null) {
-				preparedStatement.close();
-			}
+		if (preparedStatement != null) {
+			preparedStatement.close();
+		}
 
-			if (connect != null) {
-				connect.close();
-			}
-		} catch (SQLException e) {
-			System.out.println(e); // TODO syso
+		if (connect != null) {
+			connect.close();
 		}
 	}
 
 	/**
 	 * @param sprache
 	 * @return the Id with given language
+	 * @throws SQLException
 	 */
-	public int getId(String sprache) {
+	public int getId(String sprache) throws SQLException {
 		int result = 0;
 		try {
 			open();
@@ -56,10 +53,6 @@ public class SpracheDAO {
 				int sid = resultSet.getInt("SID");
 				result = sid;
 			}
-		} catch (SQLException e) {
-			System.out.println(e); // TODO syso
-		} catch (ClassNotFoundException e) {
-			System.out.println(e);
 		} finally {
 			close();
 		}
@@ -67,10 +60,11 @@ public class SpracheDAO {
 	}
 
 	/**
-	 * @param id
+	 * @param sid
 	 * @return the language with given id
+	 * @throws SQLException
 	 */
-	public String getSprache(int sid) {
+	public String getSprache(int sid) throws SQLException {
 		String result = "";
 		try {
 			open();
@@ -79,10 +73,6 @@ public class SpracheDAO {
 
 			resultSet = preparedStatement.executeQuery();
 			result = getSpracheFromResultSet(resultSet).get(0);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			System.out.println(e);
 		} finally {
 			close();
 		}
@@ -91,18 +81,15 @@ public class SpracheDAO {
 
 	/**
 	 * @return a list of all languages in database
+	 * @throws SQLException
 	 */
-	public List<String> getAllSprachen() {
+	public List<String> getAllSprachen() throws SQLException {
 		List<String> result = new LinkedList<>();
 		try {
 			open();
 			preparedStatement = connect.prepareStatement("SELECT * FROM Sprachen");
 			resultSet = preparedStatement.executeQuery();
 			result = getSpracheFromResultSet(resultSet);
-		} catch (SQLException e) {
-			System.out.println(e); // TODO syso
-		} catch (ClassNotFoundException e) {
-			System.out.println(e);
 		} finally {
 			close();
 		}

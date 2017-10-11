@@ -19,34 +19,32 @@ public class BrancheDAO {
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 
-	private void open() throws SQLException, ClassNotFoundException {
+	private void open() throws SQLException {
 		DBConnection dbconnection = new DBConnection();
 		connect = dbconnection.getConnection();
 	}
 
-	private void close() {
-		try {
-			if (resultSet != null) {
-				resultSet.close();
-			}
-
-			if (preparedStatement != null) {
-				preparedStatement.close();
-			}
-
-			if (connect != null) {
-				connect.close();
-			}
-		} catch (SQLException e) {
-			System.out.println(e); // TODO syso
+	private void close() throws SQLException {
+		if (resultSet != null) {
+			resultSet.close();
 		}
+
+		if (preparedStatement != null) {
+			preparedStatement.close();
+		}
+
+		if (connect != null) {
+			connect.close();
+		}
+
 	}
 
 	/**
 	 * @param bid
-	 * @return a {@link model.Freelancerprofil} with given ID
+	 * @return the name of the branche with given ID
+	 * @throws SQLException
 	 */
-	public String getBranche(int bid) {
+	public String getBranche(int bid) throws SQLException {
 		try {
 			open();
 			preparedStatement = connect.prepareStatement("SELECT branche FROM branche WHERE BID=?");
@@ -54,12 +52,6 @@ public class BrancheDAO {
 
 			resultSet = preparedStatement.executeQuery();
 			return getBrancheFromResultSet(resultSet).get(0);
-		} catch (SQLException e) {
-			System.out.println(e); // TODO syso
-			return null;
-		} catch (ClassNotFoundException e) {
-			System.out.println(e);
-			return null;
 		} finally {
 			close();
 		}
@@ -67,9 +59,10 @@ public class BrancheDAO {
 
 	/**
 	 * @param branche
-	 * @return a {@link model.Freelancerprofil} with given ID
+	 * @return the id of the branche with given name
+	 * @throws SQLException
 	 */
-	public int getBranche(String branche) {
+	public int getBranche(String branche) throws SQLException {
 		int bid = -1;
 		try {
 			open();
@@ -80,10 +73,6 @@ public class BrancheDAO {
 			while (resultSet.next()) {
 				bid = resultSet.getInt("BID");
 			}
-		} catch (SQLException e) {
-			System.out.println(e); // TODO syso
-		} catch (ClassNotFoundException e) {
-			System.out.println(e);
 		} finally {
 			close();
 		}
