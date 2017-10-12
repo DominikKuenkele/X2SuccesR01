@@ -5,20 +5,31 @@ package view;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 /**
  * @author domin
  *
  */
 public class JobangebotAnzeige extends AnchorPane {
+	
+	private AnchorPane pane;
+	
 
 	private ImageView imgImageView;
 	private Label nameLabel;
@@ -47,9 +58,10 @@ public class JobangebotAnzeige extends AnchorPane {
 	private final String GEHALT_EINHEIT = " EURO/Monat";
 
 	/**
+	 * @throws IOException 
 	 * 
 	 */
-	public JobangebotAnzeige() {
+	public JobangebotAnzeige() throws IOException {
 		super();
 		setMinWidth(220);
 		setMinHeight(260);
@@ -108,6 +120,19 @@ public class JobangebotAnzeige extends AnchorPane {
 		getChildren().add(beschreibungLabel);
 		getChildren().add(wochenstundenLabel);
 		getChildren().add(gehaltLabel);
+		pane.setOnMouseClicked(openoffer()); //DOMINIK!!! ANSCHAUEN!!!
+		
+	}
+
+	private EventHandler<? super MouseEvent> openoffer() throws IOException {
+		Stage stage = new Stage();
+		stage.setTitle("X2Success");
+		Pane myPane = null;
+		myPane = FXMLLoader.load(getClass().getResource("UJobangebot.fxml"));
+		Scene scene = new Scene(myPane);
+		stage.setScene(scene);
+		stage.show();
+		return null;
 	}
 
 	public void setName(String name) {

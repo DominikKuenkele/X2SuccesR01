@@ -104,7 +104,7 @@ public class ViewFProfil implements Initializable {
 																// Profil
 																// anzeigen
 
-		changescene("Freelancerprofil.fxml");
+		changescene("FProfil.fxml");
 
 	}
 

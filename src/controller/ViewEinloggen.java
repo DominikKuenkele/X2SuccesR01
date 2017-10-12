@@ -44,17 +44,11 @@ public class ViewEinloggen {
 
 		// PW und Benutzernamen prüfen
 		if (true) { // Wenn Benutzer Freelancer ist
-			if (true) {
-				changescene("User_Home_Dashboards_nofavs.fxml"); // Wenn Benutzer Favoriten hat
-			} else {
-				changescene("User_Home_Dashboards_favs.fxml");// Benutzer hat keine Favoriten
-			}
+				changescene("FDashboard.fxml"); // Wenn Benutzer Favoriten hat
+			
 		} else {
-			if (true) {
-				changescene("User_Home_Dashboards_nofavs.fxml"); // Wenn Benutzer Favoriten hat
-			} else {
-				changescene("User_Home_Dashboards_favs.fxml");// Benutzer hat keine Favoriten
-			}
+				changescene("UDashboard.fxml");// Benutzer hat keine Favoriten
+			
 		}
 	}
 

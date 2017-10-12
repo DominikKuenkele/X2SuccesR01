@@ -41,7 +41,7 @@ public class ViewStartseite {
 
     @FXML
     void Registrierung(ActionEvent event) throws IOException {
-    	changescene("UserRegistrierung.fxml");
+    	changescene("Registrierung.fxml");
     }
 
 }

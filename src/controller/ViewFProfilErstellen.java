@@ -19,7 +19,7 @@ public class ViewFProfilErstellen implements Initializable{
 	
 	//Liste für die Choice Boxen. Aus DB ziehen
 		ObservableList<String> Sprachen = 
-				FXCollections.observableArrayList("Deutsch","Englisch","Französisch");
+				FXCollections.observableArrayList("Deutsch","Englisch","Französisch","Türkisch","Spanisch");
 
 
     @FXML
@@ -62,14 +62,14 @@ public class ViewFProfilErstellen implements Initializable{
     	degree1.setItems(TestListe); //Name der Liste
     	topic1.setValue("Inhalt1"); //Anfangswert
     	topic1.setItems(TestListe); //Name der Liste
-//    	language1.setValue("Sprache1"); //Anfangswert
-//    	language1.setItems(Sprachen); //Name der Liste
-//    	language2.setValue("Sprache2"); //Anfangswert
-//    	language2.setItems(Sprachen); //Name der Liste
-//    	language3.setValue("Sprache3"); //Anfangswert
-//    	language3.setItems(Sprachen); //Name der Liste
-//    	language4.setValue("Sprache4"); //Anfangswert
-//    	language4.setItems(Sprachen); //Name der Liste
+    	language1.setValue("Sprache1"); //Anfangswert
+    	language1.setItems(Sprachen); //Name der Liste
+    	language2.setValue("Sprache2"); //Anfangswert
+    	language2.setItems(Sprachen); //Name der Liste
+    	language3.setValue("Sprache3"); //Anfangswert
+    	language3.setItems(Sprachen); //Name der Liste
+    	language4.setValue("Sprache4"); //Anfangswert
+    	language4.setItems(Sprachen); //Name der Liste
 		
 	}
 

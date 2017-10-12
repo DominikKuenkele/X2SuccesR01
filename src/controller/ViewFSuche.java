@@ -110,7 +110,7 @@ public class ViewFSuche implements Initializable {
 	}
 
 	@FXML
-	void searchoffers(ActionEvent event) {
+	void searchoffers(ActionEvent event) throws IOException {
 
 		// String cname = searchcompanyname.getText();
 		// int min = Integer.parseInt(minimumemployees.getText()); // Inhalt prüfen

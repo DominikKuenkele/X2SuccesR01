@@ -31,12 +31,12 @@ public class ViewUDashboard {
 
 	@FXML
 	void createnewoffer(MouseEvent event) throws IOException {
-		changescene("Unternehmen_createoffer.fxml");
+		changescene("UJobangebotErstellen.fxml");
 	}
 
 	@FXML
 	void openSearch(MouseEvent event) throws IOException {
-		changescene("Unternehmen_Suche_Dashboard.fxml");
+		changescene("USuche.fxml");
 
 	}
 

@@ -49,7 +49,7 @@ public class ViewFDashboard {
 	@FXML
 	void openSearch(MouseEvent event) throws IOException {
 
-		changescene("User_Suche_Dashboard.fxml");
+		changescene("USuche.fxml");
 
 	}
 

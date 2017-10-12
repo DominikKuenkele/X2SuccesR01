@@ -67,7 +67,7 @@ public class ViewUProfilErstellen implements Initializable {
 		try {
 			Stage prevStage = (Stage) UAnlegenButton.getScene().getWindow();
 			Stage stage = new Stage();
-			stage.setTitle("Shop Management");
+			stage.setTitle("X2Success");
 			Pane myPane = null;
 			myPane = FXMLLoader.load(getClass().getResource(fxmlname));
 			Scene scene = new Scene(myPane);
