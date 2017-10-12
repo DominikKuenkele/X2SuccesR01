@@ -110,7 +110,7 @@ public class Freelancerprofil implements Profil {
 	/**
 	 * @return the fid
 	 */
-	public int getId() {
+	public int getFID() {
 		return fid;
 	}
 
@@ -141,7 +141,6 @@ public class Freelancerprofil implements Profil {
 	private void validateState() throws ValidateConstrArgsException {
 		try {
 			Validate.checkForContent(abschluss);
-			Validate.checkForAlpha(branche);
 			Validate.checkForContent(beschreibung);
 			validateSkills(skills);
 			Validate.checkForContent(lebenslauf);

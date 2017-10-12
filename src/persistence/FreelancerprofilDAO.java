@@ -77,7 +77,7 @@ public class FreelancerprofilDAO {
 
 			List<String> sprachen = freelancer.getSprachen();
 			for (int i = 0; i < sprachen.size(); i++) {
-				int sid = new SpracheDAO().getId(sprachen.get(i));
+				int sid = new SpracheDAO().getSID(sprachen.get(i));
 
 				preparedStatement = connect.prepareStatement("INSERT INTO SprachenzuordnungFP values (?, ?)");
 				preparedStatement.setInt(1, fid);
@@ -149,6 +149,52 @@ public class FreelancerprofilDAO {
 		}
 	}
 
+	/**
+	 * @param freelancerprofil
+	 * @throws SQLException
+	 */
+	public void changeFreelancerprofil(Freelancerprofil freelancerprofil) throws SQLException {
+		try {
+			open();
+			List<String> sprachen = freelancerprofil.getSprachen();
+
+			preparedStatement = connect.prepareStatement("DELETE FROM sprachenzuordnungFP WHERE FID = ?");
+			preparedStatement.setInt(1, freelancerprofil.getFID());
+			preparedStatement.executeUpdate();
+
+			this.preparedStatement = this.connect.prepareStatement(
+					"UPDATE freelancerprofil SET NID = ?, GID = ?, BID = ?, description = ?, skills = ?, "
+							+ "career = ?, benefits = ? WHERE FID = ?");
+
+			int nid = freelancerprofil.getNutzer().getId();
+			this.preparedStatement.setInt(1, nid);
+			int gid = new AbschlussDAO().getAbschluss(freelancerprofil.getAbschluss());
+			this.preparedStatement.setInt(2, gid);
+			int bid = new BrancheDAO().getBranche(freelancerprofil.getBranche());
+			this.preparedStatement.setInt(3, bid);
+			this.preparedStatement.setString(4, freelancerprofil.getBeschreibung());
+			Gson gson = new GsonBuilder().create();
+			String skillsJSON = gson.toJson(freelancerprofil.getSkills());
+			preparedStatement.setString(5, skillsJSON);
+			this.preparedStatement.setString(6, freelancerprofil.getLebenslauf());
+			this.preparedStatement.setString(7, freelancerprofil.getBenefits());
+			this.preparedStatement.setInt(8, freelancerprofil.getFID());
+			this.preparedStatement.executeUpdate();
+
+			for (int i = 0; i < sprachen.size(); i++) {
+				int sid = new SpracheDAO().getSID(sprachen.get(i));
+
+				preparedStatement = connect.prepareStatement("INSERT INTO SprachenzuordnungFP values (?, ?)");
+				preparedStatement.setInt(1, freelancerprofil.getFID());
+				preparedStatement.setInt(2, sid);
+
+				preparedStatement.executeUpdate();
+			}
+		} finally {
+			close();
+		}
+	}
+
 	private List<Freelancerprofil> getFreelancerprofilFromResultSet(ResultSet resultSet) throws SQLException {
 		List<Freelancerprofil> result = new LinkedList<>();
 		while (resultSet.next()) {
@@ -193,6 +239,59 @@ public class FreelancerprofilDAO {
 			}
 		} finally {
 			resultSetSprache.close();
+		}
+		return result;
+	}
+
+	public List<Freelancerprofil> searchForAbschlussTest(String aAbschluss, String aBranche) throws SQLException {
+		List<Freelancerprofil> result = new LinkedList<>();
+
+		try {
+			open();
+
+			String branche = aBranche.replace("!", "!!").replace("%", "!%").replace("_", "!_").replace("[", "![")
+					.replace("*", "%");
+
+			int hierarchy = new AbschlussDAO().getHierarchy(aAbschluss);
+
+			preparedStatement = connect.prepareStatement("SELECT freelancerprofil.FID FROM freelancerprofil "
+					+ "INNER JOIN branche ON freelancerprofil.BID = branche.BID "
+					+ "INNER JOIN graduation ON freelancerprofil.GID = graduation.GID "
+					+ "WHERE branche.branche LIKE ? AND graduation.hierarchy >= ?");
+			preparedStatement.setString(1, branche);
+			preparedStatement.setInt(2, hierarchy);
+
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				int fid = resultSet.getInt("freelancerprofil.FID");
+				result.add(new FreelancerprofilDAO().getFreelancerprofil(fid));
+			}
+		} finally {
+			close();
+		}
+		return result;
+	}
+
+	/**
+	 * @param aGehalt
+	 * @return a List of {@link model.Freelancerprofil Freelancerprofilen} with a
+	 *         lower salary than aGehalt
+	 * @throws SQLException
+	 */
+	public List<Freelancerprofil> searchForGehaltTest(int aGehalt) throws SQLException {
+		List<Freelancerprofil> result = new LinkedList<>();
+		try {
+			open();
+			preparedStatement = connect
+					.prepareStatement("SELECT freelancer.FID FROM freelancer WHERE freelancer.salary <= ?");
+			preparedStatement.setInt(1, aGehalt);
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				int fid = resultSet.getInt("freelnacer.FID");
+				result.add(new FreelancerprofilDAO().getFreelancerprofil(fid));
+			}
+		} finally {
+			close();
 		}
 		return result;
 	}

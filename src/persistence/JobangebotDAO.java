@@ -81,7 +81,7 @@ public class JobangebotDAO {
 			List<String> sprachen = jobangebot.getSprachen();
 
 			for (int i = 0; i < sprachen.size(); i++) {
-				int sid = new SpracheDAO().getId(sprachen.get(i));
+				int sid = new SpracheDAO().getSID(sprachen.get(i));
 
 				preparedStatement = connect.prepareStatement("INSERT INTO SprachenzuordnungJA values (?, ?)");
 				preparedStatement.setInt(1, jid);
@@ -178,7 +178,7 @@ public class JobangebotDAO {
 			this.preparedStatement.executeUpdate();
 
 			for (int i = 0; i < sprachen.size(); i++) {
-				int sid = new SpracheDAO().getId(sprachen.get(i));
+				int sid = new SpracheDAO().getSID(sprachen.get(i));
 
 				preparedStatement = connect.prepareStatement("INSERT INTO SprachenzuordnungJA values (?, ?)");
 				preparedStatement.setInt(1, jobangebot.getJID());

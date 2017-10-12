@@ -40,7 +40,7 @@ public class SpracheDAO {
 	 * @return the Id with given language
 	 * @throws SQLException
 	 */
-	public int getId(String sprache) throws SQLException {
+	public int getSID(String sprache) throws SQLException {
 		int result = 0;
 		try {
 			open();
