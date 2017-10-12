@@ -10,6 +10,7 @@ import application.Verwaltung;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -130,6 +131,8 @@ public class ViewFSuche implements Initializable {
 		GridPane searchGrid = new GridPane();
 
 		for (int i = 0; i < searchList.size(); i++) {
+			
+			jA[i].setOnMouseClicked(jAoeffnen());
 
 			jA[i] = new JobangebotAnzeige();
 			jA[i].setGehalt("4");
@@ -138,6 +141,18 @@ public class ViewFSuche implements Initializable {
 		}
 		scrollPane.setContent(searchGrid);
 
+	}
+
+	private EventHandler<? super MouseEvent> jAoeffnen() throws IOException {
+		Stage stage = new Stage();
+		stage.setTitle("X2Success");
+		Pane myPane = null;
+		myPane = FXMLLoader.load(getClass().getResource("UJobangebot.fxml"));
+		Scene scene = new Scene(myPane);
+		stage.setScene(scene);
+		stage.show();
+		
+		return null;
 	}
 
 	void openoffer() throws IOException {

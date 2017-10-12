@@ -61,7 +61,7 @@ public class JobangebotAnzeige extends AnchorPane {
 	 * @throws IOException 
 	 * 
 	 */
-	public JobangebotAnzeige() throws IOException {
+	public JobangebotAnzeige(){
 		super();
 		setMinWidth(220);
 		setMinHeight(260);
@@ -120,20 +120,9 @@ public class JobangebotAnzeige extends AnchorPane {
 		getChildren().add(beschreibungLabel);
 		getChildren().add(wochenstundenLabel);
 		getChildren().add(gehaltLabel);
-		pane.setOnMouseClicked(openoffer()); //DOMINIK!!! ANSCHAUEN!!!
-		
+
 	}
 
-	private EventHandler<? super MouseEvent> openoffer() throws IOException {
-		Stage stage = new Stage();
-		stage.setTitle("X2Success");
-		Pane myPane = null;
-		myPane = FXMLLoader.load(getClass().getResource("UJobangebot.fxml"));
-		Scene scene = new Scene(myPane);
-		stage.setScene(scene);
-		stage.show();
-		return null;
-	}
 
 	public void setName(String name) {
 		nameLabel.setText(name);
