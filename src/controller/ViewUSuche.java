@@ -2,9 +2,10 @@ package controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Map.Entry;
+import java.util.ResourceBundle;
 
 import application.Verwaltung;
 import javafx.collections.FXCollections;
@@ -26,64 +27,66 @@ import javafx.stage.Stage;
 import model.Jobangebot;
 import view.JobangebotAnzeige;
 
-public class ViewUSuche implements Initializable{
-	
+public class ViewUSuche implements Initializable {
+
 	// Liste für die Choice Boxen. Aus DB ziehen
 	ObservableList<String> TestListe = FXCollections.observableArrayList("Inhalt1", "Inhalt2", "Inhalt3");
 
+	@FXML
+	private TextField searchfreelancername;
 
-    @FXML
-    private TextField searchfreelancername;
+	@FXML
+	private ChoiceBox<String> searchdegree;
 
-    @FXML
-    private ChoiceBox<String> searchdegree;
+	@FXML
+	private ChoiceBox<String> searchtopic;
 
-    @FXML
-    private ChoiceBox<String> searchtopic;
+	@FXML
+	private Button serachoffers;
 
-    @FXML
-    private Button serachoffers;
+	@FXML
+	private ChoiceBox<String> searchlanguage1;
 
-    @FXML
-    private ChoiceBox<String> searchlanguage1;
+	@FXML
+	private ChoiceBox<String> searchlanguage2;
 
-    @FXML
-    private ChoiceBox<String> searchlanguage2;
+	@FXML
+	private ChoiceBox<String> searchlanguage3;
 
-    @FXML
-    private ChoiceBox<String> searchlanguage3;
+	@FXML
+	private ChoiceBox<String> searchlanguage4;
 
-    @FXML
-    private ChoiceBox<String> searchlanguage4;
-    
 	@FXML
 	private ScrollPane scrollPane;
 
-    @FXML
-    void searchoffers(ActionEvent event) throws IOException {
+	@FXML
+	void searchoffers(ActionEvent event) throws IOException {
 
+		try {
+			Verwaltung v = Verwaltung.getInstance();
+			List<Entry<Jobangebot, Integer>> searchList;
+			searchList = v.sucheFreelancer("", "", "", 1, 2, 5);
+			JobangebotAnzeige[] jA = new JobangebotAnzeige[searchList.size()];
+			int r = 0;
+			int c = 0;
+			GridPane searchGrid = new GridPane();
 
-		Verwaltung v = Verwaltung.getInstance();
-		Set<Entry<Jobangebot, Integer>> searchList = v.sucheJobangebote("", "", "", 1, 2, 5);
+			for (int i = 0; i < searchList.size(); i++) {
 
-		JobangebotAnzeige[] jA = new JobangebotAnzeige[searchList.size()];
-		int r = 0;
-		int c = 0;
-		GridPane searchGrid = new GridPane();
+				jA[i].setOnMouseClicked(jAoeffnen());
 
-		for (int i = 0; i < searchList.size(); i++) {
-			
-			jA[i].setOnMouseClicked(jAoeffnen());
+				jA[i] = new JobangebotAnzeige();
+				searchGrid.add(jA[i], i % 3, i / 3);
 
-			jA[i] = new JobangebotAnzeige();
-			jA[i].setGehalt("4");
-			searchGrid.add(jA[i], i % 3, i / 3);
-
+			}
+			scrollPane.setContent(searchGrid);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		scrollPane.setContent(searchGrid);
 
-    }
-    
+	}
+
 	private EventHandler<? super MouseEvent> jAoeffnen() throws IOException {
 		Stage stage = new Stage();
 		stage.setTitle("X2Success");
@@ -92,10 +95,10 @@ public class ViewUSuche implements Initializable{
 		Scene scene = new Scene(myPane);
 		stage.setScene(scene);
 		stage.show();
-		
+
 		return null;
 	}
-    
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		searchdegree.setValue("Inhalt1"); // Anfangswert
@@ -112,6 +115,5 @@ public class ViewUSuche implements Initializable{
 		searchlanguage4.setItems(TestListe); // Name der Liste
 
 	}
-
 
 }

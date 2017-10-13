@@ -13,6 +13,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
@@ -25,7 +27,7 @@ import util.exception.UserInputException;
 
 public class ViewRegistrierung implements Initializable {
 
-	ObservableList<String> GenderList = FXCollections.observableArrayList("Männlich", "Weiblich", "Anderes");
+	private ObservableList<String> GenderList = FXCollections.observableArrayList("Männlich", "Weiblich", "Anderes");
 
 	private Verwaltung verwaltung;
 
@@ -84,8 +86,7 @@ public class ViewRegistrierung implements Initializable {
 
 	}
 
-	@FXML
-	private void NutzerAnlegen() {
+	private void NutzerAnlegen() throws UserInputException, DBException {
 		if (UserPW.getText().equals(UserPW2.getText())) {
 			String vorname = UserVorname.getText();
 			String nachname = UserNachname.getText();
@@ -97,8 +98,11 @@ public class ViewRegistrierung implements Initializable {
 			case "Weiblich":
 				geschlecht = "w";
 				break;
-			default:
+			case "Anderes":
 				geschlecht = "a";
+				break;
+			default:
+				geschlecht = "";
 			}
 			String stadt = UserStadt.getText();
 			String plz = UserPlz.getText();
@@ -119,31 +123,43 @@ public class ViewRegistrierung implements Initializable {
 			// String eMail = "dominik.kuenkele@live.test";
 			// String passwort = "Meins";
 
-			try {
-				verwaltung.register(vorname, nachname, geschlecht, plz, stadt, strasse, hausnummer, localDate, eMail,
-						passwort);
-			} catch (UserInputException | DBException e) {
-				e.printStackTrace();
-			}
+			verwaltung.register(vorname, nachname, geschlecht, plz, stadt, strasse, hausnummer, localDate, eMail,
+					passwort);
 		}
 	}
 
 	@FXML
 	void addcompanyb(ActionEvent event) throws IOException {
-		NutzerAnlegen();
-		changescene("/view/UProfilErstellen.fxml");
+		try {
+			NutzerAnlegen();
+			changescene("/view/UProfilErstellen.fxml");
+		} catch (UserInputException | DBException e) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("Registrierung fehlgeschlagen");
+			alert.setContentText(e.getMessage());
+			alert.showAndWait();
+		}
 	}
 
 	@FXML
 	void addfreelancer(ActionEvent event) throws IOException {
-		NutzerAnlegen();
-		changescene("/view/FProfilErstellen.fxml");
+		try {
+			NutzerAnlegen();
+			changescene("/view/FProfilErstellen.fxml");
+		} catch (UserInputException | DBException e) {
+			Alert alert = new Alert(AlertType.ERROR); // Statt .Error geht auch .Warning etc
+			alert.setTitle("Error"); // Fenstername
+			alert.setHeaderText("Registrierung fehlgeschlagen");
+			alert.setContentText(e.getMessage());
+			alert.showAndWait();
+		}
 	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		verwaltung = Verwaltung.getInstance();
-		UserGeschlecht.setValue("Geschlecht auswählen"); // Anfangswert
+		UserGeschlecht.setValue(GenderList.get(0)); // Anfangswert
 		UserGeschlecht.setItems(GenderList); // Name der Liste
 	}
 

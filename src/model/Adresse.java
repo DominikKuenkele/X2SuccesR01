@@ -59,14 +59,33 @@ public class Adresse {
 	}
 
 	private void validateState() throws ValidateConstrArgsException {
+		String message = "";
 		try {
 			Validate.checkForAlpha(strasse);
-			Validate.checkForPositive(Integer.parseInt(number));
-			Validate.checkForPositive(Integer.parseInt(plz));
+		} catch (IllegalArgumentException e) {
+			message = message + "Straﬂe: " + e.getMessage();
+		}
+		try {
+			Validate.checkForHausnummer(number);
+		} catch (IllegalArgumentException e) {
+			message = message + "\nHausnummer: " + e.getMessage();
+		}
+		try {
+			Validate.checkForPLZ(plz);
+		} catch (IllegalArgumentException e) {
+			message = message + "\nPLZ: " + e.getMessage();
+		}
+		try {
 			Validate.checkForAlpha(city);
 		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
+			message = message + "\nStadt: " + e.getMessage();
+		}
+		try {
+		} catch (IllegalArgumentException e) {
 			throw new ValidateConstrArgsException(e.getMessage());
+		}
+		if (message != "") {
+			throw new ValidateConstrArgsException(message);
 		}
 	}
 }

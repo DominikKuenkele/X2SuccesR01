@@ -2,9 +2,12 @@ package application;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -306,24 +309,34 @@ public class Verwaltung extends Subject {
 	 * @param name
 	 * @param abschluss
 	 * @param expertise
+	 * @param branche
 	 * @param minMitarbeiter
 	 * @param maxMitarbeiter
 	 * @param minGehalt
 	 * @return a List of {@link model.Jobangebot Jobangebote} with search-Priority
+	 * @throws SQLException
 	 */
-	public Set<Entry<Jobangebot, Integer>> sucheJobangebote(String name, String abschluss, String expertise,
-			int minMitarbeiter, int maxMitarbeiter, int minGehalt) {
+	public List<Entry<Jobangebot, Integer>> sucheJobangebote(String name, String abschluss, String expertise,
+			String branche, int minMitarbeiter, int maxMitarbeiter, int minGehalt) throws SQLException {
 		JobangebotDAO jobangebotDao = new JobangebotDAO();
 
 		List<List<Jobangebot>> searchList = new LinkedList<>();
 		searchList.add(jobangebotDao.searchForName(name));
 		searchList.add(jobangebotDao.searchForAbschluss(abschluss, expertise));
+		searchList.add(jobangebotDao.searchForBranche(branche));
 		searchList.add(jobangebotDao.searchForMitarbeiter(minMitarbeiter, maxMitarbeiter));
 		searchList.add(jobangebotDao.searchForGehalt(minGehalt));
 
 		Set<Entry<Jobangebot, Integer>> prioList = prioritize(searchList);
+		List<Map.Entry<Jobangebot, Integer>> list = new LinkedList<>(prioList);
+		Collections.sort(list, new Comparator<Map.Entry<Jobangebot, Integer>>() {
+			@Override
+			public int compare(Map.Entry<Jobangebot, Integer> e1, Map.Entry<Jobangebot, Integer> e2) {
+				return (e2.getValue()).compareTo(e1.getValue());
+			}
+		});
 
-		return prioList;
+		return list;
 	}
 
 	private Set<Entry<Jobangebot, Integer>> prioritize(List<List<Jobangebot>> searchList) {

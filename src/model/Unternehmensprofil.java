@@ -40,7 +40,7 @@ public class Unternehmensprofil implements Profil {
 	 * @throws ValidateConstrArgsException
 	 */
 	public Unternehmensprofil(String name, String legalForm, Adresse address, LocalDate founding, int employees,
-			String description, String benefits, String branche, String website, String ceoFirstName,
+			String description, String branche, String benefits, String website, String ceoFirstName,
 			String ceoLastName, Nutzer nutzer) throws ValidateConstrArgsException {
 		this.name = name;
 		this.legalForm = legalForm;

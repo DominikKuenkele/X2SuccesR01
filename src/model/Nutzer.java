@@ -35,7 +35,7 @@ public class Nutzer {
 			Adresse address, Status status) throws ValidateConstrArgsException {
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.sex = sex;
+		this.sex = sex.toLowerCase();
 		this.birthdate = birthdate;
 		this.eMail = eMail;
 		this.password = password;
@@ -125,15 +125,37 @@ public class Nutzer {
 	}
 
 	private void validateState() throws ValidateConstrArgsException {
+		String message = "";
+
 		try {
-			Validate.checkForEMail(eMail);
-			Validate.checkForContent(password);
 			Validate.checkForAlpha(firstName);
+		} catch (IllegalArgumentException e) {
+			message = message + "\nVorname: " + e.getMessage();
+		}
+		try {
 			Validate.checkForAlpha(lastName);
-			Validate.checkForAlpha(sex);
+		} catch (IllegalArgumentException e) {
+			message = message + "\nNachname: " + e.getMessage();
+		}
+		if (!sex.equals("m") && !sex.equals("f") && !sex.equals("a")) {
+			message = message + "\nGeschlecht: Bitte Geschlecht ausfüllen!";
+		}
+		try {
+			if (birthdate == null) {
+				throw new IllegalArgumentException("Das Datum darf nicht leer sein!");
+			}
 			Validate.checkForDateInPast(birthdate);
 		} catch (IllegalArgumentException e) {
-			throw new ValidateConstrArgsException(e.getMessage());
+			message = message + "\nGeburtstag: " + e.getMessage();
+		}
+		try {
+			Validate.checkForEMail(eMail);
+		} catch (IllegalArgumentException e) {
+			message = message + "\nE-Mail: " + e.getMessage();
+		}
+
+		if (message != "") {
+			throw new ValidateConstrArgsException(message);
 		}
 	}
 

@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -238,7 +237,7 @@ public class JobangebotDAO {
 		return result;
 	}
 
-	public List<Jobangebot> searchForNameTest(String aName) throws SQLException {
+	public List<Jobangebot> searchForName(String aName) throws SQLException {
 		List<Jobangebot> result = new LinkedList<>();
 		try {
 			open();
@@ -259,7 +258,28 @@ public class JobangebotDAO {
 		return result;
 	}
 
-	public List<Jobangebot> searchForAbschlussTest(String aAbschluss, String aExpertise) throws SQLException {
+	public List<Jobangebot> searchForBranche(String aBranche) throws SQLException {
+		List<Jobangebot> result = new LinkedList<>();
+		try {
+			open();
+			String branche = aBranche.replace("!", "!!").replace("%", "!%").replace("_", "!_").replace("[", "![")
+					.replace("*", "%");
+			preparedStatement = connect.prepareStatement("SELECT jobangebot.JID FROM jobangebot "
+					+ "INNER JOIN unternehmensprofil ON jobangebot.UID=unternehmensprofil.UID "
+					+ "INNER JOIN branche ON unternehmensprofil.BID=branche.BID WHERE branche.branche LIKE ?");
+			preparedStatement.setString(1, branche);
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				int jid = resultSet.getInt("jobangebot.JID");
+				result.add(new JobangebotDAO().getJobangebot(jid));
+			}
+		} finally {
+			close();
+		}
+		return result;
+	}
+
+	public List<Jobangebot> searchForAbschluss(String aAbschluss, String aExpertise) throws SQLException {
 		List<Jobangebot> result = new LinkedList<>();
 		try {
 			open();
@@ -293,7 +313,7 @@ public class JobangebotDAO {
 	 *         than aGehalt
 	 * @throws SQLException
 	 */
-	public List<Jobangebot> searchForGehaltTest(int aGehalt) throws SQLException {
+	public List<Jobangebot> searchForGehalt(int aGehalt) throws SQLException {
 		List<Jobangebot> result = new LinkedList<>();
 		try {
 			open();
@@ -311,7 +331,7 @@ public class JobangebotDAO {
 		return result;
 	}
 
-	public List<Jobangebot> searchForMitarbeiterTest(int min, int max) throws SQLException {
+	public List<Jobangebot> searchForMitarbeiter(int min, int max) throws SQLException {
 		List<Jobangebot> result = new LinkedList<>();
 		try {
 			open();
@@ -331,67 +351,72 @@ public class JobangebotDAO {
 		return result;
 	}
 
-	public List<Jobangebot> searchForName(String aName) {
-		List<Jobangebot> list = new LinkedList<>();
-		try {
-			Jobangebot[] jA = new Jobangebot[4];
-			for (int i = 0; i < 4; i++) {
-				jA[i] = new Jobangebot("sdf", "sdf", new LinkedList<String>(), "sdf", LocalDate.of(1999, 12, 1), 1, 3,
-						null);
-				jA[i].setId(i * 2);
-			}
-			list = Arrays.asList(jA);
-		} catch (ValidateConstrArgsException e) {
-			e.printStackTrace();
-		}
-		return list;
-	}
-
-	public List<Jobangebot> searchForAbschluss(String abschluss, String branche) {
-		List<Jobangebot> list = new LinkedList<>();
-		try {
-			Jobangebot[] jA = new Jobangebot[4];
-			for (int i = 0; i < 4; i++) {
-				jA[i] = new Jobangebot("sdf", "sdf", new LinkedList<String>(), "sdf", LocalDate.of(1999, 12, 1), 1, 3,
-						null);
-				jA[i].setId(i * 2);
-			}
-			list = Arrays.asList(jA);
-		} catch (ValidateConstrArgsException e) {
-			e.printStackTrace();
-		}
-		return list;
-	}
-
-	public List<Jobangebot> searchForGehalt(int gehalt) {
-		List<Jobangebot> list = new LinkedList<>();
-		try {
-			Jobangebot[] jA = new Jobangebot[4];
-			for (int i = 0; i < 4; i++) {
-				jA[i] = new Jobangebot("dg", "sdf", new LinkedList<String>(), "sdf", LocalDate.of(1999, 12, 1), 1, 3,
-						null);
-				jA[i].setId(i * 3);
-			}
-			list = Arrays.asList(jA);
-		} catch (ValidateConstrArgsException e) {
-			e.printStackTrace();
-		}
-		return list;
-	}
-
-	public List<Jobangebot> searchForMitarbeiter(int min, int max) {
-		List<Jobangebot> list = new LinkedList<>();
-		try {
-			Jobangebot[] jA = new Jobangebot[4];
-			for (int i = 0; i < 4; i++) {
-				jA[i] = new Jobangebot(Integer.toString(i), "sdf", new LinkedList<String>(), "sdf",
-						LocalDate.of(1999, 12, 1), 1, 3, null);
-				jA[i].setId(4 - i);
-			}
-			list = Arrays.asList(jA);
-		} catch (ValidateConstrArgsException e) {
-			e.printStackTrace();
-		}
-		return list;
-	}
+	// public List<Jobangebot> searchForName(String aName) {
+	// List<Jobangebot> list = new LinkedList<>();
+	// try {
+	// Jobangebot[] jA = new Jobangebot[4];
+	// for (int i = 0; i < 4; i++) {
+	// jA[i] = new Jobangebot("sdf", "sdf", new LinkedList<String>(), "sdf",
+	// LocalDate.of(1999, 12, 1), 1, 3,
+	// null);
+	// jA[i].setId(i * 2);
+	// }
+	// list = Arrays.asList(jA);
+	// } catch (ValidateConstrArgsException e) {
+	// e.printStackTrace();
+	// }
+	// return list;
+	// }
+	//
+	// public List<Jobangebot> searchForAbschluss(String abschluss, String branche)
+	// {
+	// List<Jobangebot> list = new LinkedList<>();
+	// try {
+	// Jobangebot[] jA = new Jobangebot[4];
+	// for (int i = 0; i < 4; i++) {
+	// jA[i] = new Jobangebot("sdf", "sdf", new LinkedList<String>(), "sdf",
+	// LocalDate.of(1999, 12, 1), 1, 3,
+	// null);
+	// jA[i].setId(i * 2);
+	// }
+	// list = Arrays.asList(jA);
+	// } catch (ValidateConstrArgsException e) {
+	// e.printStackTrace();
+	// }
+	// return list;
+	// }
+	//
+	// public List<Jobangebot> searchForGehalt(int gehalt) {
+	// List<Jobangebot> list = new LinkedList<>();
+	// try {
+	// Jobangebot[] jA = new Jobangebot[4];
+	// for (int i = 0; i < 4; i++) {
+	// jA[i] = new Jobangebot("dg", "sdf", new LinkedList<String>(), "sdf",
+	// LocalDate.of(1999, 12, 1), 1, 3,
+	// null);
+	// jA[i].setId(i * 3);
+	// }
+	// list = Arrays.asList(jA);
+	// } catch (ValidateConstrArgsException e) {
+	// e.printStackTrace();
+	// }
+	// return list;
+	// }
+	//
+	// public List<Jobangebot> searchForMitarbeiter(int min, int max) {
+	// List<Jobangebot> list = new LinkedList<>();
+	// try {
+	// Jobangebot[] jA = new Jobangebot[4];
+	// for (int i = 0; i < 4; i++) {
+	// jA[i] = new Jobangebot(Integer.toString(i), "sdf", new LinkedList<String>(),
+	// "sdf",
+	// LocalDate.of(1999, 12, 1), 1, 3, null);
+	// jA[i].setId(4 - i);
+	// }
+	// list = Arrays.asList(jA);
+	// } catch (ValidateConstrArgsException e) {
+	// e.printStackTrace();
+	// }
+	// return list;
+	// }
 }

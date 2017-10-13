@@ -130,7 +130,7 @@ public class JobangebotDAOTest {
 	public void testSearchForName() {
 		List<Jobangebot> list;
 		try {
-			list = new JobangebotDAO().searchForNameTest("*le");
+			list = new JobangebotDAO().searchForName("*le");
 			for (Jobangebot j : list) {
 				System.out.println(j);
 			}
@@ -143,13 +143,34 @@ public class JobangebotDAOTest {
 
 	/**
 	 * Test method for
+	 * {@link persistence.JobangebotDAO#searchForBranche(java.lang.String)}.
+	 */
+	@Test
+	public void testSearchForBranche() {
+		List<Jobangebot> list;
+		try {
+			list = new JobangebotDAO().searchForBranche("A*");
+			for (Jobangebot j : list) {
+				System.out.println(j);
+			}
+			System.out.println(list.size() + " results");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * Test method for
 	 * {@link persistence.JobangebotDAO#searchForAbschluss(java.lang.String, java.lang.String)}.
 	 */
+	@Ignore
 	@Test
 	public void testSearchForAbschluss() {
 		List<Jobangebot> list;
 		try {
-			list = new JobangebotDAO().searchForAbschlussTest("Ausbildung", "*");
+			list = new JobangebotDAO().searchForAbschluss("Ausbildung", "*");
 			for (Jobangebot j : list) {
 				System.out.println(j);
 			}
@@ -168,7 +189,7 @@ public class JobangebotDAOTest {
 	public void testSearchForGehalt() {
 		List<Jobangebot> list;
 		try {
-			list = new JobangebotDAO().searchForGehaltTest(100);
+			list = new JobangebotDAO().searchForGehalt(100);
 			for (Jobangebot j : list) {
 				System.out.println(j);
 			}
@@ -188,7 +209,7 @@ public class JobangebotDAOTest {
 	public void testSearchForMitarbeiter() {
 		List<Jobangebot> list;
 		try {
-			list = new JobangebotDAO().searchForMitarbeiterTest(100, 400);
+			list = new JobangebotDAO().searchForMitarbeiter(100, 400);
 			for (Jobangebot j : list) {
 				System.out.println(j);
 			}

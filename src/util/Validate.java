@@ -65,6 +65,26 @@ public final class Validate {
 		}
 	}
 
+	public static void checkForPLZ(final String plz) {
+		final String PLZ_PATTERN = "[1-9][0-9]{4,4}";
+		Pattern pattern = Pattern.compile(PLZ_PATTERN);
+		Matcher matcher = pattern.matcher(plz);
+
+		if (!matcher.matches()) {
+			throw new IllegalArgumentException("Das ist keine PLZ!");
+		}
+	}
+
+	public static void checkForHausnummer(final String nr) {
+		final String HNR_PATTERN = "[1-9][0-9]{0,2}";
+		Pattern pattern = Pattern.compile(HNR_PATTERN);
+		Matcher matcher = pattern.matcher(nr);
+
+		if (!matcher.matches()) {
+			throw new IllegalArgumentException("Das ist keine Hausnummer!");
+		}
+	}
+
 	/**
 	 * Method validates an Integer, if it is positive.
 	 * 
@@ -86,7 +106,7 @@ public final class Validate {
 	public static void checkForAlpha(final String text) throws IllegalArgumentException {
 		checkForContent(text);
 		if (!text.matches("[A-Za-zäÄöÖüÜß]+")) {
-			throw new IllegalArgumentException("Text " + text + " darf nur Buchstaben enthalten!");
+			throw new IllegalArgumentException("Text \"" + text + "\" darf nur Buchstaben enthalten!");
 		}
 	}
 
@@ -99,7 +119,7 @@ public final class Validate {
 	public static void checkForAlphaNumeric(final String text) throws IllegalArgumentException {
 		checkForContent(text);
 		if (!text.matches("[a-zA-Z0-9]+")) {
-			throw new IllegalArgumentException("TExt darf nur Buchstaben oder Zahlen enthalten!");
+			throw new IllegalArgumentException("Text \"" + text + "\" darf nur Buchstaben oder Zahlen enthalten!");
 		}
 	}
 }

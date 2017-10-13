@@ -5,9 +5,10 @@ package application;
 
 import static org.junit.Assert.fail;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -31,11 +32,11 @@ public class VerwaltungTest {
 	@Ignore
 	@Before
 	public void setUp() throws Exception {
-		v = Verwaltung.getInstance();
-		// v.register("Olaf", "Mieller", "m", "71782", "Gera", "Hauptallee", "13",
-		// LocalDate.of(2000, 10, 2),
-		// "olaf.muelle@hsdf.de", "1234");
-		v.login("olaf.muelle@hsdf.de", "1234");
+		// v = Verwaltung.getInstance();
+		// // v.register("Olaf", "Mieller", "m", "71782", "Gera", "Hauptallee", "13",
+		// // LocalDate.of(2000, 10, 2),
+		// // "olaf.muelle@hsdf.de", "1234");
+		// v.login("olaf.muelle@hsdf.de", "1234");
 	}
 
 	/**
@@ -111,9 +112,16 @@ public class VerwaltungTest {
 	 */
 	@Test
 	public void testSucheJobangebote() {
-		Set<Entry<Jobangebot, Integer>> set = Verwaltung.getInstance().sucheJobangebote("name", "abscluss", "branche",
-				1, 2, 3);
-		System.out.println(set);
+		try {
+			List<Entry<Jobangebot, Integer>> list;
+			list = Verwaltung.getInstance().sucheJobangebote("*", "Doktor", "*", "*", 0, 600, 1000);
+			for (Entry<Jobangebot, Integer> entry : list) {
+				System.out.println(entry);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// for (int i = 0; i < map.size(); i++) {
 		// System.out.println(map.entrySet());
 		// }

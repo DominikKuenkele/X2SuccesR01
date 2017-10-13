@@ -54,6 +54,9 @@ public class ViewUProfilErstellen implements Initializable {
 	private DatePicker UDatum;
 
 	@FXML
+	private TextField UBranche;
+
+	@FXML
 	private TextField UMitarbeiter;
 
 	@FXML
@@ -90,13 +93,14 @@ public class ViewUProfilErstellen implements Initializable {
 		String plz = UPlz.getText();
 		String strasse = UStraﬂe.getText();
 		String hausnummer = UNr.getText();
+		String branche = UBranche.getText();
 		LocalDate gruendung = UDatum.getValue();
 		int mitarbeiter = Integer.parseInt(UMitarbeiter.getText());
 		String beschreibung = UBeschreibung.getText();
 
 		try {
 			verwaltung.createUnternehmen(name, form, plz, stadt, strasse, hausnummer, gruendung, mitarbeiter,
-					beschreibung, "benefits", "www.test.de", "Vorname", "Nachname");
+					beschreibung, branche, "benefits", "www.test.de", "Vorname", "Nachname");
 			switchScene("/view/URahmen.fxml");
 		} catch (UserInputException | DBException e) {
 			Alert alert = new Alert(AlertType.ERROR); // Statt .Error geht auch .Warning etc

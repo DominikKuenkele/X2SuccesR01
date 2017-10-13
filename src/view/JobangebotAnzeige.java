@@ -14,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
+import model.Jobangebot;
 
 /**
  * @author domin
@@ -117,35 +118,49 @@ public class JobangebotAnzeige extends AnchorPane {
 
 	}
 
-	public void setJID(int jid) {
-		this.jid = jid;
+	/**
+	 * @return the jid
+	 */
+	public int getJid() {
+		return this.jid;
 	}
 
-	public void setName(String name) {
+	public void setJobangebot(Jobangebot jobangebot) {
+		setName(jobangebot.getUnternehmensprofil().getName());
+		setGruendung(jobangebot.getUnternehmensprofil().getFounding().toString());
+		setMitarbieter(Integer.toString(jobangebot.getUnternehmensprofil().getEmployees()));
+		setBeschreibung(jobangebot.getBeschreibung());
+		setAnforderungen(jobangebot.getAbschluss());
+		setWochenstunden(Integer.toString(jobangebot.getWochenstunden()));
+		setGehalt(Integer.toString(jobangebot.getGehalt()));
+		this.jid = jobangebot.getJID();
+	}
+
+	private void setName(String name) {
 		nameLabel.setText(name);
 	}
 
-	public void setGruendung(String gruendung) {
+	private void setGruendung(String gruendung) {
 		gruendungLabel.setText(GRUENDUNG_TEXT + gruendung);
 	}
 
-	public void setMitarbieter(String mitarbeiter) {
+	private void setMitarbieter(String mitarbeiter) {
 		mitarbeiterLabel.setText(MITARBEITER_TEXT + mitarbeiter);
 	}
 
-	public void setBeschreibung(String beschreibung) {
+	private void setBeschreibung(String beschreibung) {
 		beschreibungLabel.setText(beschreibung);
 	}
 
-	public void setAnforderungen(String anforderungen) {
+	private void setAnforderungen(String anforderungen) {
 		anforderungenLabel.setText(ANFORDERUNG_TEXT + anforderungen);
 	}
 
-	public void setWochenstunden(String wochenstunden) {
+	private void setWochenstunden(String wochenstunden) {
 		wochenstundenLabel.setText(wochenstunden + WOCHENSTUNDEN_EINHEIT);
 	}
 
-	public void setGehalt(String gehalt) {
+	private void setGehalt(String gehalt) {
 		gehaltLabel.setText(gehalt + GEHALT_EINHEIT);
 	}
 }

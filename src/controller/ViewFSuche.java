@@ -2,10 +2,10 @@ package controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Iterator;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 import application.Verwaltung;
 import javafx.collections.FXCollections;
@@ -42,7 +42,7 @@ public class ViewFSuche implements Initializable {
 	private ChoiceBox<String> searchnecessarydegree;
 
 	@FXML
-	private ChoiceBox<String> searchtopic;
+	private ChoiceBox<String> searchExpertise;
 
 	@FXML
 	private ChoiceBox<String> searchbranche;
@@ -114,32 +114,39 @@ public class ViewFSuche implements Initializable {
 	@FXML
 	void searchoffers(ActionEvent event) throws IOException {
 
-		// String cname = searchcompanyname.getText();
-		// int min = Integer.parseInt(minimumemployees.getText()); // Inhalt prüfen
-		// int max = Integer.parseInt(maximumemployees.getText()); // Inhalt prüfen
-		// String branche = searchbranche.getValue();
-		// String degree = searchnecessarydegree.getValue();
-		// int salary1 = Integer.parseInt(Salary.getText());
+		String cName = searchcompanyname.getText();
+		int minEmployees = Integer.parseInt(minimumemployees.getText()); // Inhalt prüfen
+		int maxEmployees = Integer.parseInt(maximumemployees.getText()); // Inhalt prüfen
+		String expertise = searchExpertise.getValue();
+		String branche = searchbranche.getValue();
+		String graduation = searchnecessarydegree.getValue();
+		int salary = Integer.parseInt(Salary.getText());
 		//
 		// result1.setVisible(true); // Je nachdem sichtbar machen
 
 		Verwaltung v = Verwaltung.getInstance();
-		Set<Entry<Jobangebot, Integer>> searchList = v.sucheJobangebote("", "", "", 1, 2, 5);
-		Iterator<Entry<Jobangebot, Integer>> serachListIt = searchList.iterator();
 
-		JobangebotAnzeige[] jA = new JobangebotAnzeige[searchList.size()];
+		List<Entry<Jobangebot, Integer>> searchList;
+		try {
+			searchList = v.sucheJobangebote(cName, graduation, expertise, branche, minEmployees, maxEmployees, salary);
+			JobangebotAnzeige[] jA = new JobangebotAnzeige[searchList.size()];
 
-		GridPane searchGrid = new GridPane();
+			GridPane searchGrid = new GridPane();
 
-		for (int i = 0; i < searchList.size(); i++) {
-			jA[i] = new JobangebotAnzeige();
-			jA[i].setGehalt("4");
-			jA[i].setJID(3);
-			jA[i].setOnMouseClicked(jAoeffnen());
-			searchGrid.add(jA[i], i % 3, i / 3);
+			int index = 0;
+			for (Entry<Jobangebot, Integer> entry : searchList) {
+				jA[index] = new JobangebotAnzeige();
+				jA[index].setJobangebot(entry.getKey());
+				jA[index].setOnMouseClicked(jAoeffnen());
+				searchGrid.add(jA[index], index % 3, index / 3);
+				index++;
+			}
 
+			scrollPane.setContent(searchGrid);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		scrollPane.setContent(searchGrid);
 
 	}
 
@@ -159,8 +166,8 @@ public class ViewFSuche implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		searchnecessarydegree.setValue("Inhalt1"); // Anfangswert
 		searchnecessarydegree.setItems(TestListe); // Name der Liste
-		searchtopic.setValue("Inhalt1"); // Anfangswert
-		searchtopic.setItems(TestListe); // Name der Liste
+		searchExpertise.setValue("Inhalt1"); // Anfangswert
+		searchExpertise.setItems(TestListe); // Name der Liste
 		searchbranche.setValue("Inhalt1"); // Anfangswert
 		searchbranche.setItems(TestListe); // Name der Liste
 
