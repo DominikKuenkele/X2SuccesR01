@@ -117,6 +117,7 @@ public class Verwaltung extends Subject {
 	 * @param founding
 	 * @param employees
 	 * @param description
+	 * @param branche
 	 * @param benefits
 	 * @param website
 	 * @param ceoFirstName
@@ -126,15 +127,15 @@ public class Verwaltung extends Subject {
 	 */
 	public void createUnternehmen(final String name, final String form, final String plz, final String city,
 			final String street, final String number, final LocalDate founding, final int employees,
-			final String description, final String benefits, final String website, final String ceoFirstName,
-			final String ceoLastName) throws UserInputException, DBException {
+			final String description, final String branche, final String benefits, final String website,
+			final String ceoFirstName, final String ceoLastName) throws UserInputException, DBException {
 		if (this.currentNutzer.getStatus() == Status.F) {
 			throw new UserInputException("Nutzer ist schon Freelancer!");
 		}
 		try {
 			final Unternehmensprofil unternehmen = new Unternehmensprofil(name, form,
-					new Adresse(plz, city, street, number), founding, employees, description, benefits, website,
-					ceoFirstName, ceoLastName, this.currentNutzer);
+					new Adresse(plz, city, street, number), founding, employees, description, branche, benefits,
+					website, ceoFirstName, ceoLastName, this.currentNutzer);
 			final UnternehmensprofilDAO unternehmensprofilDao = new UnternehmensprofilDAO();
 			final int uid = unternehmensprofilDao.addUnternehmensprofil(unternehmen);
 			unternehmen.setId(uid);
@@ -159,6 +160,7 @@ public class Verwaltung extends Subject {
 	 * @param founding
 	 * @param employees
 	 * @param description
+	 * @param branche
 	 * @param benefits
 	 * @param website
 	 * @param ceoFirstName
@@ -168,12 +170,12 @@ public class Verwaltung extends Subject {
 	 */
 	public void changeUnternehmen(final String name, final String form, final String plz, final String city,
 			final String street, final String number, final LocalDate founding, final int employees,
-			final String description, final String benefits, final String website, final String ceoFirstName,
-			final String ceoLastName) throws UserInputException, DBException {
+			final String description, final String branche, final String benefits, final String website,
+			final String ceoFirstName, final String ceoLastName) throws UserInputException, DBException {
 		try {
 			final Unternehmensprofil unternehmen = new Unternehmensprofil(name, form,
-					new Adresse(plz, city, street, number), founding, employees, description, benefits, website,
-					ceoFirstName, ceoLastName, this.currentNutzer);
+					new Adresse(plz, city, street, number), founding, employees, description, branche, benefits,
+					website, ceoFirstName, ceoLastName, this.currentNutzer);
 			unternehmen.setId(this.currentUnternehmen.getId());
 			new UnternehmensprofilDAO().changeUnternehmen(unternehmen);
 			setCurrentUnternehmensprofil(unternehmen);
@@ -187,7 +189,7 @@ public class Verwaltung extends Subject {
 
 	/**
 	 * @param abschluss
-	 * @param branche
+	 * @param expertise
 	 * @param beschreibung
 	 * @param skills
 	 * @param lebenslauf
@@ -196,14 +198,14 @@ public class Verwaltung extends Subject {
 	 * @throws UserInputException
 	 * @throws DBException
 	 */
-	public void createFreelancer(final String abschluss, final String branche, final String beschreibung,
+	public void createFreelancer(final String abschluss, final String expertise, final String beschreibung,
 			final String[] skills, final String lebenslauf, final String benefits, final List<String> sprachen)
 			throws UserInputException, DBException {
 		if (this.currentNutzer.getStatus() == Status.U) {
 			throw new UserInputException("Nutzer ist schon Unternehmer!");
 		}
 		try {
-			final Freelancerprofil freelancer = new Freelancerprofil(abschluss, branche, beschreibung, skills,
+			final Freelancerprofil freelancer = new Freelancerprofil(abschluss, expertise, beschreibung, skills,
 					lebenslauf, benefits, sprachen, this.currentNutzer);
 			final FreelancerprofilDAO freelancerprofilDao = new FreelancerprofilDAO();
 			final int fid = freelancerprofilDao.addFreelancerprofil(freelancer);
@@ -221,7 +223,7 @@ public class Verwaltung extends Subject {
 
 	/**
 	 * @param abschluss
-	 * @param branche
+	 * @param expertise
 	 * @param sprachen
 	 * @param beschreibung
 	 * @param frist
@@ -230,14 +232,14 @@ public class Verwaltung extends Subject {
 	 * @throws UserInputException
 	 * @throws DBException
 	 */
-	public void createJobangebot(final String abschluss, final String branche, final List<String> sprachen,
+	public void createJobangebot(final String abschluss, final String expertise, final List<String> sprachen,
 			final String beschreibung, final LocalDate frist, final int gehalt, final int wochenstunden)
 			throws UserInputException, DBException {
 		if (this.currentNutzer.getStatus() == Status.F) {
 			throw new UserInputException("Ein Freelancer kann kein Jobangebot erstellen.");
 		}
 		try {
-			final Jobangebot jobangebot = new Jobangebot(abschluss, branche, sprachen, beschreibung, frist, gehalt,
+			final Jobangebot jobangebot = new Jobangebot(abschluss, expertise, sprachen, beschreibung, frist, gehalt,
 					wochenstunden, this.currentUnternehmen);
 			final int jid = new JobangebotDAO().addJobangebot(jobangebot);
 			jobangebot.setId(jid);
@@ -303,19 +305,19 @@ public class Verwaltung extends Subject {
 	/**
 	 * @param name
 	 * @param abschluss
-	 * @param branche
+	 * @param expertise
 	 * @param minMitarbeiter
 	 * @param maxMitarbeiter
 	 * @param minGehalt
 	 * @return a List of {@link model.Jobangebot Jobangebote} with search-Priority
 	 */
-	public Set<Entry<Jobangebot, Integer>> sucheJobangebote(String name, String abschluss, String branche,
+	public Set<Entry<Jobangebot, Integer>> sucheJobangebote(String name, String abschluss, String expertise,
 			int minMitarbeiter, int maxMitarbeiter, int minGehalt) {
 		JobangebotDAO jobangebotDao = new JobangebotDAO();
 
 		List<List<Jobangebot>> searchList = new LinkedList<>();
 		searchList.add(jobangebotDao.searchForName(name));
-		searchList.add(jobangebotDao.searchForAbschluss(abschluss, branche));
+		searchList.add(jobangebotDao.searchForAbschluss(abschluss, expertise));
 		searchList.add(jobangebotDao.searchForMitarbeiter(minMitarbeiter, maxMitarbeiter));
 		searchList.add(jobangebotDao.searchForGehalt(minGehalt));
 

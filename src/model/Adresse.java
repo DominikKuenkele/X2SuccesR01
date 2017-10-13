@@ -65,6 +65,7 @@ public class Adresse {
 			Validate.checkForPositive(Integer.parseInt(plz));
 			Validate.checkForAlpha(city);
 		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
 			throw new ValidateConstrArgsException(e.getMessage());
 		}
 	}

@@ -23,7 +23,7 @@ public final class Validate {
 
 	public static void checkForUrl(final String url) throws IllegalArgumentException {
 		final UrlValidator urlvalidator = new UrlValidator();
-		if(!urlvalidator.isValid(url)) {
+		if (!urlvalidator.isValid(url)) {
 			throw new IllegalArgumentException("Url ist nicht zulässig!");
 		}
 
@@ -85,8 +85,8 @@ public final class Validate {
 	 */
 	public static void checkForAlpha(final String text) throws IllegalArgumentException {
 		checkForContent(text);
-		if (!text.matches("[a-zA-Z]+")) {
-			throw new IllegalArgumentException("Text darf nur Buchstaben enthalten!");
+		if (!text.matches("[A-Za-zäÄöÖüÜß]+")) {
+			throw new IllegalArgumentException("Text " + text + " darf nur Buchstaben enthalten!");
 		}
 	}
 
