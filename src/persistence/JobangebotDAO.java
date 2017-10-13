@@ -64,8 +64,8 @@ public class JobangebotDAO {
 			preparedStatement.setInt(1, unternehmensId);
 			int gid = new AbschlussDAO().getAbschluss(jobangebot.getAbschluss());
 			preparedStatement.setInt(2, gid);
-			int bid = new BrancheDAO().getBranche(jobangebot.getBranche());
-			preparedStatement.setInt(3, bid);
+			int eid = new ExpertiseDAO().getExpertise(jobangebot.getFachgebiet());
+			preparedStatement.setInt(3, eid);
 			preparedStatement.setString(4, jobangebot.getBeschreibung());
 			preparedStatement.setObject(5, jobangebot.getFrist());
 			preparedStatement.setInt(6, jobangebot.getGehalt());
@@ -103,10 +103,10 @@ public class JobangebotDAO {
 	public Jobangebot getJobangebot(int jid) throws SQLException {
 		try {
 			open();
-			preparedStatement = connect.prepareStatement("SELECT JID, UID, graduation.graduation, branche.branche, "
+			preparedStatement = connect.prepareStatement("SELECT JID, UID, graduation.graduation, expertise.expertise, "
 					+ "description, deadline, salary, weeklyHours " + "FROM jobangebot "
 					+ "INNER JOIN graduation ON jobangebot.GID=graduation.GID "
-					+ "INNER JOIN branche ON jobangebot.BID = branche.BID " + "WHERE JID = ?");
+					+ "INNER JOIN expertise ON jobangebot.EID = expertise.EID " + "WHERE JID = ?");
 			preparedStatement.setInt(1, jid);
 			resultSet = preparedStatement.executeQuery();
 			return getJobangebotFromResultSet(resultSet).get(0);
@@ -122,10 +122,10 @@ public class JobangebotDAO {
 	public List<Jobangebot> getAllJobangebote() throws SQLException {
 		try {
 			open();
-			preparedStatement = connect.prepareStatement("SELECT JID, UID, graduation.graduation, branche.branche, "
+			preparedStatement = connect.prepareStatement("SELECT JID, UID, graduation.graduation, expertise.expertise, "
 					+ "description, deadline, salary, weeklyHours " + "FROM jobangebot "
 					+ "INNER JOIN graduation ON jobangebot.GID=graduation.GID "
-					+ "INNER JOIN branche ON jobangebot.BID = branche.BID");
+					+ "INNER JOIN expertise ON jobangebot.EID = expertise.EID");
 			resultSet = preparedStatement.executeQuery();
 			return getJobangebotFromResultSet(resultSet);
 		} finally {
@@ -163,13 +163,13 @@ public class JobangebotDAO {
 			preparedStatement.executeUpdate();
 
 			this.preparedStatement = this.connect
-					.prepareStatement("UPDATE jobangebot SET GID = ?, BID = ?, description = ?, deadline = ?, "
+					.prepareStatement("UPDATE jobangebot SET GID = ?, EID = ?, description = ?, deadline = ?, "
 							+ "salary = ?, weeklyHours = ? WHERE JID = ?");
 
 			int gid = new AbschlussDAO().getAbschluss(jobangebot.getAbschluss());
 			this.preparedStatement.setInt(1, gid);
-			int bid = new BrancheDAO().getBranche(jobangebot.getBranche());
-			this.preparedStatement.setInt(2, bid);
+			int eid = new ExpertiseDAO().getExpertise(jobangebot.getFachgebiet());
+			this.preparedStatement.setInt(2, eid);
 			this.preparedStatement.setString(3, jobangebot.getBeschreibung());
 			this.preparedStatement.setObject(4, jobangebot.getFrist());
 			this.preparedStatement.setInt(5, jobangebot.getGehalt());
@@ -198,7 +198,7 @@ public class JobangebotDAO {
 			int unternehmensId = resultSet.getInt("jobangebot.uid");
 			Unternehmensprofil unternehmen = new UnternehmensprofilDAO().getUnternehmensprofil(unternehmensId);
 			String graduation = resultSet.getString("graduation.graduation");
-			String branche = resultSet.getString("branche.branche");
+			String expertise = resultSet.getString("expertise.expertise");
 			String description = resultSet.getString("jobangebot.description");
 			Date deadlineSQL = resultSet.getDate("jobangebot.deadline");
 			LocalDate deadline = deadlineSQL.toLocalDate();
@@ -206,8 +206,8 @@ public class JobangebotDAO {
 			int weeklyHours = resultSet.getInt("jobangebot.weeklyHours");
 			List<String> sprachen = getLanguageInJobangebot(jobangebotsId);
 			try {
-				Jobangebot tempJobangebot = new Jobangebot(graduation, branche, sprachen, description, deadline, salary,
-						weeklyHours, unternehmen);
+				Jobangebot tempJobangebot = new Jobangebot(graduation, expertise, sprachen, description, deadline,
+						salary, weeklyHours, unternehmen);
 				tempJobangebot.setId(jobangebotsId);
 				result.add(tempJobangebot);
 
@@ -259,21 +259,21 @@ public class JobangebotDAO {
 		return result;
 	}
 
-	public List<Jobangebot> searchForAbschlussTest(String aAbschluss, String aBranche) throws SQLException {
+	public List<Jobangebot> searchForAbschlussTest(String aAbschluss, String aExpertise) throws SQLException {
 		List<Jobangebot> result = new LinkedList<>();
 		try {
 			open();
 
-			String branche = aBranche.replace("!", "!!").replace("%", "!%").replace("_", "!_").replace("[", "![")
+			String expertise = aExpertise.replace("!", "!!").replace("%", "!%").replace("_", "!_").replace("[", "![")
 					.replace("*", "%");
 
 			int hierarchy = new AbschlussDAO().getHierarchy(aAbschluss);
 
 			preparedStatement = connect.prepareStatement(
-					"SELECT jobangebot.JID FROM jobangebot " + "INNER JOIN branche ON jobangebot.BID = branche.BID "
+					"SELECT jobangebot.JID FROM jobangebot " + "INNER JOIN expertise ON jobangebot.EID = expertise.EID "
 							+ "INNER JOIN graduation ON jobangebot.GID = graduation.GID "
-							+ "WHERE branche.branche LIKE ? " + "AND graduation.hierarchy <= ?");
-			preparedStatement.setString(1, branche);
+							+ "WHERE expertise.expertise LIKE ? " + "AND graduation.hierarchy <= ?");
+			preparedStatement.setString(1, expertise);
 			preparedStatement.setInt(2, hierarchy);
 
 			resultSet = preparedStatement.executeQuery();

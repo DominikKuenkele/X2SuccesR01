@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -124,18 +125,17 @@ public class ViewFSuche implements Initializable {
 
 		Verwaltung v = Verwaltung.getInstance();
 		Set<Entry<Jobangebot, Integer>> searchList = v.sucheJobangebote("", "", "", 1, 2, 5);
+		Iterator<Entry<Jobangebot, Integer>> serachListIt = searchList.iterator();
 
 		JobangebotAnzeige[] jA = new JobangebotAnzeige[searchList.size()];
-		int r = 0;
-		int c = 0;
+
 		GridPane searchGrid = new GridPane();
 
 		for (int i = 0; i < searchList.size(); i++) {
-			
-			jA[i].setOnMouseClicked(jAoeffnen());
-
 			jA[i] = new JobangebotAnzeige();
 			jA[i].setGehalt("4");
+			jA[i].setJID(3);
+			jA[i].setOnMouseClicked(jAoeffnen());
 			searchGrid.add(jA[i], i % 3, i / 3);
 
 		}
@@ -146,27 +146,14 @@ public class ViewFSuche implements Initializable {
 	private EventHandler<? super MouseEvent> jAoeffnen() throws IOException {
 		Stage stage = new Stage();
 		stage.setTitle("X2Success");
-		Pane myPane = null;
-		myPane = FXMLLoader.load(getClass().getResource("/view/UJobangebot.fxml"));
+		Pane myPane = FXMLLoader.load(getClass().getResource("/view/UJobangebot.fxml"));
+
 		Scene scene = new Scene(myPane);
 		stage.setScene(scene);
 		stage.show();
-		
+
 		return null;
 	}
-
-	void openoffer() throws IOException {
-
-		Stage stage = new Stage();
-		stage.setTitle("X2Success");
-		Pane myPane = null;
-		myPane = FXMLLoader.load(getClass().getResource("Jobangebot.fxml"));
-		Scene scene = new Scene(myPane);
-		stage.setScene(scene);
-		stage.show();
-
-	}
-
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

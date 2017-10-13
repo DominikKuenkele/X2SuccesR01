@@ -17,6 +17,7 @@ public class Unternehmensprofil implements Profil {
 	private LocalDate founding;
 	private int employees;
 	private String description;
+	private String branche;
 	private String benefits;
 	private String website;
 	private String ceoFirstName;
@@ -31,6 +32,7 @@ public class Unternehmensprofil implements Profil {
 	 * @param employees
 	 * @param description
 	 * @param benefits
+	 * @param branche
 	 * @param website
 	 * @param ceoFirstName
 	 * @param ceoLastName
@@ -38,8 +40,8 @@ public class Unternehmensprofil implements Profil {
 	 * @throws ValidateConstrArgsException
 	 */
 	public Unternehmensprofil(String name, String legalForm, Adresse address, LocalDate founding, int employees,
-			String description, String benefits, String website, String ceoFirstName, String ceoLastName, Nutzer nutzer)
-			throws ValidateConstrArgsException {
+			String description, String benefits, String branche, String website, String ceoFirstName,
+			String ceoLastName, Nutzer nutzer) throws ValidateConstrArgsException {
 		this.name = name;
 		this.legalForm = legalForm;
 		this.address = address;
@@ -47,6 +49,7 @@ public class Unternehmensprofil implements Profil {
 		this.employees = employees;
 		this.description = description;
 		this.benefits = benefits;
+		this.branche = branche;
 		this.website = website;
 		this.ceoFirstName = ceoFirstName;
 		this.ceoLastName = ceoLastName;
@@ -112,6 +115,13 @@ public class Unternehmensprofil implements Profil {
 	}
 
 	/**
+	 * @return the branche
+	 */
+	public String getBranche() {
+		return branche;
+	}
+
+	/**
 	 * @return the website
 	 */
 	public String getWebsite() {
@@ -159,12 +169,16 @@ public class Unternehmensprofil implements Profil {
 		this.uid = uid;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "Unternehmensprofil [uid=" + this.uid + ", name=" + this.name + ", legalForm=" + this.legalForm
 				+ ", address=" + this.address + ", founding=" + this.founding + ", employees=" + this.employees
-				+ ", description=" + this.description + ", benefits=" + this.benefits + ", website=" + this.website
-				+ ", ceoFirstName=" + this.ceoFirstName + ", ceoLastName=" + this.ceoLastName + ", nutzer="
-				+ this.nutzer + "]";
+				+ ", description=" + this.description + ", branche=" + this.branche + ", benefits=" + this.benefits
+				+ ", website=" + this.website + ", ceoFirstName=" + this.ceoFirstName + ", ceoLastName="
+				+ this.ceoLastName + ", nutzer=" + this.nutzer + "]";
 	}
 }

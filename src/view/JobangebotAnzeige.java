@@ -8,28 +8,20 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 
 /**
  * @author domin
  *
  */
 public class JobangebotAnzeige extends AnchorPane {
-	
+
 	private AnchorPane pane;
-	
 
 	private ImageView imgImageView;
 	private Label nameLabel;
@@ -51,6 +43,8 @@ public class JobangebotAnzeige extends AnchorPane {
 	private final String EMPH_FONT = "System Bold";
 	private final int EMPH_SIZE = 14;
 
+	private int jid;
+
 	private final String GRUENDUNG_TEXT = "Gründung: ";
 	private final String MITARBEITER_TEXT = "Mitarbeiter: ";
 	private final String ANFORDERUNG_TEXT = "Anforderung: ";
@@ -58,10 +52,10 @@ public class JobangebotAnzeige extends AnchorPane {
 	private final String GEHALT_EINHEIT = " EURO/Monat";
 
 	/**
-	 * @throws IOException 
+	 * @throws IOException
 	 * 
 	 */
-	public JobangebotAnzeige(){
+	public JobangebotAnzeige() {
 		super();
 		setMinWidth(220);
 		setMinHeight(260);
@@ -123,6 +117,9 @@ public class JobangebotAnzeige extends AnchorPane {
 
 	}
 
+	public void setJID(int jid) {
+		this.jid = jid;
+	}
 
 	public void setName(String name) {
 		nameLabel.setText(name);

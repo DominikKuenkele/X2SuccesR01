@@ -16,7 +16,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import model.Jobangebot;
 import model.Unternehmensprofil;
-import util.exception.ValidateConstrArgsException;
 
 public class ViewUJobangebot implements Initializable {
 
@@ -68,20 +67,19 @@ public class ViewUJobangebot implements Initializable {
 	@FXML
 	private ImageView star;
 
-
 	@FXML
 	void addfavorite(MouseEvent event) {
 
 		// Pfad ändern ist glaub falsch?!
-		if (star.getOpacity()==1) {
+		if (star.getOpacity() == 1) {
 			star.setImage(new Image("url=@Icons/stern_voll.png"));
 			star.setOpacity(0.99);
-			//Favorit speichern
+			// Favorit speichern
 
 		} else {
 			star.setImage(new Image("url=@Icons/stern_leer.png"));
 			star.setOpacity(1);
-			//Favorit löschen
+			// Favorit löschen
 		}
 
 	}
@@ -89,35 +87,35 @@ public class ViewUJobangebot implements Initializable {
 	@FXML
 	void mailTo(MouseEvent event) throws URISyntaxException, IOException {
 		if (Desktop.isDesktopSupported()) {
-    	    Desktop desktop = Desktop.getDesktop();
-    	    if (desktop.isSupported(Desktop.Action.MAIL)) {
-    	        URI mailto = new URI("mailto:john@example.com?subject=Hello%20World");
-    	        desktop.mail(mailto);
-    	    }
+			Desktop desktop = Desktop.getDesktop();
+			if (desktop.isSupported(Desktop.Action.MAIL)) {
+				URI mailto = new URI("mailto:john@example.com?subject=Hello%20World");
+				desktop.mail(mailto);
+			}
 		}
 	}
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		
-
-			Jobangebot j = new Jobangebot(null, null, null, null, null, 0, 0, null);
-			Unternehmensprofil u =j.getUnternehmensprofil();
-		
+	public void fillFormular(Jobangebot jobangebot) {
+		Unternehmensprofil u = jobangebot.getUnternehmensprofil();
 
 		companyname.setText(u.getName());
 		date.setText("Gründungsdatum: " + u.getFounding());
 		employees.setText("Mitarbeiteranzahl: " + u.getEmployees());
-		branche.setText("Branche: " +j.getBranche());
+		branche.setText("Branche: " + jobangebot.getFachgebiet());
 		Jobtitel.setText("");
-		jobdescription.setText(j.getBeschreibung());
-		salary.setText(Integer.toString(j.getGehalt()));
-		worktime.setText("Wochenstunden: "+Integer.toString(j.getWochenstunden()));
-		degree.setText("Benötigter Abschluss: " +j.getAbschluss()+ " in " + "");
+		jobdescription.setText(jobangebot.getBeschreibung());
+		salary.setText(Integer.toString(jobangebot.getGehalt()));
+		worktime.setText("Wochenstunden: " + Integer.toString(jobangebot.getWochenstunden()));
+		degree.setText("Benötigter Abschluss: " + jobangebot.getAbschluss() + " in " + "");
 		skills.setText("");
 		contactname.setText("");
 		contactphone.setText("");
 		contactmail.setText("");
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+
 	}
 
 }

@@ -58,8 +58,8 @@ public class FreelancerprofilDAO {
 			preparedStatement.setInt(1, nutzerId);
 			int gid = new AbschlussDAO().getAbschluss(freelancer.getAbschluss());
 			preparedStatement.setInt(2, gid);
-			int bid = new BrancheDAO().getBranche(freelancer.getBranche());
-			preparedStatement.setInt(3, bid);
+			int eid = new ExpertiseDAO().getExpertise(freelancer.getFachgebiet());
+			preparedStatement.setInt(3, eid);
 			preparedStatement.setString(4, freelancer.getBeschreibung());
 			Gson gson = new GsonBuilder().create();
 			String skillsJSON = gson.toJson(freelancer.getSkills());
@@ -100,10 +100,10 @@ public class FreelancerprofilDAO {
 		try {
 			open();
 			preparedStatement = connect.prepareStatement(
-					"SELECT FID, NID, graduation.graduation, branche.branche, description, skills, career, benefits "
+					"SELECT FID, NID, graduation.graduation, expertise.expertise, description, skills, career, benefits "
 							+ "FROM freelancerprofil  "
 							+ "INNER JOIN graduation ON freelancerprofil.GID=graduation.GID "
-							+ "INNER JOIN branche ON freelancerprofil.BID = branche.BID " + "WHERE FID = ?");
+							+ "INNER JOIN expertise ON freelancerprofil.EID = expertise.EID " + "WHERE FID = ?");
 			preparedStatement.setInt(1, fid);
 
 			resultSet = preparedStatement.executeQuery();
@@ -122,10 +122,10 @@ public class FreelancerprofilDAO {
 		try {
 			open();
 			preparedStatement = connect.prepareStatement(
-					"SELECT FID, NID, graduation.graduation, branche.branche, description, skills, career, benefits "
+					"SELECT FID, NID, graduation.graduation, expertise.expertise, description, skills, career, benefits "
 							+ "FROM Freelancerprofil  "
 							+ "INNER JOIN graduation ON freelancerprofil.GID=graduation.GID "
-							+ "INNER JOIN branche ON freelancerprofil.GID=branche.BID");
+							+ "INNER JOIN expertise ON freelancerprofil.EID=expertise.EID");
 			resultSet = preparedStatement.executeQuery();
 			return getFreelancerprofilFromResultSet(resultSet);
 		} finally {
@@ -163,15 +163,15 @@ public class FreelancerprofilDAO {
 			preparedStatement.executeUpdate();
 
 			this.preparedStatement = this.connect.prepareStatement(
-					"UPDATE freelancerprofil SET NID = ?, GID = ?, BID = ?, description = ?, skills = ?, "
+					"UPDATE freelancerprofil SET NID = ?, GID = ?, EID = ?, description = ?, skills = ?, "
 							+ "career = ?, benefits = ? WHERE FID = ?");
 
 			int nid = freelancerprofil.getNutzer().getId();
 			this.preparedStatement.setInt(1, nid);
 			int gid = new AbschlussDAO().getAbschluss(freelancerprofil.getAbschluss());
 			this.preparedStatement.setInt(2, gid);
-			int bid = new BrancheDAO().getBranche(freelancerprofil.getBranche());
-			this.preparedStatement.setInt(3, bid);
+			int eid = new ExpertiseDAO().getExpertise(freelancerprofil.getFachgebiet());
+			this.preparedStatement.setInt(3, eid);
 			this.preparedStatement.setString(4, freelancerprofil.getBeschreibung());
 			Gson gson = new GsonBuilder().create();
 			String skillsJSON = gson.toJson(freelancerprofil.getSkills());
@@ -202,7 +202,7 @@ public class FreelancerprofilDAO {
 			int nutzerId = resultSet.getInt("NID");
 			Nutzer nutzer = new NutzerDAO().getNutzer(nutzerId);
 			String graduation = resultSet.getString("graduation.graduation");
-			String branche = resultSet.getString("branche.branche");
+			String expertise = resultSet.getString("expertise.expertise");
 			String description = resultSet.getString("description");
 			String skillsJSON = resultSet.getString("skills");
 			Gson gson = new GsonBuilder().create();
@@ -212,8 +212,8 @@ public class FreelancerprofilDAO {
 			List<String> sprachen = getLanguageInFreelancerprofil(freelancerId);
 
 			try {
-				Freelancerprofil tempFreelancer = new Freelancerprofil(graduation, branche, description, skills, career,
-						benefits, sprachen, nutzer);
+				Freelancerprofil tempFreelancer = new Freelancerprofil(graduation, expertise, description, skills,
+						career, benefits, sprachen, nutzer);
 				tempFreelancer.setId(freelancerId);
 				result.add(tempFreelancer);
 			} catch (ValidateConstrArgsException e) {
@@ -243,22 +243,22 @@ public class FreelancerprofilDAO {
 		return result;
 	}
 
-	public List<Freelancerprofil> searchForAbschlussTest(String aAbschluss, String aBranche) throws SQLException {
+	public List<Freelancerprofil> searchForAbschlussTest(String aAbschluss, String aExpertise) throws SQLException {
 		List<Freelancerprofil> result = new LinkedList<>();
 
 		try {
 			open();
 
-			String branche = aBranche.replace("!", "!!").replace("%", "!%").replace("_", "!_").replace("[", "![")
+			String expertise = aExpertise.replace("!", "!!").replace("%", "!%").replace("_", "!_").replace("[", "![")
 					.replace("*", "%");
 
 			int hierarchy = new AbschlussDAO().getHierarchy(aAbschluss);
 
 			preparedStatement = connect.prepareStatement("SELECT freelancerprofil.FID FROM freelancerprofil "
-					+ "INNER JOIN branche ON freelancerprofil.BID = branche.BID "
+					+ "INNER JOIN branche ON freelancerprofil.EID = expertise.EID "
 					+ "INNER JOIN graduation ON freelancerprofil.GID = graduation.GID "
-					+ "WHERE branche.branche LIKE ? AND graduation.hierarchy >= ?");
-			preparedStatement.setString(1, branche);
+					+ "WHERE expertise.expertise LIKE ? AND graduation.hierarchy >= ?");
+			preparedStatement.setString(1, expertise);
 			preparedStatement.setInt(2, hierarchy);
 
 			resultSet = preparedStatement.executeQuery();
@@ -266,6 +266,33 @@ public class FreelancerprofilDAO {
 				int fid = resultSet.getInt("freelancerprofil.FID");
 				result.add(new FreelancerprofilDAO().getFreelancerprofil(fid));
 			}
+		} finally {
+			close();
+		}
+		return result;
+	}
+
+	public List<Freelancerprofil> searchForSpracheTest(List<String> aSprachen) throws SQLException {
+		List<Freelancerprofil> result = new LinkedList<>();
+
+		try {
+			open();
+			List<String> filteredSprachen = new LinkedList<>();
+			for (String sprache : aSprachen) {
+				String filteredSprache = sprache.replace("!", "!!").replace("%", "!%").replace("_", "!_").replace("[",
+						"![");
+				preparedStatement = connect.prepareStatement("SELECT freelancerprofil.FID FROM sprachenzuordnungFP "
+						+ "INNER JOIN sprache ON sprachenzuordnungFP.SID = sprache.SID "
+						+ "WHERE sprache.sprache LIKE ?");
+				preparedStatement.setString(1, filteredSprache);
+
+				resultSet = preparedStatement.executeQuery();
+				while (resultSet.next()) {
+					int fid = resultSet.getInt("freelancerprofil.FID");
+					result.add(new FreelancerprofilDAO().getFreelancerprofil(fid));
+				}
+			}
+
 		} finally {
 			close();
 		}
