@@ -16,7 +16,7 @@ public class Freelancerprofil implements Profil {
 
 	private int fid = -1;
 	private String abschluss;
-	private String branche;
+	private String fachgebiet;
 	private String beschreibung;
 	private String[] skills = new String[ANZAHL_STAERKEN];
 	private String lebenslauf;
@@ -26,7 +26,7 @@ public class Freelancerprofil implements Profil {
 
 	/**
 	 * @param abschluss
-	 * @param branche
+	 * @param fachgebiet
 	 * @param beschreibung
 	 * @param skills
 	 * @param lebenslauf
@@ -35,11 +35,11 @@ public class Freelancerprofil implements Profil {
 	 * @param nutzer
 	 * @throws ValidateConstrArgsException
 	 */
-	public Freelancerprofil(final String abschluss, final String branche, final String beschreibung,
+	public Freelancerprofil(final String abschluss, final String fachgebiet, final String beschreibung,
 			final String[] skills, final String lebenslauf, final String benefits, final List<String> sprachen,
 			Nutzer nutzer) throws ValidateConstrArgsException {
 		this.abschluss = abschluss;
-		this.branche = branche;
+		this.fachgebiet = fachgebiet;
 		this.beschreibung = beschreibung;
 		this.skills = Arrays.copyOf(skills, skills.length);
 		this.lebenslauf = lebenslauf;
@@ -52,7 +52,7 @@ public class Freelancerprofil implements Profil {
 
 	@Override
 	public String toString() {
-		return "Freelancerprofil [fid=" + this.fid + ", abschluss=" + this.abschluss + ", branche=" + this.branche
+		return "Freelancerprofil [fid=" + this.fid + ", abschluss=" + this.abschluss + ", fachgebiet=" + this.fachgebiet
 				+ ", beschreibung=" + this.beschreibung + ", skills=" + Arrays.toString(this.skills) + ", lebenslauf="
 				+ this.lebenslauf + ", benefits=" + this.benefits + ", sprachen=" + this.sprachen + ", nutzer="
 				+ this.nutzer + "]";
@@ -73,10 +73,10 @@ public class Freelancerprofil implements Profil {
 	}
 
 	/**
-	 * @return the branche
+	 * @return the fachgebiet
 	 */
-	public String getBranche() {
-		return this.branche;
+	public String getFachgebiet() {
+		return this.fachgebiet;
 	}
 
 	/**

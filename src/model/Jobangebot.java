@@ -15,7 +15,7 @@ import util.exception.ValidateConstrArgsException;
 public class Jobangebot {
 	private int jid = -1;
 	private String abschluss;
-	private String branche;
+	private String fachgebiet;
 	private List<String> sprachen;
 	private String beschreibung;
 	private LocalDate frist;
@@ -25,7 +25,7 @@ public class Jobangebot {
 
 	/**
 	 * @param abschluss
-	 * @param branche
+	 * @param fachgebiet
 	 * @param sprachen
 	 * @param beschreibung
 	 * @param frist
@@ -34,10 +34,10 @@ public class Jobangebot {
 	 * @param unternehmensprofil
 	 * @throws ValidateConstrArgsException
 	 */
-	public Jobangebot(String abschluss, String branche, List<String> sprachen, String beschreibung, LocalDate frist,
+	public Jobangebot(String abschluss, String fachgebiet, List<String> sprachen, String beschreibung, LocalDate frist,
 			int gehalt, int wochenstunden, Unternehmensprofil unternehmensprofil) throws ValidateConstrArgsException {
 		this.abschluss = abschluss;
-		this.branche = branche;
+		this.fachgebiet = fachgebiet;
 		this.sprachen = sprachen;
 		this.beschreibung = beschreibung;
 		this.frist = frist;
@@ -63,10 +63,10 @@ public class Jobangebot {
 	}
 
 	/**
-	 * @return the branche
+	 * @return the fachgebiet
 	 */
-	public String getBranche() {
-		return this.branche;
+	public String getFachgebiet() {
+		return this.fachgebiet;
 	}
 
 	/**
@@ -148,7 +148,7 @@ public class Jobangebot {
 
 	@Override
 	public String toString() {
-		return "Jobangebot [jid=" + this.jid + ", abschluss=" + this.abschluss + ", branche=" + this.branche
+		return "Jobangebot [jid=" + this.jid + ", abschluss=" + this.abschluss + ", fachgebiet=" + this.fachgebiet
 				+ ", sprachen=" + this.sprachen + ", beschreibung=" + this.beschreibung + ", frist=" + this.frist
 				+ ", gehalt=" + this.gehalt + ", wochenstunden=" + this.wochenstunden + ", unternehmensproflil="
 				+ this.unternehmensproflil + "]";
