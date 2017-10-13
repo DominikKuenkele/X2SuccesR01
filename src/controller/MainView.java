@@ -11,6 +11,8 @@ public class MainView extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/Registrierung.fxml"));
+			// AnchorPane root = (AnchorPane)
+			// FXMLLoader.load(getClass().getResource("/view/Startseite.fxml"));
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.show();

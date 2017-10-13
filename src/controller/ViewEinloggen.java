@@ -44,12 +44,12 @@ public class ViewEinloggen {
 
 		// PW und Benutzernamen prüfen
 		if (true) { // Wenn Benutzer Freelancer ist
-				changescene("FDashboard.fxml"); // Wenn Benutzer Favoriten hat
+				changescene("/view/FRahmen.fxml"); // Wenn Benutzer Favoriten hat
 			
 		} else {
-				changescene("UDashboard.fxml");// Benutzer hat keine Favoriten
-			
+				changescene("/view/URahmen.fxml");// Benutzer hat keine Favoriten
 		}
 	}
+
 
 }

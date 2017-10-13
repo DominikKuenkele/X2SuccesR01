@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="741.0" prefWidth="577.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ViewFreelancerprofil">
+   <children>
+      <Label fx:id="username" layoutX="193.0" layoutY="25.0" text="Vorname Nachname">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="Freelancerpicture" fitHeight="150.0" fitWidth="200.0" layoutX="16.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Icons/dtu-jnUc.jpg" />
+         </image>
+      </ImageView>
+      <Separator layoutX="3.0" layoutY="242.0" prefHeight="1.0" prefWidth="562.0" />
+      <Label layoutX="46.0" layoutY="350.0" text="Lebenslauf">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="skills" editable="false" layoutX="151.0" layoutY="332.0" prefHeight="107.0" prefWidth="405.0" text="Nochmal ne______________________ ________________________TextArea  weil wir nicht unendlich ______________________________________________________________________________________________________Platz haben" wrapText="true" />
+      <Label fx:id="contactphone" layoutX="41.0" layoutY="577.0" text="01805 46 46">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="contactmail" layoutX="171.0" layoutY="579.0" onMouseClicked="#mailTo" text="Viel zu lange eMail@mail.de mit mailTo Methode bei Mausklick" />
+      <ImageView fx:id="star" fitHeight="61.0" fitWidth="58.0" layoutX="505.0" layoutY="14.0" onMouseClicked="#addfavorite" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Icons/stern_leer.png" />
+         </image>
+      </ImageView>
+      <TextArea fx:id="description" layoutX="188.0" layoutY="72.0" prefHeight="137.0" prefWidth="362.0" text="Selbstbeschreibung" />
+      <Label fx:id="degree" layoutX="41.0" layoutY="277.0" text="Abschluss XY in WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="47.0" layoutY="475.0" text="Sprachen:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="languages" layoutX="149.0" layoutY="475.0" prefHeight="20.0" prefWidth="405.0" text="Deutsch Englisch Spanisch Französisch">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="47.0" layoutY="520.0" text="Skills:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
