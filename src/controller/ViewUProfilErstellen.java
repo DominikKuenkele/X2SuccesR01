@@ -97,7 +97,7 @@ public class ViewUProfilErstellen implements Initializable {
 		try {
 			verwaltung.createUnternehmen(name, form, plz, stadt, strasse, hausnummer, gruendung, mitarbeiter,
 					beschreibung, "benefits", "www.test.de", "Vorname", "Nachname");
-			switchScene("Unternehmen_Home_Dashboard_nofavs.fxml");
+			switchScene("/view/URahmen.fxml");
 		} catch (UserInputException | DBException e) {
 			Alert alert = new Alert(AlertType.ERROR); // Statt .Error geht auch .Warning etc
 			alert.setTitle("Error"); // Fenstername
@@ -106,10 +106,6 @@ public class ViewUProfilErstellen implements Initializable {
 			alert.showAndWait();
 
 			e.printStackTrace();
-
-			// Höchste UnternehmensID aus DB holen
-			// UID = UID+1;
-			// Unternehmensprofil XY =new Unternehmensprofil(Name,Beschreibung,Branche,)
 
 		}
 

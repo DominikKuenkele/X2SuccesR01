@@ -36,12 +36,12 @@ public class ViewStartseite {
 
     @FXML
     void Login(ActionEvent event) throws IOException {
-    	changescene("Einloggen.fxml");
+    	changescene("/view/Einloggen.fxml");
     }
 
     @FXML
     void Registrierung(ActionEvent event) throws IOException {
-    	changescene("Registrierung.fxml");
+    	changescene("/view/Registrierung.fxml");
     }
 
 }

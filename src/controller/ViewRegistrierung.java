@@ -121,13 +121,13 @@ public class ViewRegistrierung implements Initializable {
 	@FXML
 	void addcompanyb(ActionEvent event) throws IOException {
 		NutzerAnlegen();
-		changescene("UProfilErstellen.fxml");
+		changescene("/view/UProfilErstellen.fxml");
 	}
 
 	@FXML
 	void addfreelancer(ActionEvent event) throws IOException {
 		NutzerAnlegen();
-		changescene("FProfilErstellen.fxml");
+		changescene("/view/FProfilErstellen.fxml");
 	}
 
 	@Override

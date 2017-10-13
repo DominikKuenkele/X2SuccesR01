@@ -147,7 +147,7 @@ public class ViewFSuche implements Initializable {
 		Stage stage = new Stage();
 		stage.setTitle("X2Success");
 		Pane myPane = null;
-		myPane = FXMLLoader.load(getClass().getResource("UJobangebot.fxml"));
+		myPane = FXMLLoader.load(getClass().getResource("/view/UJobangebot.fxml"));
 		Scene scene = new Scene(myPane);
 		stage.setScene(scene);
 		stage.show();
@@ -167,48 +167,6 @@ public class ViewFSuche implements Initializable {
 
 	}
 
-	@FXML
-	void showresult1(MouseEvent event) throws IOException {
-
-		openoffer();
-		// ID muss noch mitgegeben werden
-
-	}
-
-	@FXML
-	void showresult2(MouseEvent event) throws IOException {
-		openoffer();
-		// ID muss noch mitgegeben werden
-
-	}
-
-	@FXML
-	void showresult3(MouseEvent event) throws IOException {
-		openoffer();
-		// ID muss noch mitgegeben werden
-
-	}
-
-	@FXML
-	void showresult4(MouseEvent event) throws IOException {
-		openoffer();
-		// ID muss noch mitgegeben werden
-
-	}
-
-	@FXML
-	void showresult5(MouseEvent event) throws IOException {
-		openoffer();
-		// ID muss noch mitgegeben werden
-
-	}
-
-	@FXML
-	void showresult6(MouseEvent event) throws IOException {
-		openoffer();
-		// ID muss noch mitgegeben werden
-
-	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
