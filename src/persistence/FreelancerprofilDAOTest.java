@@ -42,7 +42,7 @@ public class FreelancerprofilDAOTest {
 			List<String> sprachen = new LinkedList<>();
 			sprachen.add("Englisch");
 			Freelancerprofil f = new Freelancerprofil("Ausbildung", "Banken", "beschreibung", skills, "lebenslauf",
-					"benfits", sprachen, new NutzerDAO().getNutzer(22));
+					sprachen, new NutzerDAO().getNutzer(22));
 			int fid = new FreelancerprofilDAO().addFreelancerprofil(f);
 			f.setId(fid);
 			System.out.println(f);
@@ -103,7 +103,7 @@ public class FreelancerprofilDAOTest {
 				String branche = new BrancheDAO().getBranche(i % 5 + 1);
 				String abschluss = new AbschlussDAO().getAbschluss((i % 4) + 4);
 				Freelancerprofil f2 = new Freelancerprofil(abschluss, branche, f.getBeschreibung(), f.getSkills(),
-						f.getLebenslauf(), f.getBenefits(), f.getSprachen(), f.getNutzer());
+						f.getLebenslauf(), f.getSprachen(), f.getNutzer());
 				f2.setId(f.getFID());
 				new FreelancerprofilDAO().changeFreelancerprofil(f2);
 			}

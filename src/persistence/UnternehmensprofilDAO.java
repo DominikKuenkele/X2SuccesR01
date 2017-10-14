@@ -54,7 +54,7 @@ public class UnternehmensprofilDAO {
 			open();
 
 			preparedStatement = connect.prepareStatement(
-					"INSERT INTO Unternehmensprofil values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+					"INSERT INTO Unternehmensprofil values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			int nutzerId = unternehmen.getNutzer().getId();
 			preparedStatement.setInt(1, nutzerId);
 			int bid = new BrancheDAO().getBranche(unternehmen.getBranche());
@@ -64,14 +64,13 @@ public class UnternehmensprofilDAO {
 			preparedStatement.setObject(5, unternehmen.getFounding());
 			preparedStatement.setInt(6, unternehmen.getEmployees());
 			preparedStatement.setString(7, unternehmen.getDescription());
-			preparedStatement.setString(8, unternehmen.getBenefits());
-			preparedStatement.setString(9, unternehmen.getWebsite());
-			preparedStatement.setString(10, unternehmen.getCeoFirstName());
-			preparedStatement.setString(11, unternehmen.getCeoLastName());
-			preparedStatement.setString(12, address.getPlz());
-			preparedStatement.setString(13, address.getCity());
-			preparedStatement.setString(14, address.getStrasse());
-			preparedStatement.setString(15, address.getNumber());
+			preparedStatement.setString(8, unternehmen.getWebsite());
+			preparedStatement.setString(9, unternehmen.getCeoFirstName());
+			preparedStatement.setString(10, unternehmen.getCeoLastName());
+			preparedStatement.setString(11, address.getPlz());
+			preparedStatement.setString(12, address.getCity());
+			preparedStatement.setString(13, address.getStrasse());
+			preparedStatement.setString(14, address.getNumber());
 			preparedStatement.executeUpdate();
 
 			preparedStatement = connect.prepareStatement("SELECT LAST_INSERT_ID()");
@@ -95,7 +94,7 @@ public class UnternehmensprofilDAO {
 			open();
 			preparedStatement = connect
 					.prepareStatement("SELECT UID, NID, BID, name, legalForm, founding, employees, description, "
-							+ "benefits, website, ceoFirstName, ceoLastName, plz, city, street, "
+							+ "website, ceoFirstName, ceoLastName, plz, city, street, "
 							+ "number FROM Unternehmensprofil WHERE UID = ?");
 			preparedStatement.setInt(1, uid);
 
@@ -116,7 +115,7 @@ public class UnternehmensprofilDAO {
 			open();
 			preparedStatement = connect
 					.prepareStatement("SELECT UID, NID, BID, name, legalForm, founding, employees, description, "
-							+ "benefits, website, ceoFirstName, ceoLastName, plz, city, street, "
+							+ "website, ceoFirstName, ceoLastName, plz, city, street, "
 							+ "number FROM Unternehmensprofil");
 			resultSet = preparedStatement.executeQuery();
 			return getUnternehmensprofilFromResultSet(resultSet);
@@ -155,7 +154,6 @@ public class UnternehmensprofilDAO {
 			LocalDate founding = foundingSQL.toLocalDate();
 			int employees = resultSet.getInt("employees");
 			String description = resultSet.getString("description");
-			String benefits = resultSet.getString("benefits");
 			String website = resultSet.getString("website");
 			String ceoFirstName = resultSet.getString("ceoFirstName");
 			String ceoLastName = resultSet.getString("ceoLastName");
@@ -165,8 +163,8 @@ public class UnternehmensprofilDAO {
 			String number = resultSet.getString("number");
 			try {
 				Unternehmensprofil tempUnternehmen = new Unternehmensprofil(name, legalForm,
-						new Adresse(plz, city, street, number), founding, employees, description, branche, benefits,
-						website, ceoFirstName, ceoLastName, nutzer);
+						new Adresse(plz, city, street, number), founding, employees, description, branche, website,
+						ceoFirstName, ceoLastName, nutzer);
 				tempUnternehmen.setId(unternehmensId);
 				result.add(tempUnternehmen);
 			} catch (ValidateConstrArgsException e) {
@@ -186,7 +184,7 @@ public class UnternehmensprofilDAO {
 			open();
 			this.preparedStatement = this.connect.prepareStatement(
 					"UPDATE Unternehmensprofil SET NID = ?, SET BID = ?, name = ?, legalForm = ?, founding = ?, employees = ?, description = ?, "
-							+ "benefits = ?, website = ?, ceoFirstName = ?, ceoLastName = ?, plz = ?, city = ?, street = ?,"
+							+ "website = ?, ceoFirstName = ?, ceoLastName = ?, plz = ?, city = ?, street = ?,"
 							+ " number = ? WHERE UID = ?");
 			int nutzerId = aUnternehmen.getNutzer().getId();
 			preparedStatement.setInt(1, nutzerId);
@@ -197,15 +195,14 @@ public class UnternehmensprofilDAO {
 			preparedStatement.setObject(5, aUnternehmen.getFounding());
 			preparedStatement.setInt(6, aUnternehmen.getEmployees());
 			preparedStatement.setString(7, aUnternehmen.getDescription());
-			preparedStatement.setString(8, aUnternehmen.getBenefits());
-			preparedStatement.setString(9, aUnternehmen.getWebsite());
-			preparedStatement.setString(10, aUnternehmen.getCeoFirstName());
-			preparedStatement.setString(11, aUnternehmen.getCeoLastName());
-			preparedStatement.setString(12, address.getPlz());
-			preparedStatement.setString(13, address.getCity());
+			preparedStatement.setString(8, aUnternehmen.getWebsite());
+			preparedStatement.setString(9, aUnternehmen.getCeoFirstName());
+			preparedStatement.setString(10, aUnternehmen.getCeoLastName());
+			preparedStatement.setString(11, address.getPlz());
+			preparedStatement.setString(12, address.getCity());
 			preparedStatement.setString(13, address.getStrasse());
 			preparedStatement.setString(14, address.getNumber());
-			preparedStatement.setInt(16, aUnternehmen.getId());
+			preparedStatement.setInt(15, aUnternehmen.getId());
 			preparedStatement.executeUpdate();
 		} finally {
 			close();

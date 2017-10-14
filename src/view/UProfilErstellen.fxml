@@ -51,7 +51,7 @@
 					prefHeight="25.0" prefWidth="34.0" />
 				<DatePicker fx:id="UDatum" layoutX="186.0" layoutY="254.0"
 					prefHeight="25.0" prefWidth="192.0" />
-				<ChoiceBox layoutX="185.0" layoutY="338.0" prefHeight="31.0"
+				<ChoiceBox fx:id="UBranche" layoutX="185.0" layoutY="338.0" prefHeight="31.0"
 					prefWidth="192.0" />
 			</children>
 		</AnchorPane>

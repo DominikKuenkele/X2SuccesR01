@@ -17,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -56,7 +57,7 @@ public class ViewUProfilErstellen implements Initializable {
 	private DatePicker UDatum;
 
 	@FXML
-	private TextField UBranche;
+	private ChoiceBox<String> UBranche;
 
 	@FXML
 	private TextField UMitarbeiter;
@@ -67,14 +68,12 @@ public class ViewUProfilErstellen implements Initializable {
 	@FXML
 	private Button UAnlegenButton;
 
-	@FXML
 	void switchScene(String fxmlname) {
 		try {
 			Stage prevStage = (Stage) UAnlegenButton.getScene().getWindow();
 			Stage stage = new Stage();
 			stage.setTitle("X2Success");
-			Pane myPane = null;
-			myPane = FXMLLoader.load(getClass().getResource(fxmlname));
+			Pane myPane = FXMLLoader.load(getClass().getResource(fxmlname));
 			Scene scene = new Scene(myPane);
 			stage.setScene(scene);
 
@@ -88,25 +87,25 @@ public class ViewUProfilErstellen implements Initializable {
 
 	@FXML
 	void Unternehmenanlegen(ActionEvent event) {
+		verwaltung = Verwaltung.getInstance();
 
 		String name = UName.getText();
 		String form = UForm.getText();
-		String stadt = UStadt.getText();
 		String plz = UPlz.getText();
+		String stadt = UStadt.getText();
 		String strasse = UStraﬂe.getText();
 		String hausnummer = UNr.getText();
-		String branche = UBranche.getText();
 		LocalDate gruendung = UDatum.getValue();
 		int mitarbeiter = Integer.parseInt(UMitarbeiter.getText());
+		String branche = UBranche.getValue();
 		String beschreibung = UBeschreibung.getText();
-
 		try {
 			verwaltung.createUnternehmen(name, form, plz, stadt, strasse, hausnummer, gruendung, mitarbeiter,
-					beschreibung, branche, "benefits", "www.test.de", "Vorname", "Nachname");
+					beschreibung, branche, "www.test.de", "Vorname", "Nachname"); // TODO ceoname, website
 			switchScene("/view/URahmen.fxml");
 		} catch (UserInputException | DBException e) {
-			Alert alert = new Alert(AlertType.ERROR); // Statt .Error geht auch .Warning etc
-			alert.setTitle("Error"); // Fenstername
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
 			alert.setHeaderText("Registrierung fehlgeschlagen");
 			alert.setContentText(e.getMessage());
 			alert.showAndWait();
@@ -119,11 +118,11 @@ public class ViewUProfilErstellen implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		verwaltung = Verwaltung.getInstance();
 		try {
-			ObservableList<String> graduation = FXCollections.observableArrayList(new BrancheDAO().);
-			degree1.setValue(graduation.get(0)); // Anfangswert
-			degree1.setItems(graduation); // Name der Liste
-
+			ObservableList<String> branche = FXCollections.observableArrayList(new BrancheDAO().getAllBranchen());
+			UBranche.setValue(branche.get(0));
+			UBranche.setItems(branche);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

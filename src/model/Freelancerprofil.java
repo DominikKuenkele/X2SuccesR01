@@ -20,7 +20,6 @@ public class Freelancerprofil implements Profil {
 	private String beschreibung;
 	private String[] skills = new String[ANZAHL_STAERKEN];
 	private String lebenslauf;
-	private String benefits;
 	private List<String> sprachen;
 	private Nutzer nutzer;
 
@@ -30,20 +29,18 @@ public class Freelancerprofil implements Profil {
 	 * @param beschreibung
 	 * @param skills
 	 * @param lebenslauf
-	 * @param benefits
 	 * @param sprachen
 	 * @param nutzer
 	 * @throws ValidateConstrArgsException
 	 */
 	public Freelancerprofil(final String abschluss, final String fachgebiet, final String beschreibung,
-			final String[] skills, final String lebenslauf, final String benefits, final List<String> sprachen,
-			Nutzer nutzer) throws ValidateConstrArgsException {
+			final String[] skills, final String lebenslauf, final List<String> sprachen, Nutzer nutzer)
+			throws ValidateConstrArgsException {
 		this.abschluss = abschluss;
 		this.fachgebiet = fachgebiet;
 		this.beschreibung = beschreibung;
 		this.skills = Arrays.copyOf(skills, skills.length);
 		this.lebenslauf = lebenslauf;
-		this.benefits = benefits;
 		this.sprachen = sprachen;
 		this.nutzer = nutzer;
 
@@ -54,8 +51,7 @@ public class Freelancerprofil implements Profil {
 	public String toString() {
 		return "Freelancerprofil [fid=" + this.fid + ", abschluss=" + this.abschluss + ", fachgebiet=" + this.fachgebiet
 				+ ", beschreibung=" + this.beschreibung + ", skills=" + Arrays.toString(this.skills) + ", lebenslauf="
-				+ this.lebenslauf + ", benefits=" + this.benefits + ", sprachen=" + this.sprachen + ", nutzer="
-				+ this.nutzer + "]";
+				+ this.lebenslauf + ", sprachen=" + this.sprachen + ", nutzer=" + this.nutzer + "]";
 	}
 
 	/**
@@ -91,13 +87,6 @@ public class Freelancerprofil implements Profil {
 	 */
 	public String getLebenslauf() {
 		return lebenslauf;
-	}
-
-	/**
-	 * @return the benefits
-	 */
-	public String getBenefits() {
-		return benefits;
 	}
 
 	/**
@@ -144,7 +133,6 @@ public class Freelancerprofil implements Profil {
 			Validate.checkForContent(beschreibung);
 			validateSkills(skills);
 			Validate.checkForContent(lebenslauf);
-			Validate.checkForContent(benefits);
 		} catch (IllegalArgumentException e) {
 			throw new ValidateConstrArgsException(e.getMessage());
 		}

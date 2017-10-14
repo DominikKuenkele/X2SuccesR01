@@ -54,7 +54,7 @@ public class FreelancerprofilDAO {
 			open();
 
 			preparedStatement = connect
-					.prepareStatement("INSERT INTO Freelancerprofil values (default, ?, ?, ?, ?, ?, ?, ?, ?)");
+					.prepareStatement("INSERT INTO Freelancerprofil values (default, ?, ?, ?, ?, ?, ?, ?)");
 			preparedStatement.setInt(1, nutzerId);
 			int gid = new AbschlussDAO().getAbschluss(freelancer.getAbschluss());
 			preparedStatement.setInt(2, gid);
@@ -65,7 +65,6 @@ public class FreelancerprofilDAO {
 			String skillsJSON = gson.toJson(freelancer.getSkills());
 			preparedStatement.setString(5, skillsJSON);
 			preparedStatement.setString(6, freelancer.getLebenslauf());
-			preparedStatement.setString(7, freelancer.getBenefits());
 
 			preparedStatement.executeUpdate();
 
@@ -100,7 +99,7 @@ public class FreelancerprofilDAO {
 		try {
 			open();
 			preparedStatement = connect.prepareStatement(
-					"SELECT FID, NID, graduation.graduation, expertise.expertise, description, skills, career, benefits "
+					"SELECT FID, NID, graduation.graduation, expertise.expertise, description, skills, career "
 							+ "FROM freelancerprofil  "
 							+ "INNER JOIN graduation ON freelancerprofil.GID=graduation.GID "
 							+ "INNER JOIN expertise ON freelancerprofil.EID = expertise.EID " + "WHERE FID = ?");
@@ -122,7 +121,7 @@ public class FreelancerprofilDAO {
 		try {
 			open();
 			preparedStatement = connect.prepareStatement(
-					"SELECT FID, NID, graduation.graduation, expertise.expertise, description, skills, career, benefits "
+					"SELECT FID, NID, graduation.graduation, expertise.expertise, description, skills, career "
 							+ "FROM Freelancerprofil  "
 							+ "INNER JOIN graduation ON freelancerprofil.GID=graduation.GID "
 							+ "INNER JOIN expertise ON freelancerprofil.EID=expertise.EID");
@@ -164,7 +163,7 @@ public class FreelancerprofilDAO {
 
 			this.preparedStatement = this.connect.prepareStatement(
 					"UPDATE freelancerprofil SET NID = ?, GID = ?, EID = ?, description = ?, skills = ?, "
-							+ "career = ?, benefits = ? WHERE FID = ?");
+							+ "career = ?, WHERE FID = ?");
 
 			int nid = freelancerprofil.getNutzer().getId();
 			this.preparedStatement.setInt(1, nid);
@@ -177,8 +176,7 @@ public class FreelancerprofilDAO {
 			String skillsJSON = gson.toJson(freelancerprofil.getSkills());
 			preparedStatement.setString(5, skillsJSON);
 			this.preparedStatement.setString(6, freelancerprofil.getLebenslauf());
-			this.preparedStatement.setString(7, freelancerprofil.getBenefits());
-			this.preparedStatement.setInt(8, freelancerprofil.getFID());
+			this.preparedStatement.setInt(7, freelancerprofil.getFID());
 			this.preparedStatement.executeUpdate();
 
 			for (int i = 0; i < sprachen.size(); i++) {
@@ -208,12 +206,11 @@ public class FreelancerprofilDAO {
 			Gson gson = new GsonBuilder().create();
 			String[] skills = gson.fromJson(skillsJSON, String[].class);
 			String career = resultSet.getString("career");
-			String benefits = resultSet.getString("benefits");
 			List<String> sprachen = getLanguageInFreelancerprofil(freelancerId);
 
 			try {
 				Freelancerprofil tempFreelancer = new Freelancerprofil(graduation, expertise, description, skills,
-						career, benefits, sprachen, nutzer);
+						career, sprachen, nutzer);
 				tempFreelancer.setId(freelancerId);
 				result.add(tempFreelancer);
 			} catch (ValidateConstrArgsException e) {

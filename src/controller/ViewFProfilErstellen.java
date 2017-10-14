@@ -65,7 +65,7 @@ public class ViewFProfilErstellen implements Initializable {
 			String abschluss = degree1.getValue();
 			String expertise = topic1.getValue();
 			String beschreibung = selfDescription.getText();
-			String skills = tAskills.getText();
+			String[] skills = tAskills.getText().split("\n");
 			String lebenslauf = cv.getText();
 			List<String> sprachen = new LinkedList<>();
 			if (!language1.getValue().equals("")) {
@@ -81,7 +81,7 @@ public class ViewFProfilErstellen implements Initializable {
 				sprachen.add(language4.getValue());
 			}
 
-			verwaltung.createFreelancer(abschluss, expertise, beschreibung, skills, lebenslauf, benefits, sprachen);
+			verwaltung.createFreelancer(abschluss, expertise, beschreibung, skills, lebenslauf, sprachen);
 		} catch (UserInputException | DBException e) {
 			e.printStackTrace();
 		}

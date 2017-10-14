@@ -43,7 +43,7 @@ public class UnternehmensprofilDAOTest {
 			for (int i = 0; i < 5; i++) {
 				Unternehmensprofil u;
 				u = new Unternehmensprofil(name[i], "GmbH", new Adresse("8746", "kjhsk", "gslkfjg", "23"),
-						LocalDate.of(1244, 12, 4), 50, "df", "branch", "df", "www.fg.vv", "sdg", "fs",
+						LocalDate.of(1244, 12, 4), 50, "df", "branch", "www.fg.vv", "sdg", "fs",
 						new NutzerDAO().getNutzer(22));
 
 				new UnternehmensprofilDAO().addUnternehmensprofil(u);
@@ -100,7 +100,7 @@ public class UnternehmensprofilDAOTest {
 				Unternehmensprofil u = new UnternehmensprofilDAO().getUnternehmensprofil(i + 7);
 
 				Unternehmensprofil u2 = new Unternehmensprofil(u.getName(), u.getLegalForm(), u.getAddress(),
-						u.getFounding(), i * 100, u.getDescription(), u.getBranche(), u.getBenefits(), u.getWebsite(),
+						u.getFounding(), i * 100, u.getDescription(), u.getBranche(), u.getWebsite(),
 						u.getCeoFirstName(), u.getCeoLastName(), u.getNutzer());
 				u2.setId(u.getId());
 				new UnternehmensprofilDAO().changeUnternehmen(u2);

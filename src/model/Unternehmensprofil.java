@@ -18,7 +18,6 @@ public class Unternehmensprofil implements Profil {
 	private int employees;
 	private String description;
 	private String branche;
-	private String benefits;
 	private String website;
 	private String ceoFirstName;
 	private String ceoLastName;
@@ -31,7 +30,6 @@ public class Unternehmensprofil implements Profil {
 	 * @param founding
 	 * @param employees
 	 * @param description
-	 * @param benefits
 	 * @param branche
 	 * @param website
 	 * @param ceoFirstName
@@ -40,15 +38,14 @@ public class Unternehmensprofil implements Profil {
 	 * @throws ValidateConstrArgsException
 	 */
 	public Unternehmensprofil(String name, String legalForm, Adresse address, LocalDate founding, int employees,
-			String description, String branche, String benefits, String website, String ceoFirstName,
-			String ceoLastName, Nutzer nutzer) throws ValidateConstrArgsException {
+			String description, String branche, String website, String ceoFirstName, String ceoLastName, Nutzer nutzer)
+			throws ValidateConstrArgsException {
 		this.name = name;
 		this.legalForm = legalForm;
 		this.address = address;
 		this.founding = founding;
 		this.employees = employees;
 		this.description = description;
-		this.benefits = benefits;
 		this.branche = branche;
 		this.website = website;
 		this.ceoFirstName = ceoFirstName;
@@ -105,13 +102,6 @@ public class Unternehmensprofil implements Profil {
 	 */
 	public String getDescription() {
 		return description;
-	}
-
-	/**
-	 * @return the benefits
-	 */
-	public String getBenefits() {
-		return benefits;
 	}
 
 	/**
@@ -177,8 +167,8 @@ public class Unternehmensprofil implements Profil {
 	public String toString() {
 		return "Unternehmensprofil [uid=" + this.uid + ", name=" + this.name + ", legalForm=" + this.legalForm
 				+ ", address=" + this.address + ", founding=" + this.founding + ", employees=" + this.employees
-				+ ", description=" + this.description + ", branche=" + this.branche + ", benefits=" + this.benefits
-				+ ", website=" + this.website + ", ceoFirstName=" + this.ceoFirstName + ", ceoLastName="
-				+ this.ceoLastName + ", nutzer=" + this.nutzer + "]";
+				+ ", description=" + this.description + ", branche=" + this.branche + ", website=" + this.website
+				+ ", ceoFirstName=" + this.ceoFirstName + ", ceoLastName=" + this.ceoLastName + ", nutzer="
+				+ this.nutzer + "]";
 	}
 }

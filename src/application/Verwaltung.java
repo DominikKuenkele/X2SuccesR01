@@ -121,7 +121,6 @@ public class Verwaltung extends Subject {
 	 * @param employees
 	 * @param description
 	 * @param branche
-	 * @param benefits
 	 * @param website
 	 * @param ceoFirstName
 	 * @param ceoLastName
@@ -130,15 +129,15 @@ public class Verwaltung extends Subject {
 	 */
 	public void createUnternehmen(final String name, final String form, final String plz, final String city,
 			final String street, final String number, final LocalDate founding, final int employees,
-			final String description, final String branche, final String benefits, final String website,
-			final String ceoFirstName, final String ceoLastName) throws UserInputException, DBException {
+			final String description, final String branche, final String website, final String ceoFirstName,
+			final String ceoLastName) throws UserInputException, DBException {
 		if (this.currentNutzer.getStatus() == Status.F) {
 			throw new UserInputException("Nutzer ist schon Freelancer!");
 		}
 		try {
 			final Unternehmensprofil unternehmen = new Unternehmensprofil(name, form,
-					new Adresse(plz, city, street, number), founding, employees, description, branche, benefits,
-					website, ceoFirstName, ceoLastName, this.currentNutzer);
+					new Adresse(plz, city, street, number), founding, employees, description, branche, website,
+					ceoFirstName, ceoLastName, this.currentNutzer);
 			final UnternehmensprofilDAO unternehmensprofilDao = new UnternehmensprofilDAO();
 			final int uid = unternehmensprofilDao.addUnternehmensprofil(unternehmen);
 			unternehmen.setId(uid);
@@ -164,7 +163,6 @@ public class Verwaltung extends Subject {
 	 * @param employees
 	 * @param description
 	 * @param branche
-	 * @param benefits
 	 * @param website
 	 * @param ceoFirstName
 	 * @param ceoLastName
@@ -173,12 +171,12 @@ public class Verwaltung extends Subject {
 	 */
 	public void changeUnternehmen(final String name, final String form, final String plz, final String city,
 			final String street, final String number, final LocalDate founding, final int employees,
-			final String description, final String branche, final String benefits, final String website,
-			final String ceoFirstName, final String ceoLastName) throws UserInputException, DBException {
+			final String description, final String branche, final String website, final String ceoFirstName,
+			final String ceoLastName) throws UserInputException, DBException {
 		try {
 			final Unternehmensprofil unternehmen = new Unternehmensprofil(name, form,
-					new Adresse(plz, city, street, number), founding, employees, description, branche, benefits,
-					website, ceoFirstName, ceoLastName, this.currentNutzer);
+					new Adresse(plz, city, street, number), founding, employees, description, branche, website,
+					ceoFirstName, ceoLastName, this.currentNutzer);
 			unternehmen.setId(this.currentUnternehmen.getId());
 			new UnternehmensprofilDAO().changeUnternehmen(unternehmen);
 			setCurrentUnternehmensprofil(unternehmen);
@@ -196,20 +194,19 @@ public class Verwaltung extends Subject {
 	 * @param beschreibung
 	 * @param skills
 	 * @param lebenslauf
-	 * @param benefits
 	 * @param sprachen
 	 * @throws UserInputException
 	 * @throws DBException
 	 */
 	public void createFreelancer(final String abschluss, final String expertise, final String beschreibung,
-			final String[] skills, final String lebenslauf, final String benefits, final List<String> sprachen)
+			final String[] skills, final String lebenslauf, final List<String> sprachen)
 			throws UserInputException, DBException {
 		if (this.currentNutzer.getStatus() == Status.U) {
 			throw new UserInputException("Nutzer ist schon Unternehmer!");
 		}
 		try {
 			final Freelancerprofil freelancer = new Freelancerprofil(abschluss, expertise, beschreibung, skills,
-					lebenslauf, benefits, sprachen, this.currentNutzer);
+					lebenslauf, sprachen, this.currentNutzer);
 			final FreelancerprofilDAO freelancerprofilDao = new FreelancerprofilDAO();
 			final int fid = freelancerprofilDao.addFreelancerprofil(freelancer);
 			freelancer.setId(fid);
