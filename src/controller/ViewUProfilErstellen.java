@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
@@ -21,6 +22,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import persistence.BrancheDAO;
 import util.exception.DBException;
 import util.exception.UserInputException;
 
@@ -117,7 +119,14 @@ public class ViewUProfilErstellen implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		try {
+			ObservableList<String> graduation = FXCollections.observableArrayList(new BrancheDAO().);
+			degree1.setValue(graduation.get(0)); // Anfangswert
+			degree1.setItems(graduation); // Name der Liste
 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

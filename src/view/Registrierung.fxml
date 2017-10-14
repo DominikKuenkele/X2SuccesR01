@@ -48,9 +48,9 @@
 				<PasswordField fx:id="UserPW2" layoutX="191.0"
 					layoutY="359.0" prefHeight="25.0" prefWidth="192.0" />
 				<Button fx:id="addfreelancerb" layoutX="67.0" layoutY="411.0"
-					mnemonicParsing="false" onAction="#addfreelancer" text="Freelancerprofil auswählen" />
+					mnemonicParsing="false" onAction="#addFreelancer" text="Freelancerprofil auswählen" />
 				<Button fx:id="addcompanyb" layoutX="294.0" layoutY="411.0"
-					mnemonicParsing="false" onAction="#addcompanyb" text="Unternehmen anlegen" />
+					mnemonicParsing="false" onAction="#addCompany" text="Unternehmen anlegen" />
 			</children>
 		</AnchorPane>
 	</children>

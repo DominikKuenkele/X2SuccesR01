@@ -22,6 +22,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import model.Status;
 import util.exception.DBException;
 import util.exception.UserInputException;
 
@@ -86,7 +87,7 @@ public class ViewRegistrierung implements Initializable {
 
 	}
 
-	private void NutzerAnlegen() throws UserInputException, DBException {
+	private void nutzerAnlegen(Status status) throws UserInputException, DBException {
 		if (UserPW.getText().equals(UserPW2.getText())) {
 			String vorname = UserVorname.getText();
 			String nachname = UserNachname.getText();
@@ -124,14 +125,14 @@ public class ViewRegistrierung implements Initializable {
 			// String passwort = "Meins";
 
 			verwaltung.register(vorname, nachname, geschlecht, plz, stadt, strasse, hausnummer, localDate, eMail,
-					passwort);
+					passwort, status);
 		}
 	}
 
 	@FXML
-	void addcompanyb(ActionEvent event) throws IOException {
+	void addCompany(ActionEvent event) throws IOException {
 		try {
-			NutzerAnlegen();
+			nutzerAnlegen(Status.U);
 			changescene("/view/UProfilErstellen.fxml");
 		} catch (UserInputException | DBException e) {
 			Alert alert = new Alert(AlertType.ERROR);
@@ -143,9 +144,9 @@ public class ViewRegistrierung implements Initializable {
 	}
 
 	@FXML
-	void addfreelancer(ActionEvent event) throws IOException {
+	void addFreelancer(ActionEvent event) throws IOException {
 		try {
-			NutzerAnlegen();
+			nutzerAnlegen(Status.F);
 			changescene("/view/FProfilErstellen.fxml");
 		} catch (UserInputException | DBException e) {
 			Alert alert = new Alert(AlertType.ERROR); // Statt .Error geht auch .Warning etc

@@ -2,10 +2,13 @@ package controller;
 
 import java.io.IOException;
 
+import application.Verwaltung;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -41,15 +44,32 @@ public class ViewEinloggen {
 
 	@FXML
 	void Login(final ActionEvent event) throws IOException {
+		Verwaltung v = Verwaltung.getInstance();
+		String eMail = EmailEingabe.getText();
+		String password = PasswortEingabe.getText();
+
+		if (v.login(eMail, password)) {
+			switch (v.getCurrentNutzer().getStatus()) {
+			case F:
+				changescene("/view/FRahmen.fxml");
+				break;
+			case U:
+				changescene("/view/URahmen.fxml");
+				break;
+			default:
+
+			}
+
+		} else {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("Login fehlgeschlagen");
+			alert.setContentText("E-Mail-Adresse oder Passwort sind falsch!");
+			alert.showAndWait();
+		}
 
 		// PW und Benutzernamen prüfen
-		if (true) { // Wenn Benutzer Freelancer ist
-				changescene("/view/FRahmen.fxml"); // Wenn Benutzer Favoriten hat
-			
-		} else {
-				changescene("/view/URahmen.fxml");// Benutzer hat keine Favoriten
-		}
-	}
 
+	}
 
 }

@@ -79,6 +79,21 @@ public class ExpertiseDAO {
 		return eid;
 	}
 
+	/**
+	 * @return a List of all expertises in the database
+	 * @throws SQLException
+	 */
+	public List<String> getAllExpertises() throws SQLException {
+		try {
+			open();
+			preparedStatement = connect.prepareStatement("SELECT expertise FROM expertise");
+			resultSet = preparedStatement.executeQuery();
+			return getExpertiseFromResultSet(resultSet);
+		} finally {
+			close();
+		}
+	}
+
 	private List<String> getExpertiseFromResultSet(ResultSet resultSet) throws SQLException {
 		List<String> result = new LinkedList<>();
 		while (resultSet.next()) {

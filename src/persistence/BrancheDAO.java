@@ -79,6 +79,21 @@ public class BrancheDAO {
 		return bid;
 	}
 
+	/**
+	 * @return a List of all branchen in the database
+	 * @throws SQLException
+	 */
+	public List<String> getAllBranchen() throws SQLException {
+		try {
+			open();
+			preparedStatement = connect.prepareStatement("SELECT branche FROM branche");
+			resultSet = preparedStatement.executeQuery();
+			return getBrancheFromResultSet(resultSet);
+		} finally {
+			close();
+		}
+	}
+
 	private List<String> getBrancheFromResultSet(ResultSet resultSet) throws SQLException {
 		List<String> result = new LinkedList<>();
 		while (resultSet.next()) {

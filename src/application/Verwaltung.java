@@ -92,12 +92,12 @@ public class Verwaltung extends Subject {
 	 * @throws DBException
 	 */
 	public void register(final String fName, final String lName, final String sex, final String plz, final String city,
-			final String street, final String number, final LocalDate date, final String eMail, final String password)
-			throws UserInputException, DBException {
+			final String street, final String number, final LocalDate date, final String eMail, final String password,
+			Status status) throws UserInputException, DBException {
 		try {
 			final String passHash = PassHash.generateStrongPasswordHash(password);
 			final Nutzer nutzer = new Nutzer(fName, lName, sex, date, eMail, passHash,
-					new Adresse(plz, city, street, number), Status.N);
+					new Adresse(plz, city, street, number), status);
 			final int nid = new NutzerDAO().addNutzer(nutzer);
 			nutzer.setId(nid);
 			setCurrentNutzer(nutzer);

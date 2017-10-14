@@ -10,7 +10,7 @@ public class MainView extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/Registrierung.fxml"));
+			AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/FProfilErstellen.fxml"));
 			// AnchorPane root = (AnchorPane)
 			// FXMLLoader.load(getClass().getResource("/view/Startseite.fxml"));
 			Scene scene = new Scene(root);

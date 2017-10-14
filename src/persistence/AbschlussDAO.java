@@ -78,6 +78,21 @@ public class AbschlussDAO {
 		return gid;
 	}
 
+	/**
+	 * @return a List of all graduations in the database
+	 * @throws SQLException
+	 */
+	public List<String> getAllAbschluss() throws SQLException {
+		try {
+			open();
+			preparedStatement = connect.prepareStatement("SELECT graduation FROM graduation");
+			resultSet = preparedStatement.executeQuery();
+			return getAbschlussFromResultSet(resultSet);
+		} finally {
+			close();
+		}
+	}
+
 	private List<String> getAbschlussFromResultSet(ResultSet resultSet) throws SQLException {
 		List<String> result = new LinkedList<>();
 		while (resultSet.next()) {
