@@ -119,6 +119,11 @@ public class UnternehmensprofilDAOTest {
 	@Test
 	public void testGetUnternehmensprofilBYNutzer() {
 
-		new UnternehmensprofilDAO().getUnternehmensprofilByNutzer(22);
+		try {
+			System.out.println(new UnternehmensprofilDAO().getUnternehmensprofilByNutzer(22));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

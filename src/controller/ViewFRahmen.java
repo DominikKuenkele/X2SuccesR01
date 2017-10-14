@@ -55,7 +55,8 @@ public class ViewFRahmen implements FreelancerObserver {
 	public void initialize() {
 		Verwaltung.getInstance().registerAsFreelancer(this);
 		openSubScene("FDashboard.fxml", "Dashboard");
-		//		labelName.setText(aNutzer.getFirstName() + " " + aNutzer.getLastName());  ?????
+		// labelName.setText(aNutzer.getFirstName() + " " + aNutzer.getLastName());
+		// ?????
 	}
 
 	// Event Listener on ImageView[#homebutton].onMouseClicked

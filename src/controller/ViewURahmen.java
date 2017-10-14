@@ -1,15 +1,25 @@
 package controller;
 
+import java.io.IOException;
+
 import application.UnternehmerObserver;
 import application.Verwaltung;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import model.Nutzer;
 import model.Unternehmensprofil;
 
 public class ViewURahmen implements UnternehmerObserver {
 
+	@FXML
+	private AnchorPane pane;
+	@FXML
+	private Label titel;
 	@FXML
 	private ImageView homebutton;
 	@FXML
@@ -24,6 +34,21 @@ public class ViewURahmen implements UnternehmerObserver {
 	private ImageView userpicture;
 	@FXML
 	private ImageView addofferbutton;
+
+	private void openStage() {
+
+	}
+
+	private void openSubScene(String datei, String name) {
+		try {
+			Pane myPane = FXMLLoader.load(getClass().getResource("/view/" + datei));
+			pane.getChildren().clear();
+			pane.getChildren().add(myPane);
+			titel.setText(name);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void initialize() {
 		Verwaltung.getInstance().registerAsUnternehmer(this);

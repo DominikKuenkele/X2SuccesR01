@@ -105,7 +105,7 @@ public final class Validate {
 	 */
 	public static void checkForAlpha(final String text) throws IllegalArgumentException {
 		checkForContent(text);
-		if (!text.matches("[A-Za-zäÄöÖüÜß]+")) {
+		if (!text.matches("[A-Za-zäÄöÖüÜß ]+")) {
 			throw new IllegalArgumentException("Text \"" + text + "\" darf nur Buchstaben enthalten!");
 		}
 	}

@@ -88,6 +88,7 @@ public class Verwaltung extends Subject {
 	 * @param date
 	 * @param eMail
 	 * @param password
+	 * @param status
 	 * @throws UserInputException
 	 * @throws DBException
 	 */
@@ -184,7 +185,8 @@ public class Verwaltung extends Subject {
 			throw new UserInputException(e.getMessage());
 		} catch (SQLException e) {
 			throw new DBException(
-					"Auf die Datenbank kann im Moment nicht zugegriffen werden. Versuchen Sie es später erneut!");
+					"Auf die Datenbank kann im Moment nicht zugegriffen werden. Versuchen Sie es später erneut!\n"
+							+ e.getMessage());
 		}
 	}
 
@@ -342,6 +344,8 @@ public class Verwaltung extends Subject {
 					Unternehmensprofil u = new UnternehmensprofilDAO().getUnternehmensprofilByNutzer(nutzer.getNID());
 					setCurrentUnternehmensprofil(u);
 					break;
+				default:
+					// do nothing
 				}
 				result = true;
 			}

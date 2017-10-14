@@ -9,42 +9,31 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
-	minHeight="-Infinity" minWidth="-Infinity" prefHeight="708.0"
-	prefWidth="1057.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="controller.ViewURahmen">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="708.0" prefWidth="1057.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ViewURahmen">
 	<children>
-		<SplitPane dividerPositions="0.09206798866855524"
-			orientation="VERTICAL" prefHeight="708.0" prefWidth="1057.0">
+		<SplitPane dividerPositions="0.09206798866855524" orientation="VERTICAL" prefHeight="708.0" prefWidth="1057.0">
 			<items>
-				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0"
-					prefWidth="160.0">
+				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
 					<children>
-						<ImageView fitHeight="61.0" fitWidth="135.0" layoutX="920.0"
-							layoutY="4.0" preserveRatio="true">
+						<ImageView fitHeight="61.0" fitWidth="135.0" layoutX="920.0" layoutY="4.0" preserveRatio="true">
 							<image>
 								<Image url="@Icons/Logo_244.244.244.png" />
 							</image>
 						</ImageView>
-						<Label layoutX="491.0" layoutY="12.0" text="Home">
+						<Label fx:id="titel" layoutX="491.0" layoutY="12.0" text="Home">
 							<font>
 								<Font name="System Bold" size="26.0" />
 							</font>
 						</Label>
 					</children>
 				</AnchorPane>
-				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="549.0"
-					prefWidth="956.0">
+				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="549.0" prefWidth="956.0">
 					<children>
-						<SplitPane dividerPositions="0.13175355450236967"
-							layoutX="2.0" layoutY="-4.0" prefHeight="638.0" prefWidth="1055.0">
+						<SplitPane dividerPositions="0.13175355450236967" layoutX="2.0" layoutY="-4.0" prefHeight="638.0" prefWidth="1055.0">
 							<items>
-								<AnchorPane minHeight="0.0" minWidth="0.0"
-									prefHeight="676.0" prefWidth="135.0">
+								<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="676.0" prefWidth="135.0">
 									<children>
-										<ImageView fx:id="homebutton" fitHeight="70.0"
-											fitWidth="90.0" layoutX="38.0" layoutY="156.0"
-											onMouseClicked="#openHome" pickOnBounds="true" preserveRatio="true">
+										<ImageView fx:id="homebutton" fitHeight="70.0" fitWidth="90.0" layoutX="38.0" layoutY="156.0" onMouseClicked="#openHome" pickOnBounds="true" preserveRatio="true">
 											<image>
 												<Image url="@Icons/home.png" />
 											</image>
@@ -52,10 +41,7 @@
 												<Cursor fx:constant="HAND" />
 											</cursor>
 										</ImageView>
-										<ImageView fx:id="profilbutton" fitHeight="70.0"
-											fitWidth="70.0" layoutX="36.0" layoutY="234.0"
-											onMouseClicked="#openProfil" pickOnBounds="true"
-											preserveRatio="true">
+										<ImageView fx:id="profilbutton" fitHeight="70.0" fitWidth="70.0" layoutX="36.0" layoutY="234.0" onMouseClicked="#openProfil" pickOnBounds="true" preserveRatio="true">
 											<image>
 												<Image url="@Icons/company_icon.png" />
 											</image>
@@ -63,14 +49,9 @@
 												<Cursor fx:constant="HAND" />
 											</cursor>
 										</ImageView>
-										<Separator layoutX="34.0" layoutY="226.0"
-											prefHeight="8.0" prefWidth="70.0" />
-										<Separator layoutX="34.0" layoutY="306.0"
-											prefHeight="8.0" prefWidth="70.0" />
-										<ImageView fx:id="searchbutton" fitHeight="70.0"
-											fitWidth="70.0" layoutX="33.0" layoutY="314.0"
-											onMouseClicked="#openSearch" pickOnBounds="true"
-											preserveRatio="true">
+										<Separator layoutX="34.0" layoutY="226.0" prefHeight="8.0" prefWidth="70.0" />
+										<Separator layoutX="34.0" layoutY="306.0" prefHeight="8.0" prefWidth="70.0" />
+										<ImageView fx:id="searchbutton" fitHeight="70.0" fitWidth="70.0" layoutX="33.0" layoutY="314.0" onMouseClicked="#openSearch" pickOnBounds="true" preserveRatio="true">
 											<image>
 												<Image url="@Icons/search1600.png" />
 											</image>
@@ -78,12 +59,8 @@
 												<Cursor fx:constant="HAND" />
 											</cursor>
 										</ImageView>
-										<Separator layoutX="34.0" layoutY="376.0"
-											prefHeight="8.0" prefWidth="70.0" />
-										<ImageView fx:id="settingsbutton" fitHeight="60.0"
-											fitWidth="60.0" layoutX="41.0" layoutY="486.0"
-											onMouseClicked="#openSettings" pickOnBounds="true"
-											preserveRatio="true">
+										<Separator layoutX="34.0" layoutY="376.0" prefHeight="8.0" prefWidth="70.0" />
+										<ImageView fx:id="settingsbutton" fitHeight="60.0" fitWidth="60.0" layoutX="41.0" layoutY="486.0" onMouseClicked="#openSettings" pickOnBounds="true" preserveRatio="true">
 											<image>
 												<Image url="@Icons/settings1600.png" />
 											</image>
@@ -91,12 +68,8 @@
 												<Cursor fx:constant="HAND" />
 											</cursor>
 										</ImageView>
-										<Separator layoutX="35.0" layoutY="546.0"
-											prefHeight="8.0" prefWidth="70.0" />
-										<ImageView fx:id="signoutbutton" fitHeight="55.0"
-											fitWidth="55.0" layoutX="41.0" layoutY="554.0"
-											onMouseClicked="#openSignOut" pickOnBounds="true"
-											preserveRatio="true">
+										<Separator layoutX="35.0" layoutY="546.0" prefHeight="8.0" prefWidth="70.0" />
+										<ImageView fx:id="signoutbutton" fitHeight="55.0" fitWidth="55.0" layoutX="41.0" layoutY="554.0" onMouseClicked="#openSignOut" pickOnBounds="true" preserveRatio="true">
 											<image>
 												<Image url="@Icons/turnoff.png" />
 											</image>
@@ -104,18 +77,13 @@
 												<Cursor fx:constant="HAND" />
 											</cursor>
 										</ImageView>
-										<ImageView fx:id="userpicture" fitHeight="90.0"
-											fitWidth="90.0" layoutX="26.0" layoutY="14.0" pickOnBounds="true"
-											preserveRatio="true">
+										<ImageView fx:id="userpicture" fitHeight="90.0" fitWidth="90.0" layoutX="26.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
 											<image>
 												<Image url="@Icons/dtu-jnUc.jpg" />
 											</image>
 										</ImageView>
 										<Label layoutX="16.0" layoutY="119.0" text="Vorname Nachname" />
-										<ImageView fx:id="addofferbutton" fitHeight="80.0"
-											fitWidth="80.0" layoutX="33.0" layoutY="384.0"
-											onMouseClicked="#createnewoffer" pickOnBounds="true"
-											preserveRatio="true">
+										<ImageView fx:id="addofferbutton" fitHeight="80.0" fitWidth="80.0" layoutX="33.0" layoutY="384.0" onMouseClicked="#createnewoffer" pickOnBounds="true" preserveRatio="true">
 											<image>
 												<Image url="@Icons/addoffer.png" />
 											</image>
@@ -125,8 +93,7 @@
 										</ImageView>
 									</children>
 								</AnchorPane>
-								<AnchorPane minHeight="0.0" minWidth="0.0"
-									prefHeight="674.0" prefWidth="918.0" />
+								<AnchorPane fx:id="pane" minHeight="0.0" minWidth="0.0" prefHeight="674.0" prefWidth="918.0" />
 							</items>
 						</SplitPane>
 					</children>

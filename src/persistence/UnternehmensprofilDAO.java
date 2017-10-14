@@ -95,7 +95,7 @@ public class UnternehmensprofilDAO {
 			preparedStatement = connect.prepareStatement(
 					"SELECT UID, NID, branche.branche, name, legalForm, founding, employees, description, "
 							+ "website, ceoFirstName, ceoLastName, plz, city, street, number "
-							+ "INNER JOIN branche ON unternhemensprofil.BID = branche.BID "
+							+ "INNER JOIN branche ON unternehmensprofil.BID = branche.BID "
 							+ "FROM unternehmensprofil WHERE UID = ?");
 			preparedStatement.setInt(1, uid);
 
@@ -117,7 +117,7 @@ public class UnternehmensprofilDAO {
 			preparedStatement = connect.prepareStatement(
 					"SELECT UID, NID, branche.branche, name, legalForm, founding, employees, description, "
 							+ "website, ceoFirstName, ceoLastName, plz, city, street, number "
-							+ "INNER JOIN branche ON unternhemensprofil.BID = branche.BID "
+							+ "INNER JOIN branche ON unternehmensprofil.BID = branche.BID "
 							+ "FROM Unternehmensprofil");
 			resultSet = preparedStatement.executeQuery();
 			return getUnternehmensprofilFromResultSet(resultSet);
@@ -148,8 +148,7 @@ public class UnternehmensprofilDAO {
 			int unternehmensId = resultSet.getInt("UID");
 			int nutzerId = resultSet.getInt("NID");
 			Nutzer nutzer = new NutzerDAO().getNutzer(nutzerId);
-			int bid = resultSet.getInt("BID");
-			String branche = new BrancheDAO().getBranche(bid);
+			String branche = resultSet.getString("branche.branche");
 			String name = resultSet.getString("name");
 			String legalForm = resultSet.getString("legalForm");
 			Date foundingSQL = resultSet.getDate("founding");
@@ -185,7 +184,7 @@ public class UnternehmensprofilDAO {
 		try {
 			open();
 			this.preparedStatement = this.connect.prepareStatement(
-					"UPDATE Unternehmensprofil SET NID = ?, SET BID = ?, name = ?, legalForm = ?, founding = ?, employees = ?, description = ?, "
+					"UPDATE unternehmensprofil SET NID = ?, BID = ?, name = ?, legalForm = ?, founding = ?, employees = ?, description = ?, "
 							+ "website = ?, ceoFirstName = ?, ceoLastName = ?, plz = ?, city = ?, street = ?,"
 							+ " number = ? WHERE UID = ?");
 			int nutzerId = aUnternehmen.getNutzer().getNID();
@@ -222,8 +221,9 @@ public class UnternehmensprofilDAO {
 			preparedStatement = connect.prepareStatement(
 					"SELECT UID, NID, branche.branche, name, legalForm, founding, employees, description, "
 							+ "website, ceoFirstName, ceoLastName, plz, city, street, number "
-							+ "INNER JOIN branche ON unternhemensprofil.BID = branche.BID "
-							+ "FROM unternehmensprofil WHERE NID = ?");
+							+ "FROM unternehmensprofil " + "INNER JOIN branche ON unternehmensprofil.BID = branche.BID "
+							+ "WHERE NID = ?");
+			preparedStatement.setInt(1, aNid);
 			resultSet = preparedStatement.executeQuery();
 			List<Unternehmensprofil> resultList = getUnternehmensprofilFromResultSet(resultSet);
 			if (resultList.size() > 0) {
