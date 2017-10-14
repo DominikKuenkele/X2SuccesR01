@@ -356,6 +356,10 @@ public class Verwaltung extends Subject {
 		return result;
 	}
 
+	public void logout() {
+		instance = null;
+	}
+
 	/**
 	 * @param name
 	 * @param abschluss
