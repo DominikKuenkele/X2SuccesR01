@@ -51,7 +51,7 @@
 				<Font size="14.0" />
 			</font>
 		</Label>
-		<TextArea fx:id="skills" layoutX="239.0" layoutY="403.0"
+		<TextArea fx:id="tAskills" layoutX="239.0" layoutY="403.0"
 			prefHeight="80.0" prefWidth="583.0" wrapText="true" />
 		<Label layoutX="38.0" layoutY="499.0" text="Selbesbeschreibung">
 			<font>

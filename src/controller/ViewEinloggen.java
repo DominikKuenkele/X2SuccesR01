@@ -14,6 +14,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import util.exception.DBException;
 
 public class ViewEinloggen {
 
@@ -48,23 +49,31 @@ public class ViewEinloggen {
 		String eMail = EmailEingabe.getText();
 		String password = PasswortEingabe.getText();
 
-		if (v.login(eMail, password)) {
-			switch (v.getCurrentNutzer().getStatus()) {
-			case F:
-				changescene("/view/FRahmen.fxml");
-				break;
-			case U:
-				changescene("/view/URahmen.fxml");
-				break;
-			default:
+		try {
+			if (v.login(eMail, password)) {
+				switch (v.getCurrentNutzer().getStatus()) {
+				case F:
+					changescene("/view/FRahmen.fxml");
+					break;
+				case U:
+					changescene("/view/URahmen.fxml");
+					break;
+				default:
 
+				}
+
+			} else {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error");
+				alert.setHeaderText("Login fehlgeschlagen");
+				alert.setContentText("E-Mail-Adresse oder Passwort sind falsch!");
+				alert.showAndWait();
 			}
-
-		} else {
+		} catch (DBException e) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error");
 			alert.setHeaderText("Login fehlgeschlagen");
-			alert.setContentText("E-Mail-Adresse oder Passwort sind falsch!");
+			alert.setContentText(e.getMessage());
 			alert.showAndWait();
 		}
 

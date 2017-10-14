@@ -63,25 +63,31 @@ public class ViewFProfilErstellen implements Initializable {
 	@FXML
 	void continuetoDashboard(ActionEvent event) {
 		Verwaltung verwaltung = Verwaltung.getInstance();
-		verwaltung.login("olaf.muelle@hsdf.de", "1234");
 
 		String abschluss = degree1.getValue();
 		String expertise = topic1.getValue();
 		String beschreibung = selfDescription.getText();
 		String[] skills = tAskills.getText().split("\n");
 		String lebenslauf = cv.getText();
-		List<String> sprachen = new LinkedList<>();
+		List<String> sprachenTemp = new LinkedList<>();
 		if (!language1.getValue().equals("")) {
-			sprachen.add(language1.getValue());
+			sprachenTemp.add(language1.getValue());
 		}
 		if (!language2.getValue().equals("")) {
-			sprachen.add(language2.getValue());
+			sprachenTemp.add(language2.getValue());
 		}
 		if (!language3.getValue().equals("")) {
-			sprachen.add(language3.getValue());
+			sprachenTemp.add(language3.getValue());
 		}
 		if (!language4.getValue().equals("")) {
-			sprachen.add(language4.getValue());
+			sprachenTemp.add(language4.getValue());
+		}
+
+		List<String> sprachen = new LinkedList<>();
+		for (String sprache : sprachenTemp) {
+			if (!sprachen.contains(sprache)) {
+				sprachen.add(sprache);
+			}
 		}
 
 		try {

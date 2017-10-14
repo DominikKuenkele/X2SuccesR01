@@ -2,6 +2,8 @@ package controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -13,6 +15,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
@@ -20,16 +24,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.Freelancerprofil;
-import model.Nutzer;
-import model.Profil;
+import persistence.AbschlussDAO;
+import persistence.ExpertiseDAO;
+import persistence.SpracheDAO;
+import util.exception.DBException;
+import util.exception.UserInputException;
 
 public class ViewFProfil implements Initializable {
-
-	// Liste für die Choice Boxen. Aus DB ziehen
-	ObservableList<String> TestListe = FXCollections.observableArrayList("Inhalt1", "Inhalt2", "Inhalt3");
-
-	// Liste für die Choice Boxen. Aus DB ziehen
-	ObservableList<String> Sprachen = FXCollections.observableArrayList("Deutsch", "Englisch", "Französisch","Spanisch","Türkisch");
 
 	@FXML
 	private ImageView homebutton;
@@ -38,28 +39,28 @@ public class ViewFProfil implements Initializable {
 	private ImageView userpicture;
 
 	@FXML
-	private ChoiceBox degree1;
+	private ChoiceBox<String> degree1;
 
 	@FXML
-	private ChoiceBox topic1;
+	private ChoiceBox<String> topic1;
 
 	@FXML
 	private TextArea cv;
 
 	@FXML
-	private ChoiceBox language1;
+	private ChoiceBox<String> language1;
 
 	@FXML
-	private ChoiceBox language2;
+	private ChoiceBox<String> language2;
 
 	@FXML
-	private ChoiceBox language3;
+	private ChoiceBox<String> language3;
 
 	@FXML
-	private ChoiceBox language4;
+	private ChoiceBox<String> language4;
 
 	@FXML
-	private TextArea skills;
+	private TextArea tAskills;
 
 	@FXML
 	private TextArea selfDescription;
@@ -72,20 +73,54 @@ public class ViewFProfil implements Initializable {
 
 	@FXML
 	void changefreelancer(ActionEvent event) { // Änderungen übernehmen
+		Verwaltung verwaltung = Verwaltung.getInstance();
 
-		String d1 = (String) degree1.getValue();
-		String t1 = (String) topic1.getValue();
+		String abschluss = degree1.getValue();
+		String expertise = topic1.getValue();
+		String beschreibung = selfDescription.getText();
+		String[] skills = tAskills.getText().split("\n");
+		String lebenslauf = cv.getText();
+		List<String> sprachenTemp = new LinkedList<>();
+		if (!language1.getValue().equals("")) {
+			sprachenTemp.add(language1.getValue());
+		}
+		if (!language2.getValue().equals("")) {
+			sprachenTemp.add(language2.getValue());
+		}
+		if (!language3.getValue().equals("")) {
+			sprachenTemp.add(language3.getValue());
+		}
+		if (!language4.getValue().equals("")) {
+			sprachenTemp.add(language4.getValue());
+		}
 
-		String cv1 = cv.getText();
-		// String languages1=languages.getText();
-		String skills1 = skills.getText();
-		String selfDescription1 = selfDescription.getText();
+		List<String> sprachen = new LinkedList<>();
+		for (String sprache : sprachenTemp) {
+			if (!sprachen.contains(sprache)) {
+				sprachen.add(sprache);
+			}
+		}
 
+		try {
+			verwaltung.changeFreelancer(abschluss, expertise, beschreibung, skills, lebenslauf, sprachen);
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Info");
+			alert.setHeaderText("Freelancerprofil geändert");
+			alert.setContentText("Das Freelancerprofil wurde erfolgreich geändert!");
+			alert.showAndWait();
+
+		} catch (UserInputException | DBException e) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("Registrierung fehlgeschlagen");
+			alert.setContentText(e.getMessage());
+			alert.showAndWait();
+
+			e.printStackTrace();
+		}
 	}
 
 	void changescene(String fxmlname) throws IOException {
-
-		// schliesst aktuelles Fenster
 		Stage stage2 = (Stage) homebutton.getScene().getWindow();
 		stage2.close();
 
@@ -100,43 +135,76 @@ public class ViewFProfil implements Initializable {
 	}
 
 	@FXML
-	void showfreelancer(ActionEvent event) throws IOException { // Eigenes
-																// Profil
-																// anzeigen
-
+	void showfreelancer(ActionEvent event) throws IOException {
 		changescene("/view/Freelancerprofil.fxml");
-
 	}
 
-	// Für die choice boxen
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		degree1.setValue("Inhalt1"); // Anfangswert
-		degree1.setItems(TestListe); // Name der Liste
-		topic1.setValue("Inhalt1"); // Anfangswert
-		topic1.setItems(TestListe); // Name der Liste
-		language1.setValue("Sprache1"); // Anfangswert
-		language1.setItems(Sprachen); // Name der Liste
-		language2.setValue("Sprache2"); // Anfangswert
-		language2.setItems(Sprachen); // Name der Liste
-		language3.setValue("Sprache3"); // Anfangswert
-		language3.setItems(Sprachen); // Name der Liste
-		language4.setValue("Sprache4"); // Anfangswert
-		language4.setItems(Sprachen); // Name der Liste
 		Verwaltung v = Verwaltung.getInstance();
-		// Nutzer c = v.getCurrentNutzer();
-		Profil p = v.getCurrentProfil();
 		Freelancerprofil f = (Freelancerprofil) v.getCurrentProfil();
-		degree1.setValue(f.getAbschluss());
-		cv.setText(f.getLebenslauf());
 
-		language1.setValue(f.getSprachen().get(0));
-		language1.setValue(f.getSprachen().get(1));
-		language1.setValue(f.getSprachen().get(2));
-		language1.setValue(f.getSprachen().get(3));
-		String skill[] = f.getSkills();
-		skills.setText(skill[0] + "/n" + skill[1] + "/n" + skill[3]);
-		selfDescription.setText(f.getBeschreibung());
+		try {
+			ObservableList<String> sprachen = FXCollections.observableArrayList(new SpracheDAO().getAllSprachen());
+			sprachen.add(0, "");
+			List<String> sprachenFP = f.getSprachen();
+
+			language1.setItems((ObservableList<String>) sprachen);
+			if (sprachenFP.size() > 0) {
+				language1.setValue(sprachenFP.get(0));
+			} else {
+				language1.setValue(sprachen.get(0));
+			}
+
+			language2.setItems((ObservableList<String>) sprachen);
+			if (sprachenFP.size() > 1) {
+				language2.setValue(sprachenFP.get(1));
+			} else {
+				language2.setValue(sprachen.get(0));
+			}
+
+			language3.setItems((ObservableList<String>) sprachen);
+			if (sprachenFP.size() > 2) {
+				language3.setValue(sprachenFP.get(2));
+			} else {
+				language3.setValue(sprachen.get(0));
+			}
+
+			language4.setItems((ObservableList<String>) sprachen);
+			if (sprachenFP.size() > 3) {
+				language4.setValue(sprachenFP.get(3));
+			} else {
+				language4.setValue(sprachen.get(0));
+			}
+
+			ObservableList<String> expertises = FXCollections
+					.observableArrayList(new ExpertiseDAO().getAllExpertises());
+			topic1.setItems(expertises);
+			if (!f.getFachgebiet().equals("")) {
+				topic1.setValue(f.getFachgebiet());
+			} else {
+				topic1.setValue(expertises.get(0));
+			}
+
+			ObservableList<String> graduation = FXCollections.observableArrayList(new AbschlussDAO().getAllAbschluss());
+			degree1.setItems(graduation);
+			if (!f.getAbschluss().equals("")) {
+				degree1.setValue(f.getAbschluss());
+			} else {
+				degree1.setValue(graduation.get(0));
+			}
+
+			cv.setText(f.getLebenslauf());
+
+			String skillsArray[] = f.getSkills();
+			for (String skill : skillsArray) {
+				tAskills.setText(skill + "\n");
+			}
+			selfDescription.setText(f.getBeschreibung());
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 	}
 

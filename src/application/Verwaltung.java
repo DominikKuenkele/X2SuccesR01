@@ -198,12 +198,50 @@ public class Verwaltung extends Subject {
 	 * @throws UserInputException
 	 * @throws DBException
 	 */
+	public void changeFreelancer(final String abschluss, final String expertise, final String beschreibung,
+			final String[] skills, final String lebenslauf, final List<String> sprachen)
+			throws UserInputException, DBException {
+		try {
+			final Freelancerprofil freelancerprofil = new Freelancerprofil(abschluss, expertise, beschreibung, skills,
+					lebenslauf, sprachen, this.currentNutzer);
+			freelancerprofil.setId(this.currentFreelancer.getFID());
+			new FreelancerprofilDAO().changeFreelancerprofil(freelancerprofil);
+			setCurrentFreelancer(freelancerprofil);
+		} catch (final ValidateConstrArgsException e) {
+			throw new UserInputException(e.getMessage());
+		} catch (SQLException e) {
+			throw new DBException(
+					"Auf die Datenbank kann im Moment nicht zugegriffen werden. Versuchen Sie es später erneut!");
+		}
+	}
+
+	/**
+	 * @param abschluss
+	 * @param expertise
+	 * @param beschreibung
+	 * @param skills
+	 * @param lebenslauf
+	 * @param sprachen
+	 * @throws UserInputException
+	 * @throws DBException
+	 */
 	public void createFreelancer(final String abschluss, final String expertise, final String beschreibung,
 			final String[] skills, final String lebenslauf, final List<String> sprachen)
 			throws UserInputException, DBException {
 		if (this.currentNutzer.getStatus() == Status.U) {
 			throw new UserInputException("Nutzer ist schon Unternehmer!");
 		}
+
+		try {
+			Freelancerprofil f = new FreelancerprofilDAO().getFreelancerprofilByNutzer(this.currentNutzer.getId());
+			if (f != null) {
+				throw new UserInputException("Nutzer hat schon ein Freelancerprofil!");
+			}
+		} catch (SQLException e1) {
+			throw new DBException(
+					"Auf die Datenbank kann im Moment nicht zugegriffen werden. Versuchen Sie es später erneut!");
+		}
+
 		try {
 			final Freelancerprofil freelancer = new Freelancerprofil(abschluss, expertise, beschreibung, skills,
 					lebenslauf, sprachen, this.currentNutzer);
@@ -285,8 +323,9 @@ public class Verwaltung extends Subject {
 	 * @param eMail
 	 * @param password
 	 * @return true, if login was successful
+	 * @throws DBException
 	 */
-	public boolean login(final String eMail, final String password) {
+	public boolean login(final String eMail, final String password) throws DBException {
 		boolean result = false;
 		try {
 			Nutzer nutzer = new NutzerDAO().getNutzer(eMail);
@@ -294,10 +333,13 @@ public class Verwaltung extends Subject {
 
 			if (validation == true) {
 				setCurrentNutzer(nutzer);
+				Freelancerprofil f = new FreelancerprofilDAO().getFreelancerprofilByNutzer(nutzer.getId());
+				setCurrentFreelancer(f);
 				result = true;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DBException(
+					"Auf die Datenbank kann im Moment nicht zugegriffen werden. Versuchen Sie es später erneut!");
 		}
 		return result;
 	}

@@ -91,6 +91,32 @@ public class FreelancerprofilDAO {
 	}
 
 	/**
+	 * @param nid
+	 * @return {@link model.Freelancerprofil} with given {@link model.Nutzer}
+	 * @throws SQLException
+	 */
+	public Freelancerprofil getFreelancerprofilByNutzer(int nid) throws SQLException {
+		try {
+			open();
+			preparedStatement = connect.prepareStatement(
+					"SELECT FID, NID, graduation.graduation, expertise.expertise, description, skills, career "
+							+ "FROM freelancerprofil " + "INNER JOIN graduation ON freelancerprofil.GID=graduation.GID "
+							+ "INNER JOIN expertise ON freelancerprofil.EID = expertise.EID " + "WHERE NID = ?");
+			preparedStatement.setInt(1, nid);
+
+			resultSet = preparedStatement.executeQuery();
+			List<Freelancerprofil> resultList = getFreelancerprofilFromResultSet(resultSet);
+			if (resultList.size() > 0) {
+				return resultList.get(0);
+			} else {
+				return null;
+			}
+		} finally {
+			close();
+		}
+	}
+
+	/**
 	 * @param fid
 	 * @return a {@link model.Freelancerprofil} with given ID
 	 * @throws SQLException
@@ -163,7 +189,7 @@ public class FreelancerprofilDAO {
 
 			this.preparedStatement = this.connect.prepareStatement(
 					"UPDATE freelancerprofil SET NID = ?, GID = ?, EID = ?, description = ?, skills = ?, "
-							+ "career = ?, WHERE FID = ?");
+							+ "career = ? WHERE FID = ?");
 
 			int nid = freelancerprofil.getNutzer().getId();
 			this.preparedStatement.setInt(1, nid);

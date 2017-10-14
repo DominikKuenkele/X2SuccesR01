@@ -1,5 +1,6 @@
 package controller;
 
+import application.Verwaltung;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,7 +11,9 @@ public class MainView extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/FProfilErstellen.fxml"));
+			Verwaltung v = Verwaltung.getInstance();
+			v.login("olaf.muelle@hsdf.de", "1234");
+			AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/FProfil.fxml"));
 			// AnchorPane root = (AnchorPane)
 			// FXMLLoader.load(getClass().getResource("/view/Startseite.fxml"));
 			Scene scene = new Scene(root);
