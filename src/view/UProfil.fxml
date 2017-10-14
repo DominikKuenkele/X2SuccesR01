@@ -23,21 +23,21 @@
 				<Font size="14.0" />
 			</font>
 		</Label>
-		<TextField fx:id="cname" layoutX="224.0" layoutY="99.0"
+		<TextField fx:id="cName" layoutX="224.0" layoutY="99.0"
 			prefHeight="25.0" prefWidth="200.0" />
 		<Label layoutX="56.0" layoutY="146.0" text="Gründungsdatum:">
 			<font>
 				<Font size="14.0" />
 			</font>
 		</Label>
-		<DatePicker fx:id="cdate" layoutX="223.0" layoutY="144.0"
+		<DatePicker fx:id="cDate" layoutX="223.0" layoutY="144.0"
 			prefHeight="25.0" prefWidth="200.0" />
 		<Label layoutX="56.0" layoutY="195.0" text="Mitarbeiteranzahl:">
 			<font>
 				<Font size="14.0" />
 			</font>
 		</Label>
-		<TextField fx:id="cemployees" layoutX="224.0" layoutY="193.0"
+		<TextField fx:id="cEmployees" layoutX="224.0" layoutY="193.0"
 			prefHeight="25.0" prefWidth="200.0" />
 		<AnchorPane />
 		<AnchorPane layoutX="56.0" layoutY="238.0">
@@ -47,7 +47,7 @@
 						<Font size="14.0" />
 					</font>
 				</Label>
-				<TextField fx:id="ccity" layoutX="168.0" prefHeight="25.0"
+				<TextField fx:id="cCity" layoutX="168.0" prefHeight="25.0"
 					prefWidth="200.0" />
 				<Label layoutX="442.0" layoutY="4.0" text="PLZ:">
 					<font>
@@ -64,11 +64,11 @@
 						<Font size="14.0" />
 					</font>
 				</Label>
-				<TextField fx:id="cstreet" layoutX="168.0" layoutY="48.0"
+				<TextField fx:id="cStreet" layoutX="168.0" layoutY="48.0"
 					prefHeight="25.0" prefWidth="200.0" />
-				<TextField fx:id="cplz" layoutX="502.0" layoutY="2.0"
+				<TextField fx:id="cPlz" layoutX="502.0" layoutY="2.0"
 					prefHeight="25.0" prefWidth="80.0" />
-				<TextField fx:id="cnumber" layoutX="502.0" layoutY="48.0"
+				<TextField fx:id="cNumber" layoutX="502.0" layoutY="48.0"
 					prefHeight="25.0" prefWidth="80.0" />
 			</children>
 		</AnchorPane>
@@ -77,17 +77,17 @@
 				<Font size="14.0" />
 			</font>
 		</Label>
-		<ChoiceBox fx:id="cbranche" layoutX="223.0" layoutY="334.0"
+		<ChoiceBox fx:id="cBranche" layoutX="223.0" layoutY="334.0"
 			prefWidth="200.0" />
 		<Label layoutX="56.0" layoutY="384.0" text="Kurzbeschreibung">
 			<font>
 				<Font size="14.0" />
 			</font>
 		</Label>
-		<TextArea fx:id="cdescription" layoutX="224.0" layoutY="384.0"
+		<TextArea fx:id="cDescription" layoutX="224.0" layoutY="384.0"
 			prefHeight="90.0" prefWidth="419.0" />
-		<Button fx:id="changecompanyb" layoutX="308.0" layoutY="501.0"
-			mnemonicParsing="false" onAction="#savechanges" text="Änderungen übernehmen">
+		<Button fx:id="changeCompany" layoutX="308.0" layoutY="501.0"
+			mnemonicParsing="false" onAction="#changeUnternehmen" text="Änderungen übernehmen">
 			<font>
 				<Font size="14.0" />
 			</font>

@@ -72,7 +72,7 @@ public class ViewFProfil implements Initializable {
 	private Button showfreelancerbutton;
 
 	@FXML
-	void changefreelancer(ActionEvent event) { // Änderungen übernehmen
+	void changeFreelancer(ActionEvent event) { // Änderungen übernehmen
 		Verwaltung verwaltung = Verwaltung.getInstance();
 
 		String abschluss = degree1.getValue();
@@ -112,7 +112,7 @@ public class ViewFProfil implements Initializable {
 		} catch (UserInputException | DBException e) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error");
-			alert.setHeaderText("Registrierung fehlgeschlagen");
+			alert.setHeaderText("Änderung fehlgeschlagen");
 			alert.setContentText(e.getMessage());
 			alert.showAndWait();
 
@@ -120,10 +120,7 @@ public class ViewFProfil implements Initializable {
 		}
 	}
 
-	void changescene(String fxmlname) throws IOException {
-		Stage stage2 = (Stage) homebutton.getScene().getWindow();
-		stage2.close();
-
+	void changeScene(String fxmlname) throws IOException {
 		Stage stage = new Stage();
 		stage.setTitle("X2Success");
 		Pane myPane = null;
@@ -135,8 +132,8 @@ public class ViewFProfil implements Initializable {
 	}
 
 	@FXML
-	void showfreelancer(ActionEvent event) throws IOException {
-		changescene("/view/Freelancerprofil.fxml");
+	void showFreelancer(ActionEvent event) throws IOException {
+		changeScene("/view/Freelancerprofil.fxml");
 	}
 
 	@Override
@@ -193,19 +190,16 @@ public class ViewFProfil implements Initializable {
 			} else {
 				degree1.setValue(graduation.get(0));
 			}
-
-			cv.setText(f.getLebenslauf());
-
-			String skillsArray[] = f.getSkills();
-			for (String skill : skillsArray) {
-				tAskills.setText(skill + "\n");
-			}
-			selfDescription.setText(f.getBeschreibung());
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-	}
+		cv.setText(f.getLebenslauf());
 
+		String skillsArray[] = f.getSkills();
+		for (String skill : skillsArray) {
+			tAskills.setText(skill + "\n");
+		}
+		selfDescription.setText(f.getBeschreibung());
+	}
 }

@@ -55,7 +55,7 @@ public class UnternehmensprofilDAO {
 
 			preparedStatement = connect.prepareStatement(
 					"INSERT INTO Unternehmensprofil values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-			int nutzerId = unternehmen.getNutzer().getId();
+			int nutzerId = unternehmen.getNutzer().getNID();
 			preparedStatement.setInt(1, nutzerId);
 			int bid = new BrancheDAO().getBranche(unternehmen.getBranche());
 			preparedStatement.setInt(2, bid);
@@ -92,10 +92,11 @@ public class UnternehmensprofilDAO {
 	public Unternehmensprofil getUnternehmensprofil(int uid) throws SQLException {
 		try {
 			open();
-			preparedStatement = connect
-					.prepareStatement("SELECT UID, NID, BID, name, legalForm, founding, employees, description, "
-							+ "website, ceoFirstName, ceoLastName, plz, city, street, "
-							+ "number FROM Unternehmensprofil WHERE UID = ?");
+			preparedStatement = connect.prepareStatement(
+					"SELECT UID, NID, branche.branche, name, legalForm, founding, employees, description, "
+							+ "website, ceoFirstName, ceoLastName, plz, city, street, number "
+							+ "INNER JOIN branche ON unternhemensprofil.BID = branche.BID "
+							+ "FROM unternehmensprofil WHERE UID = ?");
 			preparedStatement.setInt(1, uid);
 
 			resultSet = preparedStatement.executeQuery();
@@ -113,10 +114,11 @@ public class UnternehmensprofilDAO {
 	public List<Unternehmensprofil> getAllUnternehmen() throws SQLException {
 		try {
 			open();
-			preparedStatement = connect
-					.prepareStatement("SELECT UID, NID, BID, name, legalForm, founding, employees, description, "
-							+ "website, ceoFirstName, ceoLastName, plz, city, street, "
-							+ "number FROM Unternehmensprofil");
+			preparedStatement = connect.prepareStatement(
+					"SELECT UID, NID, branche.branche, name, legalForm, founding, employees, description, "
+							+ "website, ceoFirstName, ceoLastName, plz, city, street, number "
+							+ "INNER JOIN branche ON unternhemensprofil.BID = branche.BID "
+							+ "FROM Unternehmensprofil");
 			resultSet = preparedStatement.executeQuery();
 			return getUnternehmensprofilFromResultSet(resultSet);
 		} finally {
@@ -186,7 +188,7 @@ public class UnternehmensprofilDAO {
 					"UPDATE Unternehmensprofil SET NID = ?, SET BID = ?, name = ?, legalForm = ?, founding = ?, employees = ?, description = ?, "
 							+ "website = ?, ceoFirstName = ?, ceoLastName = ?, plz = ?, city = ?, street = ?,"
 							+ " number = ? WHERE UID = ?");
-			int nutzerId = aUnternehmen.getNutzer().getId();
+			int nutzerId = aUnternehmen.getNutzer().getNID();
 			preparedStatement.setInt(1, nutzerId);
 			int bid = new BrancheDAO().getBranche(aUnternehmen.getBranche());
 			preparedStatement.setInt(2, bid);
@@ -204,6 +206,31 @@ public class UnternehmensprofilDAO {
 			preparedStatement.setString(14, address.getNumber());
 			preparedStatement.setInt(15, aUnternehmen.getId());
 			preparedStatement.executeUpdate();
+		} finally {
+			close();
+		}
+	}
+
+	/**
+	 * @param aNid
+	 * @return {@link model.Unternehmensprofil} with given {@link model.Nutzer}
+	 * @throws SQLException
+	 */
+	public Unternehmensprofil getUnternehmensprofilByNutzer(int aNid) throws SQLException {
+		try {
+			open();
+			preparedStatement = connect.prepareStatement(
+					"SELECT UID, NID, branche.branche, name, legalForm, founding, employees, description, "
+							+ "website, ceoFirstName, ceoLastName, plz, city, street, number "
+							+ "INNER JOIN branche ON unternhemensprofil.BID = branche.BID "
+							+ "FROM unternehmensprofil WHERE NID = ?");
+			resultSet = preparedStatement.executeQuery();
+			List<Unternehmensprofil> resultList = getUnternehmensprofilFromResultSet(resultSet);
+			if (resultList.size() > 0) {
+				return resultList.get(0);
+			} else {
+				return null;
+			}
 		} finally {
 			close();
 		}

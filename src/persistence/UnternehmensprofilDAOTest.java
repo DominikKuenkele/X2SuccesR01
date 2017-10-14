@@ -93,6 +93,7 @@ public class UnternehmensprofilDAOTest {
 	 * Test method for
 	 * {@link persistence.UnternehmensprofilDAO#changeUnternehmen(model.Unternehmensprofil)}.
 	 */
+	@Ignore
 	@Test
 	public void testChangeUnternehmen() {
 		try {
@@ -111,4 +112,13 @@ public class UnternehmensprofilDAOTest {
 		}
 	}
 
+	/**
+	 * Test method for
+	 * {@link persistence.UnternehmensprofilDAO#getUnternehmensprofilByNutzer(int)}.
+	 */
+	@Test
+	public void testGetUnternehmensprofilBYNutzer() {
+
+		new UnternehmensprofilDAO().getUnternehmensprofilByNutzer(22);
+	}
 }

@@ -105,7 +105,7 @@ public class NutzerDAO {
 			try {
 				final Nutzer tempNutzer = new Nutzer(firstName, lastName, sex, birthdate, eMail, password,
 						new Adresse(plz, city, street, number), Status.valueOf(status));
-				tempNutzer.setId(nutzerId);
+				tempNutzer.setNID(nutzerId);
 				result.add(tempNutzer);
 
 			} catch (final ValidateConstrArgsException e) {
@@ -191,7 +191,7 @@ public class NutzerDAO {
 			this.preparedStatement.setString(7, address.getStrasse());
 			this.preparedStatement.setString(8, address.getNumber());
 			this.preparedStatement.setString(9, nutzer.getStatus().getText());
-			this.preparedStatement.setInt(10, nutzer.getId());
+			this.preparedStatement.setInt(10, nutzer.getNID());
 			this.preparedStatement.executeUpdate();
 		} finally {
 			close();

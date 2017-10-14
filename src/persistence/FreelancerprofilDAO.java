@@ -48,7 +48,7 @@ public class FreelancerprofilDAO {
 	 * @throws SQLException
 	 */
 	public int addFreelancerprofil(Freelancerprofil freelancer) throws SQLException {
-		int nutzerId = freelancer.getNutzer().getId();
+		int nutzerId = freelancer.getNutzer().getNID();
 		int fid = -1;
 		try {
 			open();
@@ -191,7 +191,7 @@ public class FreelancerprofilDAO {
 					"UPDATE freelancerprofil SET NID = ?, GID = ?, EID = ?, description = ?, skills = ?, "
 							+ "career = ? WHERE FID = ?");
 
-			int nid = freelancerprofil.getNutzer().getId();
+			int nid = freelancerprofil.getNutzer().getNID();
 			this.preparedStatement.setInt(1, nid);
 			int gid = new AbschlussDAO().getAbschluss(freelancerprofil.getAbschluss());
 			this.preparedStatement.setInt(2, gid);

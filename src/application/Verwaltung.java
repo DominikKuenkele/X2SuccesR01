@@ -99,7 +99,7 @@ public class Verwaltung extends Subject {
 			final Nutzer nutzer = new Nutzer(fName, lName, sex, date, eMail, passHash,
 					new Adresse(plz, city, street, number), status);
 			final int nid = new NutzerDAO().addNutzer(nutzer);
-			nutzer.setId(nid);
+			nutzer.setNID(nid);
 			setCurrentNutzer(nutzer);
 		} catch (ValidateConstrArgsException | DuplicateEntryException e) {
 			throw new UserInputException(e.getMessage());
@@ -233,7 +233,7 @@ public class Verwaltung extends Subject {
 		}
 
 		try {
-			Freelancerprofil f = new FreelancerprofilDAO().getFreelancerprofilByNutzer(this.currentNutzer.getId());
+			Freelancerprofil f = new FreelancerprofilDAO().getFreelancerprofilByNutzer(this.currentNutzer.getNID());
 			if (f != null) {
 				throw new UserInputException("Nutzer hat schon ein Freelancerprofil!");
 			}
@@ -308,7 +308,7 @@ public class Verwaltung extends Subject {
 			final Nutzer nutzer = new Nutzer(fName, lName, sex, date, this.currentNutzer.geteMail(),
 					this.currentNutzer.getPassword(), new Adresse(plz, city, street, number),
 					this.currentNutzer.getStatus());
-			nutzer.setId(this.currentNutzer.getId());
+			nutzer.setNID(this.currentNutzer.getNID());
 			new NutzerDAO().changeNutzer(nutzer);
 			setCurrentNutzer(nutzer);
 		} catch (final ValidateConstrArgsException e) {
@@ -333,8 +333,16 @@ public class Verwaltung extends Subject {
 
 			if (validation == true) {
 				setCurrentNutzer(nutzer);
-				Freelancerprofil f = new FreelancerprofilDAO().getFreelancerprofilByNutzer(nutzer.getId());
-				setCurrentFreelancer(f);
+				switch (nutzer.getStatus()) {
+				case F:
+					Freelancerprofil f = new FreelancerprofilDAO().getFreelancerprofilByNutzer(nutzer.getNID());
+					setCurrentFreelancer(f);
+					break;
+				case U:
+					Unternehmensprofil u = new UnternehmensprofilDAO().getUnternehmensprofilByNutzer(nutzer.getNID());
+					setCurrentUnternehmensprofil(u);
+					break;
+				}
 				result = true;
 			}
 		} catch (SQLException e) {

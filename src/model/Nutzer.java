@@ -104,7 +104,7 @@ public class Nutzer {
 	/**
 	 * @return the nid
 	 */
-	public int getId() {
+	public int getNID() {
 		return nid;
 	}
 
@@ -112,7 +112,7 @@ public class Nutzer {
 	 * @param nid
 	 *            the nid to set
 	 */
-	public void setId(int nid) {
+	public void setNID(int nid) {
 		this.nid = nid;
 	}
 

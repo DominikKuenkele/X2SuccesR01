@@ -65,7 +65,7 @@ public class NutzerDAOTest {
 		try {
 			test = new Nutzer("Manuel", "Schmidt", "f", LocalDate.of(2000, 6, 3), "manuel.kuenkele@live.de", "pass",
 					new Adresse("77772", "Stuttgart", "Strasse", "20"), Status.U);
-			test.setId(6);
+			test.setNID(6);
 			new NutzerDAO().changeNutzer(test);
 		} catch (ValidateConstrArgsException | SQLException e) {
 			e.printStackTrace();

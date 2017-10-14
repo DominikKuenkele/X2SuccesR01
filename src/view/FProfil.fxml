@@ -61,13 +61,13 @@
 		<TextArea fx:id="selfDescription" layoutX="238.0" layoutY="499.0"
 			prefHeight="51.0" prefWidth="583.0" />
 		<Button fx:id="changefreelancerbutton" layoutX="290.0" layoutY="589.0"
-			mnemonicParsing="false" onAction="#changefreelancer" text="Änderungen übernehmen">
+			mnemonicParsing="false" onAction="#changeFreelancer" text="Änderungen übernehmen">
 			<font>
 				<Font size="16.0" />
 			</font>
 		</Button>
 		<Button fx:id="showfreelancerbutton" layoutX="657.0" layoutY="589.0"
-			mnemonicParsing="false" onAction="#showfreelancer" text="Profil ansehen">
+			mnemonicParsing="false" onAction="#showFreelancer" text="Profil ansehen">
 			<font>
 				<Font size="16.0" />
 			</font>
