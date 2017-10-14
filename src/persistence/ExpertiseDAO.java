@@ -66,7 +66,7 @@ public class ExpertiseDAO {
 		int eid = -1;
 		try {
 			open();
-			preparedStatement = connect.prepareStatement("SELECT BID FROM expertise WHERE expertise=?");
+			preparedStatement = connect.prepareStatement("SELECT EID FROM expertise WHERE expertise=?");
 			preparedStatement.setString(1, expertise);
 
 			resultSet = preparedStatement.executeQuery();

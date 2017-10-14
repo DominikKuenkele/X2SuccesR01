@@ -15,6 +15,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
@@ -61,31 +63,39 @@ public class ViewFProfilErstellen implements Initializable {
 	@FXML
 	void continuetoDashboard(ActionEvent event) {
 		Verwaltung verwaltung = Verwaltung.getInstance();
-		try {
-			String abschluss = degree1.getValue();
-			String expertise = topic1.getValue();
-			String beschreibung = selfDescription.getText();
-			String[] skills = tAskills.getText().split("\n");
-			String lebenslauf = cv.getText();
-			List<String> sprachen = new LinkedList<>();
-			if (!language1.getValue().equals("")) {
-				sprachen.add(language1.getValue());
-			}
-			if (!language2.getValue().equals("")) {
-				sprachen.add(language2.getValue());
-			}
-			if (!language3.getValue().equals("")) {
-				sprachen.add(language3.getValue());
-			}
-			if (!language4.getValue().equals("")) {
-				sprachen.add(language4.getValue());
-			}
+		verwaltung.login("olaf.muelle@hsdf.de", "1234");
 
+		String abschluss = degree1.getValue();
+		String expertise = topic1.getValue();
+		String beschreibung = selfDescription.getText();
+		String[] skills = tAskills.getText().split("\n");
+		String lebenslauf = cv.getText();
+		List<String> sprachen = new LinkedList<>();
+		if (!language1.getValue().equals("")) {
+			sprachen.add(language1.getValue());
+		}
+		if (!language2.getValue().equals("")) {
+			sprachen.add(language2.getValue());
+		}
+		if (!language3.getValue().equals("")) {
+			sprachen.add(language3.getValue());
+		}
+		if (!language4.getValue().equals("")) {
+			sprachen.add(language4.getValue());
+		}
+
+		try {
 			verwaltung.createFreelancer(abschluss, expertise, beschreibung, skills, lebenslauf, sprachen);
+			switchScene("/view/FRahmen.fxml");
 		} catch (UserInputException | DBException e) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("Registrierung fehlgeschlagen");
+			alert.setContentText(e.getMessage());
+			alert.showAndWait();
+
 			e.printStackTrace();
 		}
-		switchScene("/view/FRahmen");
 	}
 
 	void switchScene(String fxmlname) {

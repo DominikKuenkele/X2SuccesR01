@@ -54,7 +54,7 @@ public class FreelancerprofilDAO {
 			open();
 
 			preparedStatement = connect
-					.prepareStatement("INSERT INTO Freelancerprofil values (default, ?, ?, ?, ?, ?, ?, ?)");
+					.prepareStatement("INSERT INTO Freelancerprofil values (default, ?, ?, ?, ?, ?, ?)");
 			preparedStatement.setInt(1, nutzerId);
 			int gid = new AbschlussDAO().getAbschluss(freelancer.getAbschluss());
 			preparedStatement.setInt(2, gid);
