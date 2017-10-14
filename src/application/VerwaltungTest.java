@@ -36,7 +36,7 @@ public class VerwaltungTest {
 		// // v.register("Olaf", "Mieller", "m", "71782", "Gera", "Hauptallee", "13",
 		// // LocalDate.of(2000, 10, 2),
 		// // "olaf.muelle@hsdf.de", "1234");
-		// v.login("olaf.muelle@hsdf.de", "1234");
+		// v.login("olaf.mueller@live.de", "1234");
 	}
 
 	/**
@@ -135,7 +135,8 @@ public class VerwaltungTest {
 	@Test
 	public void testChangeNutzer() {
 		try {
-			v.changeNutzer("Boris", "Schmidt", "m", "77772", "Stuttgart", "Strasse", "20", LocalDate.of(2000, 6, 3));
+			v.changeNutzer("Boris", "", "Schmidt", "m", "77772", "Stuttgart", "Strasse", "20",
+					LocalDate.of(2000, 6, 3));
 		} catch (UserInputException | DBException e) {
 			e.printStackTrace();
 		}

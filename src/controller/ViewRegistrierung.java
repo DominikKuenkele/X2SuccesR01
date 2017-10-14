@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
@@ -23,6 +24,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.Status;
+import persistence.SexDAO;
 import util.exception.DBException;
 import util.exception.UserInputException;
 
@@ -91,20 +93,7 @@ public class ViewRegistrierung implements Initializable {
 		if (UserPW.getText().equals(UserPW2.getText())) {
 			String vorname = UserVorname.getText();
 			String nachname = UserNachname.getText();
-			String geschlecht;
-			switch (UserGeschlecht.getValue()) {
-			case "Männlich":
-				geschlecht = "m";
-				break;
-			case "Weiblich":
-				geschlecht = "w";
-				break;
-			case "Anderes":
-				geschlecht = "a";
-				break;
-			default:
-				geschlecht = "";
-			}
+			String geschlecht = UserGeschlecht.getValue();
 			String stadt = UserStadt.getText();
 			String plz = UserPlz.getText();
 			String strasse = UserStraße.getText();
@@ -112,21 +101,10 @@ public class ViewRegistrierung implements Initializable {
 			LocalDate localDate = UserDatum.getValue();
 			String eMail = UserMail.getText();
 			String passwort = UserPW.getText();
-
-			// String vorname = "Dominik";
-			// String nachname = "Künkele";
-			// String geschlecht = "m";
-			// String stadt = "Weinstadt";
-			// String plz = "71384";
-			// String strasse = "Strasse";
-			// String hausnummer = "19";
-			// LocalDate localDate = LocalDate.of(1999, 02, 05);
-			// String eMail = "dominik.kuenkele@live.test";
-			// String passwort = "Meins";
-
 			verwaltung.register(vorname, nachname, geschlecht, plz, stadt, strasse, hausnummer, localDate, eMail,
 					passwort, status);
 		}
+
 	}
 
 	@FXML
@@ -160,8 +138,15 @@ public class ViewRegistrierung implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		verwaltung = Verwaltung.getInstance();
-		UserGeschlecht.setValue(GenderList.get(0)); // Anfangswert
-		UserGeschlecht.setItems(GenderList); // Name der Liste
+
+		try {
+			ObservableList<String> sexList = FXCollections.observableArrayList(new SexDAO().getAllSex());
+			UserGeschlecht.setItems(sexList);
+			UserGeschlecht.setValue(sexList.get(0));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }

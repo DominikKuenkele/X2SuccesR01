@@ -67,6 +67,8 @@ public class ViewUJobangebot implements Initializable {
 	@FXML
 	private ImageView star;
 
+	private Jobangebot jobangebot;
+
 	@FXML
 	void addfavorite(MouseEvent event) {
 
@@ -95,27 +97,29 @@ public class ViewUJobangebot implements Initializable {
 		}
 	}
 
-	public void fillFormular(Jobangebot jobangebot) {
+	public void fillFormular() {
 		Unternehmensprofil u = jobangebot.getUnternehmensprofil();
 
 		companyname.setText(u.getName());
 		date.setText("Gründungsdatum: " + u.getFounding());
 		employees.setText("Mitarbeiteranzahl: " + u.getEmployees());
 		branche.setText("Branche: " + jobangebot.getFachgebiet());
-		Jobtitel.setText("");
+		Jobtitel.setText(jobangebot.getJobTitel());
 		jobdescription.setText(jobangebot.getBeschreibung());
-		salary.setText(Integer.toString(jobangebot.getGehalt()));
+		salary.setText(Integer.toString(jobangebot.getGehalt()) + " EURO/Monat");
 		worktime.setText("Wochenstunden: " + Integer.toString(jobangebot.getWochenstunden()));
-		degree.setText("Benötigter Abschluss: " + jobangebot.getAbschluss() + " in " + "");
-		skills.setText("");
-		contactname.setText("");
-		contactphone.setText("");
-		contactmail.setText("");
+		degree.setText("Benötigter Abschluss: " + jobangebot.getAbschluss() + " in " + jobangebot.getFachgebiet());
+		contactname.setText(u.getCeoFirstName() + " " + u.getCeoLastName());
+		contactmail.setText(u.getNutzer().geteMail());
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+	}
 
+	public void setJobangebot(Jobangebot aJobangebot) {
+		this.jobangebot = aJobangebot;
+		fillFormular();
 	}
 
 }

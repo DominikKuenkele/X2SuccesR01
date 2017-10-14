@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
@@ -23,17 +24,22 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import model.Freelancerprofil;
 import model.Jobangebot;
+import persistence.AbschlussDAO;
+import persistence.BrancheDAO;
+import persistence.ExpertiseDAO;
 import view.JobangebotAnzeige;
 
-public class ViewFSuche implements Initializable {
+public class ViewFSuche implements Initializable, EventHandler<MouseEvent> {
 
 	// Liste für die Choice Boxen. Aus DB ziehen
 	ObservableList<String> TestListe = FXCollections.observableArrayList("Inhalt1", "Inhalt2", "Inhalt3");
+
+	private JobangebotAnzeige[] jA;
 
 	@FXML
 	private TextField searchcompanyname;
@@ -46,24 +52,6 @@ public class ViewFSuche implements Initializable {
 
 	@FXML
 	private ChoiceBox<String> searchbranche;
-
-	@FXML
-	private AnchorPane result1;
-
-	@FXML
-	private AnchorPane result4;
-
-	@FXML
-	private AnchorPane result3;
-
-	@FXML
-	private AnchorPane result6;
-
-	@FXML
-	private AnchorPane result2;
-
-	@FXML
-	private AnchorPane result5;
 
 	@FXML
 	private TextField minimumemployees;
@@ -85,92 +73,121 @@ public class ViewFSuche implements Initializable {
 
 	@FXML
 	void changeslider(KeyEvent event) {
-
 		salarySlider.setValue(Double.parseDouble(Salary.getText()));
 	}
 
 	@FXML
 	void dragdone(MouseEvent event) {
 		Salary.setText(Double.toString(Math.round(salarySlider.getValue())));
-
-	}
-
-	void changescene(String fxmlname) throws IOException {
-
-		// schliesst aktuelles Fenster
-		Stage stage2 = (Stage) serachoffers.getScene().getWindow();
-		stage2.close();
-
-		Stage stage = new Stage();
-		stage.setTitle("X2Success");
-		Pane myPane = null;
-		myPane = FXMLLoader.load(getClass().getResource(fxmlname));
-		Scene scene = new Scene(myPane);
-		stage.setScene(scene);
-		stage.show();
-
 	}
 
 	@FXML
 	void searchoffers(ActionEvent event) throws IOException {
-
-		String cName = searchcompanyname.getText();
-		int minEmployees = Integer.parseInt(minimumemployees.getText()); // Inhalt prüfen
-		int maxEmployees = Integer.parseInt(maximumemployees.getText()); // Inhalt prüfen
-		String expertise = searchExpertise.getValue();
-		String branche = searchbranche.getValue();
-		String graduation = searchnecessarydegree.getValue();
-		int salary = Integer.parseInt(Salary.getText());
-		//
-		// result1.setVisible(true); // Je nachdem sichtbar machen
-
 		Verwaltung v = Verwaltung.getInstance();
 
-		List<Entry<Jobangebot, Integer>> searchList;
-		try {
-			searchList = v.sucheJobangebote(cName, graduation, expertise, branche, minEmployees, maxEmployees, salary);
-			JobangebotAnzeige[] jA = new JobangebotAnzeige[searchList.size()];
+		String cName;
+		if (searchcompanyname.getText().equals("")) {
+			cName = "*";
+		} else {
+			cName = searchcompanyname.getText();
+		}
 
+		int minEmployees;
+		if (minimumemployees.getText().equals("")) {
+			minEmployees = 0;
+		} else {
+			minEmployees = Integer.parseInt(minimumemployees.getText());
+		}
+
+		int maxEmployees;
+		if (maximumemployees.getText().equals("")) {
+			maxEmployees = 10000000;
+		} else {
+			maxEmployees = Integer.parseInt(maximumemployees.getText());
+		}
+		String expertise = searchExpertise.getValue();
+
+		String branche;
+		if (searchbranche.getValue() == "") {
+			branche = "*";
+		} else {
+			branche = searchbranche.getValue();
+		}
+
+		String graduation = searchnecessarydegree.getValue();
+		int salary = Integer.parseInt(Salary.getText());
+
+		List<Entry<Jobangebot, Integer>> searchList;
+
+		try {
 			GridPane searchGrid = new GridPane();
+
+			searchList = v.sucheJobangebote(cName, graduation, expertise, branche, minEmployees, maxEmployees, salary);
+			jA = new JobangebotAnzeige[searchList.size()];
 
 			int index = 0;
 			for (Entry<Jobangebot, Integer> entry : searchList) {
 				jA[index] = new JobangebotAnzeige();
 				jA[index].setJobangebot(entry.getKey());
-				jA[index].setOnMouseClicked(jAoeffnen());
+				jA[index].setOnMouseClicked(this);
 				searchGrid.add(jA[index], index % 3, index / 3);
 				index++;
 			}
 
 			scrollPane.setContent(searchGrid);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
 
-	private EventHandler<? super MouseEvent> jAoeffnen() throws IOException {
-		Stage stage = new Stage();
-		stage.setTitle("X2Success");
-		Pane myPane = FXMLLoader.load(getClass().getResource("/view/UJobangebot.fxml"));
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		Verwaltung v = Verwaltung.getInstance();
+		Freelancerprofil f = (Freelancerprofil) v.getCurrentProfil();
 
-		Scene scene = new Scene(myPane);
-		stage.setScene(scene);
-		stage.show();
+		try {
+			ObservableList<String> abschlussList = FXCollections
+					.observableArrayList(new AbschlussDAO().getAllAbschluss());
+			String abschlussFP = f.getAbschluss();
+			searchnecessarydegree.setItems(abschlussList);
+			searchnecessarydegree.setValue(abschlussFP);
 
-		return null;
+			ObservableList<String> expertises = FXCollections
+					.observableArrayList(new ExpertiseDAO().getAllExpertises());
+			String expertiseFP = f.getFachgebiet();
+			searchExpertise.setItems(expertises);
+			searchExpertise.setValue(expertiseFP);
+
+			ObservableList<String> branche = FXCollections.observableArrayList(new BrancheDAO().getAllBranchen());
+			branche.add(0, "");
+			searchbranche.setItems(branche);
+			searchbranche.setValue(branche.get(0));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		searchnecessarydegree.setValue("Inhalt1"); // Anfangswert
-		searchnecessarydegree.setItems(TestListe); // Name der Liste
-		searchExpertise.setValue("Inhalt1"); // Anfangswert
-		searchExpertise.setItems(TestListe); // Name der Liste
-		searchbranche.setValue("Inhalt1"); // Anfangswert
-		searchbranche.setItems(TestListe); // Name der Liste
+	public void handle(MouseEvent aArg0) {
+		Object source = aArg0.getSource();
+		if (Arrays.asList(jA).contains(source)) {
+			try {
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/UJobangebot.fxml"));
+				Pane myPane = loader.load();
+				ViewUJobangebot controller = loader.getController();
+				controller.setJobangebot(((JobangebotAnzeige) source).getJobangebot());
 
+				Stage stage = new Stage();
+				stage.setTitle("X2Success");
+
+				Scene scene = new Scene(myPane);
+				stage.setScene(scene);
+				stage.show();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
-
 }

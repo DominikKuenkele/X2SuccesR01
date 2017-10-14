@@ -64,7 +64,8 @@ public class NutzerDAO {
 					.prepareStatement("INSERT INTO Nutzer values (default, ?, ?, ?, ? , ?, ?, ?, ?, ?, ?, ?)");
 			this.preparedStatement.setString(1, nutzer.getFirstName());
 			this.preparedStatement.setString(2, nutzer.getLastName());
-			this.preparedStatement.setString(3, nutzer.getSex());
+			int sexId = new SexDAO().getSex(nutzer.getSex());
+			this.preparedStatement.setInt(3, sexId);
 			this.preparedStatement.setObject(4, nutzer.getBirthdate());
 			this.preparedStatement.setString(5, nutzer.geteMail());
 			this.preparedStatement.setString(6, nutzer.getPassword());
@@ -92,7 +93,8 @@ public class NutzerDAO {
 			final int nutzerId = resultSet.getInt("NID");
 			final String firstName = resultSet.getString("firstName");
 			final String lastName = resultSet.getString("lastName");
-			final String sex = resultSet.getString("sex");
+			final int sexId = resultSet.getInt("sexId");
+			final String sex = new SexDAO().getSex(sexId);
 			final Date birthdateSQL = resultSet.getDate("birthdate");
 			final LocalDate birthdate = birthdateSQL.toLocalDate();
 			final String eMail = resultSet.getString("eMail");
@@ -179,19 +181,22 @@ public class NutzerDAO {
 		final Adresse address = nutzer.getAddress();
 		try {
 			open();
-			this.preparedStatement = this.connect
-					.prepareStatement("UPDATE Nutzer SET firstName = ?, lastName = ?, sex = ?, birthdate = ?, "
+			this.preparedStatement = this.connect.prepareStatement(
+					"UPDATE Nutzer SET eMail = ?, password = ?, firstName = ?, lastName = ?, sexId = ?, birthdate = ?, "
 							+ "plz = ?, city = ?, street = ?, number = ?, status = ? WHERE NID = ?");
-			this.preparedStatement.setString(1, nutzer.getFirstName());
-			this.preparedStatement.setString(2, nutzer.getLastName());
-			this.preparedStatement.setString(3, nutzer.getSex());
-			this.preparedStatement.setObject(4, nutzer.getBirthdate());
-			this.preparedStatement.setString(5, address.getPlz());
-			this.preparedStatement.setString(6, address.getCity());
-			this.preparedStatement.setString(7, address.getStrasse());
-			this.preparedStatement.setString(8, address.getNumber());
-			this.preparedStatement.setString(9, nutzer.getStatus().getText());
-			this.preparedStatement.setInt(10, nutzer.getNID());
+			this.preparedStatement.setString(1, nutzer.geteMail());
+			this.preparedStatement.setString(2, nutzer.getPassword());
+			this.preparedStatement.setString(3, nutzer.getFirstName());
+			this.preparedStatement.setString(4, nutzer.getLastName());
+			int sexId = new SexDAO().getSex(nutzer.getSex());
+			this.preparedStatement.setInt(5, sexId);
+			this.preparedStatement.setObject(6, nutzer.getBirthdate());
+			this.preparedStatement.setString(7, address.getPlz());
+			this.preparedStatement.setString(8, address.getCity());
+			this.preparedStatement.setString(9, address.getStrasse());
+			this.preparedStatement.setString(10, address.getNumber());
+			this.preparedStatement.setString(11, nutzer.getStatus().getText());
+			this.preparedStatement.setInt(12, nutzer.getNID());
 			this.preparedStatement.executeUpdate();
 		} finally {
 			close();
@@ -199,14 +204,14 @@ public class NutzerDAO {
 	}
 
 	/**
-	 * @param eMail
+	 * @param nid
 	 * @throws SQLException
 	 */
-	public void deleteNutzer(final String eMail) throws SQLException {
+	public void deleteNutzer(final int nid) throws SQLException {
 		try {
 			open();
-			this.preparedStatement = this.connect.prepareStatement("DELETE FROM Nutzer WHERE eMail = ?");
-			this.preparedStatement.setString(1, eMail);
+			this.preparedStatement = this.connect.prepareStatement("DELETE FROM Nutzer WHERE NID = ?");
+			this.preparedStatement.setInt(1, nid);
 
 			this.preparedStatement.executeUpdate();
 		} finally {

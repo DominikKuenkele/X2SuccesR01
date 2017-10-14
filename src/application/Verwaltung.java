@@ -34,6 +34,10 @@ import util.exception.ValidateConstrArgsException;
  */
 public class Verwaltung extends Subject {
 
+	private Nutzer currentNutzer;
+	private Unternehmensprofil currentUnternehmen;
+	private Freelancerprofil currentFreelancer;
+
 	private static Verwaltung instance;
 
 	/**
@@ -41,10 +45,6 @@ public class Verwaltung extends Subject {
 	 */
 	private Verwaltung() {
 	}
-
-	private Nutzer currentNutzer;
-	private Unternehmensprofil currentUnternehmen;
-	private Freelancerprofil currentFreelancer;
 
 	/**
 	 * @return the Instance of this Singleton-Class
@@ -265,6 +265,7 @@ public class Verwaltung extends Subject {
 	 * @param abschluss
 	 * @param expertise
 	 * @param sprachen
+	 * @param jobTitel
 	 * @param beschreibung
 	 * @param frist
 	 * @param gehalt
@@ -273,14 +274,14 @@ public class Verwaltung extends Subject {
 	 * @throws DBException
 	 */
 	public void createJobangebot(final String abschluss, final String expertise, final List<String> sprachen,
-			final String beschreibung, final LocalDate frist, final int gehalt, final int wochenstunden)
-			throws UserInputException, DBException {
+			final String jobTitel, final String beschreibung, final LocalDate frist, final int gehalt,
+			final int wochenstunden) throws UserInputException, DBException {
 		if (this.currentNutzer.getStatus() == Status.F) {
 			throw new UserInputException("Ein Freelancer kann kein Jobangebot erstellen.");
 		}
 		try {
-			final Jobangebot jobangebot = new Jobangebot(abschluss, expertise, sprachen, beschreibung, frist, gehalt,
-					wochenstunden, this.currentUnternehmen);
+			final Jobangebot jobangebot = new Jobangebot(abschluss, expertise, sprachen, jobTitel, beschreibung, frist,
+					gehalt, wochenstunden, this.currentUnternehmen);
 			final int jid = new JobangebotDAO().addJobangebot(jobangebot);
 			jobangebot.setId(jid);
 		} catch (final ValidateConstrArgsException e) {
@@ -294,6 +295,7 @@ public class Verwaltung extends Subject {
 	/**
 	 * @param fName
 	 * @param lName
+	 * @param eMail
 	 * @param sex
 	 * @param plz
 	 * @param city
@@ -303,13 +305,12 @@ public class Verwaltung extends Subject {
 	 * @throws UserInputException
 	 * @throws DBException
 	 */
-	public void changeNutzer(final String fName, final String lName, final String sex, final String plz,
-			final String city, final String street, final String number, final LocalDate date)
+	public void changeNutzer(final String fName, final String lName, final String eMail, final String sex,
+			final String plz, final String city, final String street, final String number, final LocalDate date)
 			throws UserInputException, DBException {
 		try {
-			final Nutzer nutzer = new Nutzer(fName, lName, sex, date, this.currentNutzer.geteMail(),
-					this.currentNutzer.getPassword(), new Adresse(plz, city, street, number),
-					this.currentNutzer.getStatus());
+			final Nutzer nutzer = new Nutzer(fName, lName, sex, date, eMail, this.currentNutzer.getPassword(),
+					new Adresse(plz, city, street, number), this.currentNutzer.getStatus());
 			nutzer.setNID(this.currentNutzer.getNID());
 			new NutzerDAO().changeNutzer(nutzer);
 			setCurrentNutzer(nutzer);
@@ -318,6 +319,36 @@ public class Verwaltung extends Subject {
 		} catch (SQLException e) {
 			throw new DBException(
 					"Auf die Datenbank kann im Moment nicht zugegriffen werden. Versuchen Sie es später erneut!");
+		}
+	}
+
+	/**
+	 * @param oldPassword
+	 * @param newPassword
+	 * @throws UserInputException
+	 * @throws DBException
+	 */
+	public void changePassword(String oldPassword, String newPassword) throws UserInputException, DBException {
+		final boolean validation = PassHash.validatePassword(oldPassword, currentNutzer.getPassword());
+
+		if (validation == true) {
+			try {
+				final String passHash = PassHash.generateStrongPasswordHash(newPassword);
+				Nutzer nutzer = new Nutzer(currentNutzer.getFirstName(), currentNutzer.getLastName(),
+						currentNutzer.getSex(), currentNutzer.getBirthdate(), currentNutzer.geteMail(), passHash,
+						currentNutzer.getAddress(), currentNutzer.getStatus());
+				nutzer.setNID(currentNutzer.getNID());
+				new NutzerDAO().changeNutzer(nutzer);
+				setCurrentNutzer(nutzer);
+			} catch (ValidateConstrArgsException e) {
+				throw new UserInputException("Geben Sie ein neues Passwort ein!", e);
+			} catch (SQLException e) {
+				throw new DBException(
+						"Auf die Datenbank kann im Moment nicht zugegriffen werden. Probieren Sie es später erneut!",
+						e);
+			}
+		} else {
+			throw new UserInputException("Das alte Passwort stimmt nicht");
 		}
 	}
 

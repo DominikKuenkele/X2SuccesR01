@@ -42,8 +42,8 @@ public class JobangebotDAOTest {
 		Jobangebot[] j = new Jobangebot[5];
 		try {
 			for (int i = 0; i < j.length; i++) {
-				j[i] = new Jobangebot("Ausbildung", "Banken", sprachen, "beschreibung", LocalDate.of(2019, 10, 5), 100,
-						20, new UnternehmensprofilDAO().getUnternehmensprofil(i + 7));
+				j[i] = new Jobangebot("Ausbildung", "Banken", sprachen, "jobtitel", "beschreibung",
+						LocalDate.of(2019, 10, 5), 100, 20, new UnternehmensprofilDAO().getUnternehmensprofil(i + 7));
 
 				new JobangebotDAO().addJobangebot(j[i]);
 				// j.setId(jid);
@@ -110,8 +110,8 @@ public class JobangebotDAOTest {
 				Jobangebot j = new JobangebotDAO().getJobangebot(i);
 				String branche = new BrancheDAO().getBranche(i % 5 + 1);
 				String abschluss = new AbschlussDAO().getAbschluss((i % 4) + 4);
-				Jobangebot j2 = new Jobangebot(abschluss, branche, sprachen, j.getBeschreibung(), j.getFrist(), 2000,
-						j.getWochenstunden(), j.getUnternehmensprofil());
+				Jobangebot j2 = new Jobangebot(abschluss, branche, sprachen, j.getJobTitel(), j.getBeschreibung(),
+						j.getFrist(), 2000, j.getWochenstunden(), j.getUnternehmensprofil());
 				j2.setId(j.getJID());
 				new JobangebotDAO().changeJobangebot(j2);
 			}

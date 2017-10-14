@@ -35,7 +35,7 @@ public class Nutzer {
 			Adresse address, Status status) throws ValidateConstrArgsException {
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.sex = sex.toLowerCase();
+		this.sex = sex;
 		this.birthdate = birthdate;
 		this.eMail = eMail;
 		this.password = password;
@@ -137,8 +137,10 @@ public class Nutzer {
 		} catch (IllegalArgumentException e) {
 			message = message + "\nNachname: " + e.getMessage();
 		}
-		if (!sex.equals("m") && !sex.equals("f") && !sex.equals("a")) {
-			message = message + "\nGeschlecht: Bitte Geschlecht ausfüllen!";
+		try {
+			Validate.checkForAlpha(sex);
+		} catch (IllegalArgumentException e) {
+			message = message + "\nGeschlecht: " + e.getMessage();
 		}
 		try {
 			if (birthdate == null) {

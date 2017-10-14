@@ -28,7 +28,7 @@ public class JobangebotAnzeige extends AnchorPane {
 	private Label nameLabel;
 	private Label gruendungLabel;
 	private Label mitarbeiterLabel;
-	private Label beschreibungLabel;
+	private Label jobTitelLabel;
 	private Label anforderungenLabel;
 	private Label wochenstundenLabel;
 	private Label gehaltLabel;
@@ -44,7 +44,7 @@ public class JobangebotAnzeige extends AnchorPane {
 	private final String EMPH_FONT = "System Bold";
 	private final int EMPH_SIZE = 14;
 
-	private int jid;
+	private Jobangebot jobangebot;
 
 	private final String GRUENDUNG_TEXT = "Gründung: ";
 	private final String MITARBEITER_TEXT = "Mitarbeiter: ";
@@ -88,14 +88,14 @@ public class JobangebotAnzeige extends AnchorPane {
 		mitarbeiterLabel.setLayoutX(LOC_X_NAME);
 		mitarbeiterLabel.setLayoutY(gruendungLabel.getLayoutY() + DIST_Y);
 
-		beschreibungLabel = new Label("Burgerbrater");
-		beschreibungLabel.setLayoutX(LOC_X_DESC);
-		beschreibungLabel.setLayoutY(LOC_Y_DESC);
-		beschreibungLabel.setFont(new Font(EMPH_FONT, EMPH_SIZE));
+		jobTitelLabel = new Label();
+		jobTitelLabel.setLayoutX(LOC_X_DESC);
+		jobTitelLabel.setLayoutY(LOC_Y_DESC);
+		jobTitelLabel.setFont(new Font(EMPH_FONT, EMPH_SIZE));
 
 		anforderungenLabel = new Label(ANFORDERUNG_TEXT);
 		anforderungenLabel.setLayoutX(LOC_X_DESC);
-		anforderungenLabel.setLayoutY(beschreibungLabel.getLayoutY() + DIST_Y);
+		anforderungenLabel.setLayoutY(jobTitelLabel.getLayoutY() + DIST_Y);
 
 		wochenstundenLabel = new Label(WOCHENSTUNDEN_EINHEIT);
 		wochenstundenLabel.setLayoutX(LOC_X_DESC);
@@ -112,28 +112,28 @@ public class JobangebotAnzeige extends AnchorPane {
 		getChildren().add(gruendungLabel);
 		getChildren().add(mitarbeiterLabel);
 		getChildren().add(anforderungenLabel);
-		getChildren().add(beschreibungLabel);
+		getChildren().add(jobTitelLabel);
 		getChildren().add(wochenstundenLabel);
 		getChildren().add(gehaltLabel);
 
 	}
 
 	/**
-	 * @return the jid
+	 * @return the jobangebot
 	 */
-	public int getJid() {
-		return this.jid;
+	public Jobangebot getJobangebot() {
+		return this.jobangebot;
 	}
 
 	public void setJobangebot(Jobangebot jobangebot) {
 		setName(jobangebot.getUnternehmensprofil().getName());
 		setGruendung(jobangebot.getUnternehmensprofil().getFounding().toString());
 		setMitarbieter(Integer.toString(jobangebot.getUnternehmensprofil().getEmployees()));
-		setBeschreibung(jobangebot.getBeschreibung());
+		setJobTitel(jobangebot.getJobTitel());
 		setAnforderungen(jobangebot.getAbschluss());
 		setWochenstunden(Integer.toString(jobangebot.getWochenstunden()));
 		setGehalt(Integer.toString(jobangebot.getGehalt()));
-		this.jid = jobangebot.getJID();
+		this.jobangebot = jobangebot;
 	}
 
 	private void setName(String name) {
@@ -148,8 +148,8 @@ public class JobangebotAnzeige extends AnchorPane {
 		mitarbeiterLabel.setText(MITARBEITER_TEXT + mitarbeiter);
 	}
 
-	private void setBeschreibung(String beschreibung) {
-		beschreibungLabel.setText(beschreibung);
+	private void setJobTitel(String beschreibung) {
+		jobTitelLabel.setText(beschreibung);
 	}
 
 	private void setAnforderungen(String anforderungen) {

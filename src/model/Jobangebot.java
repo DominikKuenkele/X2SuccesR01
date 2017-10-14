@@ -17,6 +17,7 @@ public class Jobangebot {
 	private String abschluss;
 	private String fachgebiet;
 	private List<String> sprachen;
+	private String jobTitel;
 	private String beschreibung;
 	private LocalDate frist;
 	private int gehalt;
@@ -27,6 +28,7 @@ public class Jobangebot {
 	 * @param abschluss
 	 * @param fachgebiet
 	 * @param sprachen
+	 * @param jobTitel
 	 * @param beschreibung
 	 * @param frist
 	 * @param gehalt
@@ -34,11 +36,13 @@ public class Jobangebot {
 	 * @param unternehmensprofil
 	 * @throws ValidateConstrArgsException
 	 */
-	public Jobangebot(String abschluss, String fachgebiet, List<String> sprachen, String beschreibung, LocalDate frist,
-			int gehalt, int wochenstunden, Unternehmensprofil unternehmensprofil) throws ValidateConstrArgsException {
+	public Jobangebot(String abschluss, String fachgebiet, List<String> sprachen, String jobTitel, String beschreibung,
+			LocalDate frist, int gehalt, int wochenstunden, Unternehmensprofil unternehmensprofil)
+			throws ValidateConstrArgsException {
 		this.abschluss = abschluss;
 		this.fachgebiet = fachgebiet;
 		this.sprachen = sprachen;
+		this.jobTitel = jobTitel;
 		this.beschreibung = beschreibung;
 		this.frist = frist;
 		this.gehalt = gehalt;
@@ -98,6 +102,13 @@ public class Jobangebot {
 	}
 
 	/**
+	 * @return the jobTitel
+	 */
+	public String getJobTitel() {
+		return this.jobTitel;
+	}
+
+	/**
 	 * @return the wochenstunden
 	 */
 	public int getWochenstunden() {
@@ -146,11 +157,15 @@ public class Jobangebot {
 		return Objects.hash(jid);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "Jobangebot [jid=" + this.jid + ", abschluss=" + this.abschluss + ", fachgebiet=" + this.fachgebiet
-				+ ", sprachen=" + this.sprachen + ", beschreibung=" + this.beschreibung + ", frist=" + this.frist
-				+ ", gehalt=" + this.gehalt + ", wochenstunden=" + this.wochenstunden + ", unternehmensproflil="
-				+ this.unternehmensproflil + "]";
+				+ ", sprachen=" + this.sprachen + ", jobTitel=" + this.jobTitel + ", beschreibung=" + this.beschreibung
+				+ ", frist=" + this.frist + ", gehalt=" + this.gehalt + ", wochenstunden=" + this.wochenstunden
+				+ ", unternehmensproflil=" + this.unternehmensproflil + "]";
 	}
 }

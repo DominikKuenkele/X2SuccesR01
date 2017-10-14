@@ -95,8 +95,8 @@ public class UnternehmensprofilDAO {
 			preparedStatement = connect.prepareStatement(
 					"SELECT UID, NID, branche.branche, name, legalForm, founding, employees, description, "
 							+ "website, ceoFirstName, ceoLastName, plz, city, street, number "
-							+ "INNER JOIN branche ON unternehmensprofil.BID = branche.BID "
-							+ "FROM unternehmensprofil WHERE UID = ?");
+							+ "FROM unternehmensprofil " + "INNER JOIN branche ON unternehmensprofil.BID = branche.BID "
+							+ "WHERE UID = ?");
 			preparedStatement.setInt(1, uid);
 
 			resultSet = preparedStatement.executeQuery();
@@ -117,8 +117,8 @@ public class UnternehmensprofilDAO {
 			preparedStatement = connect.prepareStatement(
 					"SELECT UID, NID, branche.branche, name, legalForm, founding, employees, description, "
 							+ "website, ceoFirstName, ceoLastName, plz, city, street, number "
-							+ "INNER JOIN branche ON unternehmensprofil.BID = branche.BID "
-							+ "FROM Unternehmensprofil");
+							+ "FROM Unternehmensprofil"
+							+ "INNER JOIN branche ON unternehmensprofil.BID = branche.BID ");
 			resultSet = preparedStatement.executeQuery();
 			return getUnternehmensprofilFromResultSet(resultSet);
 		} finally {

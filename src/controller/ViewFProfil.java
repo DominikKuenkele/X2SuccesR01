@@ -109,11 +109,20 @@ public class ViewFProfil implements Initializable {
 			alert.setContentText("Das Freelancerprofil wurde erfolgreich geändert!");
 			alert.showAndWait();
 
-		} catch (UserInputException | DBException e) {
+		} catch (UserInputException e) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error");
 			alert.setHeaderText("Änderung fehlgeschlagen");
 			alert.setContentText(e.getMessage());
+			alert.showAndWait();
+
+			e.printStackTrace();
+		} catch (DBException e) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("Änderung fehlgeschlagen");
+			alert.setContentText(
+					"Auf die Datenbank kann im Moment nicht zugegriffen werden. Versuchen Sie es später erneut.");
 			alert.showAndWait();
 
 			e.printStackTrace();
