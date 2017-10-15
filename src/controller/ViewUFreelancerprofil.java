@@ -20,7 +20,7 @@ import model.Jobangebot;
 import model.Nutzer;
 import model.Unternehmensprofil;
 
-public class ViewFreelancerprofil implements Initializable {
+public class ViewUFreelancerprofil implements Initializable {
 
 	@FXML
 	private Label username;

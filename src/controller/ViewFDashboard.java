@@ -31,8 +31,6 @@ public class ViewFDashboard {
 	private ImageView userpicture;
 
 	void changescene(String fxmlname) throws IOException {
-
-		// schliesst aktuelles Fenster
 		Stage stage2 = (Stage) homebutton.getScene().getWindow();
 		stage2.close();
 

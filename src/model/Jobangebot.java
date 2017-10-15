@@ -131,13 +131,31 @@ public class Jobangebot {
 	}
 
 	private void validateState() throws ValidateConstrArgsException {
+		String message = "";
+
+		try {
+			Validate.checkForAlphaNumeric(jobTitel);
+		} catch (IllegalArgumentException e) {
+			message = message + "\nJobtitel: " + e.getMessage();
+		}
 		try {
 			Validate.checkForAlphaNumeric(beschreibung);
-			Validate.checkForPositive(gehalt);
-			Validate.checkForPositive(wochenstunden);
-			// TODO validate unternehmensprofil
 		} catch (IllegalArgumentException e) {
-			throw new ValidateConstrArgsException(e.getMessage());
+			message = message + "\nJobbeschreibung: " + e.getMessage();
+		}
+		try {
+			Validate.checkForPositive(gehalt);
+		} catch (IllegalArgumentException e) {
+			message = message + "\nGehalt: " + e.getMessage();
+		}
+		try {
+			Validate.checkForPositive(wochenstunden);
+		} catch (IllegalArgumentException e) {
+			message = message + "\nWochenstunden: " + e.getMessage();
+		}
+
+		if (message != "") {
+			throw new ValidateConstrArgsException(message);
 		}
 	}
 

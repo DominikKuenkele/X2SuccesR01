@@ -4,20 +4,17 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.time.format.DateTimeFormatter;
 
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import model.Jobangebot;
 import model.Unternehmensprofil;
 
-public class ViewUJobangebot implements Initializable {
+public class ViewFJobangebot {
 
 	@FXML
 	private Label companyname;
@@ -53,13 +50,7 @@ public class ViewUJobangebot implements Initializable {
 	private Label topicofdegree;
 
 	@FXML
-	private TextArea skills;
-
-	@FXML
 	private Label contactname;
-
-	@FXML
-	private Label contactphone;
 
 	@FXML
 	private Label contactmail;
@@ -69,29 +60,29 @@ public class ViewUJobangebot implements Initializable {
 
 	private Jobangebot jobangebot;
 
-	@FXML
-	void addfavorite(MouseEvent event) {
-
-		// Pfad ändern ist glaub falsch?!
-		if (star.getOpacity() == 1) {
-			star.setImage(new Image("url=@Icons/stern_voll.png"));
-			star.setOpacity(0.99);
-			// Favorit speichern
-
-		} else {
-			star.setImage(new Image("url=@Icons/stern_leer.png"));
-			star.setOpacity(1);
-			// Favorit löschen
-		}
-
-	}
+	// @FXML
+	// void addfavorite(MouseEvent event) {
+	//
+	// // Pfad ändern ist glaub falsch?!
+	// if (star.getOpacity() == 1) {
+	// star.setImage(new Image("url=@Icons/stern_voll.png"));
+	// star.setOpacity(0.99);
+	// // Favorit speichern
+	//
+	// } else {
+	// star.setImage(new Image("url=@Icons/stern_leer.png"));
+	// star.setOpacity(1);
+	// // Favorit löschen
+	// }
+	//
+	// }
 
 	@FXML
 	void mailTo(MouseEvent event) throws URISyntaxException, IOException {
 		if (Desktop.isDesktopSupported()) {
 			Desktop desktop = Desktop.getDesktop();
 			if (desktop.isSupported(Desktop.Action.MAIL)) {
-				URI mailto = new URI("mailto:john@example.com?subject=Hello%20World");
+				URI mailto = new URI("mailto:" + jobangebot.getUnternehmensprofil().getNutzer().geteMail());
 				desktop.mail(mailto);
 			}
 		}
@@ -101,7 +92,9 @@ public class ViewUJobangebot implements Initializable {
 		Unternehmensprofil u = jobangebot.getUnternehmensprofil();
 
 		companyname.setText(u.getName());
-		date.setText("Gründungsdatum: " + u.getFounding());
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.LLLL.yyyy");
+		String formattedDate = u.getFounding().format(formatter);
+		date.setText("Gründungsdatum: " + formattedDate);
 		employees.setText("Mitarbeiteranzahl: " + u.getEmployees());
 		branche.setText("Branche: " + jobangebot.getFachgebiet());
 		Jobtitel.setText(jobangebot.getJobTitel());
@@ -113,13 +106,8 @@ public class ViewUJobangebot implements Initializable {
 		contactmail.setText(u.getNutzer().geteMail());
 	}
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-	}
-
 	public void setJobangebot(Jobangebot aJobangebot) {
 		this.jobangebot = aJobangebot;
 		fillFormular();
 	}
-
 }

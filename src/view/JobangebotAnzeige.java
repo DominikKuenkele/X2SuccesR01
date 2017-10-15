@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.format.DateTimeFormatter;
 
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
@@ -127,7 +128,9 @@ public class JobangebotAnzeige extends AnchorPane {
 
 	public void setJobangebot(Jobangebot jobangebot) {
 		setName(jobangebot.getUnternehmensprofil().getName());
-		setGruendung(jobangebot.getUnternehmensprofil().getFounding().toString());
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.LL.yyyy");
+		String formattedDate = jobangebot.getUnternehmensprofil().getFounding().format(formatter);
+		setGruendung(formattedDate);
 		setMitarbieter(Integer.toString(jobangebot.getUnternehmensprofil().getEmployees()));
 		setJobTitel(jobangebot.getJobTitel());
 		setAnforderungen(jobangebot.getAbschluss());

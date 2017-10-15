@@ -36,9 +36,6 @@ import view.JobangebotAnzeige;
 
 public class ViewFSuche implements Initializable, EventHandler<MouseEvent> {
 
-	// Liste für die Choice Boxen. Aus DB ziehen
-	ObservableList<String> TestListe = FXCollections.observableArrayList("Inhalt1", "Inhalt2", "Inhalt3");
-
 	private JobangebotAnzeige[] jA;
 
 	@FXML
@@ -173,9 +170,9 @@ public class ViewFSuche implements Initializable, EventHandler<MouseEvent> {
 		Object source = aArg0.getSource();
 		if (Arrays.asList(jA).contains(source)) {
 			try {
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/UJobangebot.fxml"));
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FJobangebot.fxml"));
 				Pane myPane = loader.load();
-				ViewUJobangebot controller = loader.getController();
+				ViewFJobangebot controller = loader.getController();
 				controller.setJobangebot(((JobangebotAnzeige) source).getJobangebot());
 
 				Stage stage = new Stage();

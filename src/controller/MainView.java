@@ -13,7 +13,7 @@ public class MainView extends Application {
 		try {
 			Verwaltung v = Verwaltung.getInstance();
 			v.login("dominik.kuenkele@outlook.com", "1234");
-			AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/FRahmen.fxml"));
+			AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/URahmen.fxml"));
 			// AnchorPane root = (AnchorPane)
 			// FXMLLoader.load(getClass().getResource("/view/Startseite.fxml"));
 			Scene scene = new Scene(root);

@@ -29,8 +29,6 @@ import util.exception.UserInputException;
 
 public class ViewUProfilErstellen implements Initializable {
 
-	ObservableList<String> Branchenliste = FXCollections.observableArrayList("Branche1", "Branche2", "Branche3");
-
 	private Verwaltung verwaltung;
 
 	boolean v = true;
@@ -127,5 +125,4 @@ public class ViewUProfilErstellen implements Initializable {
 			e.printStackTrace();
 		}
 	}
-
 }

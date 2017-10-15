@@ -30,9 +30,6 @@ import util.exception.UserInputException;
 
 public class ViewUProfil implements Initializable {
 
-	// Liste für die Choice Boxen. Aus DB ziehen
-	ObservableList<String> Branche = FXCollections.observableArrayList("Inhalt1", "Inhalt2", "Inhalt3");
-
 	@FXML
 	private TextField cName;
 
