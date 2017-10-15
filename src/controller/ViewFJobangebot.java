@@ -60,22 +60,22 @@ public class ViewFJobangebot {
 
 	private Jobangebot jobangebot;
 
-	// @FXML
-	// void addfavorite(MouseEvent event) {
-	//
-	// // Pfad ändern ist glaub falsch?!
-	// if (star.getOpacity() == 1) {
-	// star.setImage(new Image("url=@Icons/stern_voll.png"));
-	// star.setOpacity(0.99);
-	// // Favorit speichern
-	//
-	// } else {
-	// star.setImage(new Image("url=@Icons/stern_leer.png"));
-	// star.setOpacity(1);
-	// // Favorit löschen
-	// }
-	//
-	// }
+	@FXML
+	void addfavorite(MouseEvent event) {
+
+		// // Pfad ändern ist glaub falsch?!
+		// if (star.getOpacity() == 1) {
+		// star.setImage(new Image("url=@Icons/stern_voll.png"));
+		// star.setOpacity(0.99);
+		// // Favorit speichern
+		//
+		// } else {
+		// star.setImage(new Image("url=@Icons/stern_leer.png"));
+		// star.setOpacity(1);
+		// // Favorit löschen
+		// }
+
+	}
 
 	@FXML
 	void mailTo(MouseEvent event) throws URISyntaxException, IOException {

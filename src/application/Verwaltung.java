@@ -413,7 +413,7 @@ public class Verwaltung extends Subject {
 		searchList.add(jobangebotDao.searchForMitarbeiter(minMitarbeiter, maxMitarbeiter));
 		searchList.add(jobangebotDao.searchForGehalt(minGehalt));
 
-		Set<Entry<Jobangebot, Integer>> prioList = prioritize(searchList);
+		Set<Entry<Jobangebot, Integer>> prioList = prioritizeJobangebote(searchList);
 		List<Map.Entry<Jobangebot, Integer>> list = new LinkedList<>(prioList);
 		Collections.sort(list, new Comparator<Map.Entry<Jobangebot, Integer>>() {
 			@Override
@@ -425,7 +425,7 @@ public class Verwaltung extends Subject {
 		return list;
 	}
 
-	private Set<Entry<Jobangebot, Integer>> prioritize(List<List<Jobangebot>> searchList) {
+	private Set<Entry<Jobangebot, Integer>> prioritizeJobangebote(List<List<Jobangebot>> searchList) {
 		HashMap<Jobangebot, Integer> prioList = new HashMap<>();
 		for (List<Jobangebot> sL : searchList) {
 			for (Jobangebot jobangebot : sL) {
@@ -436,6 +436,52 @@ public class Verwaltung extends Subject {
 					prio = prioList.get(jobangebot) + 1;
 				}
 				prioList.put(jobangebot, prio);
+			}
+		}
+		return prioList.entrySet();
+	}
+
+	/**
+	 * @param name
+	 * @param abschluss
+	 * @param expertise
+	 * @param sprachen
+	 * @return a List of {@link model.Freelancerprofil Freelancerprofile} with
+	 *         search-Priority
+	 * @throws SQLException
+	 */
+	public List<Entry<Freelancerprofil, Integer>> sucheFreelancer(String name, String abschluss, String expertise,
+			List<String> sprachen) throws SQLException {
+		FreelancerprofilDAO freelancerprofilDao = new FreelancerprofilDAO();
+
+		List<List<Freelancerprofil>> searchList = new LinkedList<>();
+		searchList.add(freelancerprofilDao.searchForName(name));
+		searchList.add(freelancerprofilDao.searchForAbschluss(abschluss, expertise));
+		searchList.add(freelancerprofilDao.searchForSprache(sprachen));
+
+		Set<Entry<Freelancerprofil, Integer>> prioList = prioritizeFreelancerprofile(searchList);
+		List<Map.Entry<Freelancerprofil, Integer>> list = new LinkedList<>(prioList);
+		Collections.sort(list, new Comparator<Map.Entry<Freelancerprofil, Integer>>() {
+			@Override
+			public int compare(Map.Entry<Freelancerprofil, Integer> e1, Map.Entry<Freelancerprofil, Integer> e2) {
+				return (e2.getValue()).compareTo(e1.getValue());
+			}
+		});
+
+		return list;
+	}
+
+	private Set<Entry<Freelancerprofil, Integer>> prioritizeFreelancerprofile(List<List<Freelancerprofil>> searchList) {
+		HashMap<Freelancerprofil, Integer> prioList = new HashMap<>();
+		for (List<Freelancerprofil> sL : searchList) {
+			for (Freelancerprofil freelancerprofil : sL) {
+				int prio;
+				if (!prioList.containsKey(freelancerprofil)) {
+					prio = 1;
+				} else {
+					prio = prioList.get(freelancerprofil) + 1;
+				}
+				prioList.put(freelancerprofil, prio);
 			}
 		}
 		return prioList.entrySet();

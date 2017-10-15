@@ -1,6 +1,5 @@
 package controller;
 
-import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -11,9 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -21,14 +18,24 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import model.Unternehmensprofil;
 import persistence.BrancheDAO;
 import util.exception.DBException;
 import util.exception.UserInputException;
 
 public class ViewUProfil implements Initializable {
+
+	@FXML
+	private TextField cCeoprenom;
+
+	@FXML
+	private TextField cCeoname;
+
+	@FXML
+	private TextField cForm;
+
+	@FXML
+	private TextField cWebsite;
 
 	@FXML
 	private TextField cName;
@@ -60,61 +67,58 @@ public class ViewUProfil implements Initializable {
 	@FXML
 	private Button changeCompany;
 
-	void changeScene(String fxmlname) throws IOException {
-
-		// schliesst aktuelles Fenster
-		Stage stage2 = (Stage) changeCompany.getScene().getWindow();
-		stage2.close();
-
-		Stage stage = new Stage();
-		stage.setTitle("X2Success");
-		Pane myPane = null;
-		myPane = FXMLLoader.load(getClass().getResource(fxmlname));
-		Scene scene = new Scene(myPane);
-		stage.setScene(scene);
-		stage.show();
-
-	}
-
 	@FXML
 	void changeUnternehmen(ActionEvent event) {
 		Verwaltung verwaltung = Verwaltung.getInstance();
 
-		String name = cName.getText();
-		LocalDate founding = cDate.getValue();
-		String city = cCity.getText();
-		String plz = cPlz.getText();
-		String street = cStreet.getText();
-		String number = cNumber.getText();
-		String branche = cBranche.getValue();
-		String description = cDescription.getText();
-
 		try {
-			verwaltung.changeUnternehmen(name, "form", plz, city, street, number, founding, 80000, description, branche,
-					"www.fff.de", "vorname", "nachname");
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Info");
-			alert.setHeaderText("Unternehmensprofil geändert");
-			alert.setContentText("Das Unternehmensprofil wurde erfolgreich geändert!");
-			alert.showAndWait();
+			String name = cName.getText();
+			String form = cForm.getText();
+			LocalDate founding = cDate.getValue();
+			int employees = Integer.parseInt(cEmployees.getText());
+			String city = cCity.getText();
+			String plz = cPlz.getText();
+			String street = cStreet.getText();
+			String number = cNumber.getText();
+			String branche = cBranche.getValue();
+			String description = cDescription.getText();
+			String website = cWebsite.getText();
+			String ceoFirstName = cCeoprenom.getText();
+			String ceoLastName = cCeoname.getText();
 
-		} catch (UserInputException e) {
+			try {
+				verwaltung.changeUnternehmen(name, form, plz, city, street, number, founding, employees, description,
+						branche, website, ceoFirstName, ceoLastName);
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Info");
+				alert.setHeaderText("Unternehmensprofil geändert");
+				alert.setContentText("Das Unternehmensprofil wurde erfolgreich geändert!");
+				alert.showAndWait();
+
+			} catch (UserInputException e) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error");
+				alert.setHeaderText("Änderung fehlgeschlagen");
+				alert.setContentText(e.getMessage());
+				alert.showAndWait();
+
+				e.printStackTrace();
+			} catch (DBException e) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error");
+				alert.setHeaderText("Änderung fehlgeschlagen");
+				alert.setContentText(
+						"Auf die Datenbank kann im Moment nicht zugegriffen werden. Versuchen Sie es später erneut.");
+				alert.showAndWait();
+
+				e.printStackTrace();
+			}
+		} catch (NumberFormatException e) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error");
 			alert.setHeaderText("Änderung fehlgeschlagen");
-			alert.setContentText(e.getMessage());
+			alert.setContentText("Das ist keine Zahl!");
 			alert.showAndWait();
-
-			e.printStackTrace();
-		} catch (DBException e) {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Error");
-			alert.setHeaderText("Änderung fehlgeschlagen");
-			alert.setContentText(
-					"Auf die Datenbank kann im Moment nicht zugegriffen werden. Versuchen Sie es später erneut.");
-			alert.showAndWait();
-
-			e.printStackTrace();
 		}
 
 	}

@@ -3,6 +3,7 @@ package model;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import util.Validate;
 import util.exception.ValidateConstrArgsException;
@@ -136,5 +137,21 @@ public class Freelancerprofil implements Profil {
 		} catch (IllegalArgumentException e) {
 			throw new ValidateConstrArgsException(e.getMessage());
 		}
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		boolean result = false;
+		if (object != null && object instanceof Freelancerprofil) {
+			if (((Freelancerprofil) object).getFID() == fid) {
+				result = true;
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(fid);
 	}
 }

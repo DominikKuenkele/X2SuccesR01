@@ -31,7 +31,14 @@ public class ViewUProfilErstellen implements Initializable {
 
 	private Verwaltung verwaltung;
 
-	boolean v = true;
+	@FXML
+	private TextField cCeoname;
+
+	@FXML
+	private TextField cCeoprename;
+
+	@FXML
+	private TextField cWebsite;
 
 	@FXML
 	private TextField UName;
@@ -97,9 +104,12 @@ public class ViewUProfilErstellen implements Initializable {
 		int mitarbeiter = Integer.parseInt(UMitarbeiter.getText());
 		String branche = UBranche.getValue();
 		String beschreibung = UBeschreibung.getText();
+		String ceoFirstName = cCeoprename.getText();
+		String ceoLastName = cCeoname.getText();
+		String website = cWebsite.getText();
 		try {
 			verwaltung.createUnternehmen(name, form, plz, stadt, strasse, hausnummer, gruendung, mitarbeiter,
-					beschreibung, branche, "www.test.de", "Vorname", "Nachname"); // TODO ceoname, website
+					beschreibung, branche, website, ceoFirstName, ceoLastName);
 			switchScene("/view/URahmen.fxml");
 		} catch (UserInputException | DBException e) {
 			Alert alert = new Alert(AlertType.ERROR);
@@ -111,7 +121,6 @@ public class ViewUProfilErstellen implements Initializable {
 			e.printStackTrace();
 
 		}
-
 	}
 
 	@Override

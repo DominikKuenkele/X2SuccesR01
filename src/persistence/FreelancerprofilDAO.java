@@ -4,8 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -266,7 +268,7 @@ public class FreelancerprofilDAO {
 		return result;
 	}
 
-	public List<Freelancerprofil> searchForAbschlussTest(String aAbschluss, String aExpertise) throws SQLException {
+	public List<Freelancerprofil> searchForAbschluss(String aAbschluss, String aExpertise) throws SQLException {
 		List<Freelancerprofil> result = new LinkedList<>();
 
 		try {
@@ -278,7 +280,7 @@ public class FreelancerprofilDAO {
 			int hierarchy = new AbschlussDAO().getHierarchy(aAbschluss);
 
 			preparedStatement = connect.prepareStatement("SELECT freelancerprofil.FID FROM freelancerprofil "
-					+ "INNER JOIN branche ON freelancerprofil.EID = expertise.EID "
+					+ "INNER JOIN expertise ON freelancerprofil.EID = expertise.EID "
 					+ "INNER JOIN graduation ON freelancerprofil.GID = graduation.GID "
 					+ "WHERE expertise.expertise LIKE ? AND graduation.hierarchy >= ?");
 			preparedStatement.setString(1, expertise);
@@ -295,24 +297,28 @@ public class FreelancerprofilDAO {
 		return result;
 	}
 
-	public List<Freelancerprofil> searchForSpracheTest(List<String> aSprachen) throws SQLException {
+	public List<Freelancerprofil> searchForName(String aName) throws SQLException {
 		List<Freelancerprofil> result = new LinkedList<>();
+		List<String> nameTypes = new LinkedList<>();
+		nameTypes.add("firstName");
+		nameTypes.add("lastName");
 
 		try {
 			open();
-			List<String> filteredSprachen = new LinkedList<>();
-			for (String sprache : aSprachen) {
-				String filteredSprache = sprache.replace("!", "!!").replace("%", "!%").replace("_", "!_").replace("[",
-						"![");
-				preparedStatement = connect.prepareStatement("SELECT freelancerprofil.FID FROM sprachenzuordnungFP "
-						+ "INNER JOIN sprache ON sprachenzuordnungFP.SID = sprache.SID "
-						+ "WHERE sprache.sprache LIKE ?");
-				preparedStatement.setString(1, filteredSprache);
-
-				resultSet = preparedStatement.executeQuery();
-				while (resultSet.next()) {
-					int fid = resultSet.getInt("freelancerprofil.FID");
-					result.add(new FreelancerprofilDAO().getFreelancerprofil(fid));
+			String fullName = aName.replace("!", "!!").replace("%", "!%").replace("_", "!_").replace("[", "![")
+					.replace("*", "%");
+			String splitName[] = fullName.split(" ");
+			for (String nameType : nameTypes) {
+				for (String name : splitName) {
+					preparedStatement = connect.prepareStatement("SELECT freelancerprofil.FID FROM freelancerprofil "
+							+ "INNER JOIN nutzer ON freelancerprofil.NID = nutzer.NID " + "WHERE nutzer." + nameType
+							+ " LIKE ?");
+					preparedStatement.setString(1, name);
+					resultSet = preparedStatement.executeQuery();
+					while (resultSet.next()) {
+						int fid = resultSet.getInt("freelancerprofil.FID");
+						result.add(new FreelancerprofilDAO().getFreelancerprofil(fid));
+					}
 				}
 			}
 
@@ -322,24 +328,41 @@ public class FreelancerprofilDAO {
 		return result;
 	}
 
-	/**
-	 * @param aGehalt
-	 * @return a List of {@link model.Freelancerprofil Freelancerprofilen} with a
-	 *         lower salary than aGehalt
-	 * @throws SQLException
-	 */
-	public List<Freelancerprofil> searchForGehaltTest(int aGehalt) throws SQLException {
+	public List<Freelancerprofil> searchForSprache(List<String> aSprachen) throws SQLException {
 		List<Freelancerprofil> result = new LinkedList<>();
+		HashMap<Integer, Integer> tempList = new HashMap<>();
+
 		try {
 			open();
-			preparedStatement = connect
-					.prepareStatement("SELECT freelancer.FID FROM freelancer WHERE freelancer.salary <= ?");
-			preparedStatement.setInt(1, aGehalt);
-			resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				int fid = resultSet.getInt("freelnacer.FID");
-				result.add(new FreelancerprofilDAO().getFreelancerprofil(fid));
+			for (String sprache : aSprachen) {
+				String filteredSprache = sprache.replace("!", "!!").replace("%", "!%").replace("_", "!_")
+						.replace("[", "![").replace("*", "%");
+				preparedStatement = connect.prepareStatement("SELECT sprachenzuordnungFP.FID FROM sprachenzuordnungFP "
+						+ "INNER JOIN sprachen ON sprachenzuordnungFP.SID = sprachen.SID "
+						+ "WHERE sprachen.sprache LIKE ?");
+				preparedStatement.setString(1, filteredSprache);
+
+				resultSet = preparedStatement.executeQuery();
+				while (resultSet.next()) {
+					int fid = resultSet.getInt("sprachenzuordnungFP.FID");
+
+					int prio;
+					if (!tempList.containsKey(fid)) {
+						prio = 1;
+					} else {
+						prio = tempList.get(fid) + 1;
+					}
+					tempList.put(fid, prio);
+
+				}
 			}
+
+			for (Entry<Integer, Integer> entry : tempList.entrySet()) {
+				if (entry.getValue() == aSprachen.size()) {
+					result.add(new FreelancerprofilDAO().getFreelancerprofil(entry.getKey()));
+				}
+			}
+
 		} finally {
 			close();
 		}

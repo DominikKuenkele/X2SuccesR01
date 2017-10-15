@@ -121,7 +121,25 @@ public class FreelancerprofilDAOTest {
 	public void testSearchForAbschluss() {
 		List<Freelancerprofil> list;
 		try {
-			list = new FreelancerprofilDAO().searchForAbschlussTest("Bachelor", "*Banken*");
+			list = new FreelancerprofilDAO().searchForAbschluss("Doktor", "M*");
+			for (Freelancerprofil j : list) {
+				System.out.println(j);
+			}
+			System.out.println(list.size() + " results");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Test method for {@link persistence.FreelancerprofilDAO#searchForGehalt(int)}.
+	 */
+	@Ignore
+	@Test
+	public void testSearchForName() {
+		List<Freelancerprofil> list;
+		try {
+			list = new FreelancerprofilDAO().searchForName("K*");
 			for (Freelancerprofil j : list) {
 				System.out.println(j);
 			}
@@ -135,12 +153,16 @@ public class FreelancerprofilDAOTest {
 	/**
 	 * Test method for {@link persistence.FreelancerprofilDAO#searchForGehalt(int)}.
 	 */
-	@Ignore
 	@Test
-	public void testSearchForGehalt() {
+	public void testSearchForSprache() {
 		List<Freelancerprofil> list;
+		List<String> sprachen = new LinkedList<>();
+		sprachen.add("Englisch");
+		sprachen.add("Französisch");
+
+		sprachen.add("Deutsch");
 		try {
-			list = new FreelancerprofilDAO().searchForGehaltTest(100);
+			list = new FreelancerprofilDAO().searchForSprache(sprachen);
 			for (Freelancerprofil j : list) {
 				System.out.println(j);
 			}

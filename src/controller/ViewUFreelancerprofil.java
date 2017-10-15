@@ -4,23 +4,18 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.Iterator;
+import java.util.List;
 
-import application.Verwaltung;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import model.Freelancerprofil;
-import model.Jobangebot;
 import model.Nutzer;
-import model.Unternehmensprofil;
 
-public class ViewUFreelancerprofil implements Initializable {
+public class ViewUFreelancerprofil {
 
 	@FXML
 	private Label username;
@@ -29,10 +24,7 @@ public class ViewUFreelancerprofil implements Initializable {
 	private ImageView Freelancerpicture;
 
 	@FXML
-	private TextArea skills;
-
-	@FXML
-	private Label contactphone;
+	private Label skills;
 
 	@FXML
 	private Label contactmail;
@@ -44,25 +36,29 @@ public class ViewUFreelancerprofil implements Initializable {
 	private TextArea description;
 
 	@FXML
+	private TextArea career;
+
+	@FXML
 	private Label degree;
 
 	@FXML
 	private Label languages;
 
+	private Freelancerprofil freelancerprofil;
+
 	@FXML
 	void addfavorite(MouseEvent event) {
-
-		// Pfad ändern ist glaub falsch?!
-		if (star.getOpacity() == 1) {
-			star.setImage(new Image("url=@Icons/stern_voll.png"));
-			star.setOpacity(0.99);
-			// Favorit speichern
-
-		} else {
-			star.setImage(new Image("url=@Icons/stern_leer.png"));
-			star.setOpacity(1);
-			// Favorit löschen
-		}
+		// // Pfad ändern ist glaub falsch?!
+		// if (star.getOpacity() == 1) {
+		// star.setImage(new Image("url=@Icons/stern_voll.png"));
+		// star.setOpacity(0.99);
+		// // Favorit speichern
+		//
+		// } else {
+		// star.setImage(new Image("url=@Icons/stern_leer.png"));
+		// star.setOpacity(1);
+		// // Favorit löschen
+		// }
 	}
 
 	@FXML
@@ -70,25 +66,38 @@ public class ViewUFreelancerprofil implements Initializable {
 		if (Desktop.isDesktopSupported()) {
 			Desktop desktop = Desktop.getDesktop();
 			if (desktop.isSupported(Desktop.Action.MAIL)) {
-				String mail = contactmail.getText();
-				URI mailto = new URI("mailto:john@example.com?subject=Hello%20World");
+				URI mailto = new URI("mailto:" + freelancerprofil.getNutzer().geteMail());
 				desktop.mail(mailto);
 			}
 		}
 	}
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	public void fillFormular() {
+		Nutzer n = freelancerprofil.getNutzer();
 
-		Verwaltung v = Verwaltung.getInstance();
-		Nutzer n = v.getCurrentNutzer();  //Nutzer nach ID raussuchen nicht den aktuellen!!!!
-		Freelancerprofil f = (Freelancerprofil) v.getCurrentProfil(); //Auch nach ID raussuchen
-		
-		username.setText(n.getFirstName()+n.getLastName());
-		description.setText(f.getBeschreibung());
-		degree.setText(f.getAbschluss()+"in "+f.getAbschluss()); //Fachrichtung statt Abschluss!!!!
+		username.setText(n.getFirstName() + " " + n.getLastName());
+		description.setText(freelancerprofil.getBeschreibung());
+		degree.setText(freelancerprofil.getAbschluss() + " in " + freelancerprofil.getFachgebiet());
+		career.setText(freelancerprofil.getLebenslauf());
+		List<String> sprachen = freelancerprofil.getSprachen();
+		Iterator<String> it = sprachen.iterator();
+		for (String sprache : sprachen) {
+			languages.setText(languages.getText() + it.next());
+			if (it.hasNext()) {
+				languages.setText(languages.getText() + ", ");
+			}
+		}
+		String[] skillsArray = freelancerprofil.getSkills();
+		for (String skill : skillsArray) {
+			skills.setText(skills.getText() + skill + "\n");
+		}
+
 		contactmail.setText(n.geteMail());
-		languages.setText(f.getSprachen().toString());
+	}
+
+	public void setFreelancer(Freelancerprofil aFreelancerprofil) {
+		this.freelancerprofil = aFreelancerprofil;
+		fillFormular();
 	}
 
 }

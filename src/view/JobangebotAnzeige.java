@@ -23,8 +23,6 @@ import model.Jobangebot;
  */
 public class JobangebotAnzeige extends AnchorPane {
 
-	private AnchorPane pane;
-
 	private ImageView imgImageView;
 	private Label nameLabel;
 	private Label gruendungLabel;
