@@ -4,6 +4,8 @@
 package util.exception;
 
 /**
+ * throwable DB-Exception for presentation-layer
+ * 
  * @author domin
  *
  */

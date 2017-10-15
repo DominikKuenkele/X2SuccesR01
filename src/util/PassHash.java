@@ -14,6 +14,8 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
 /**
+ * Class generates and validates password-hashes
+ * 
  * @author domin
  *
  */
@@ -21,9 +23,7 @@ public class PassHash {
 
 	/**
 	 * @param password
-	 * @return
-	 * @throws NoSuchAlgorithmException
-	 * @throws InvalidKeySpecException
+	 * @return a generated passwordhash
 	 */
 	public static String generateStrongPasswordHash(String password) {
 		try {
@@ -34,7 +34,7 @@ public class PassHash {
 			PBEKeySpec spec = new PBEKeySpec(chars, salt, iterations, 64 * 8);
 			SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
 			byte[] hash = skf.generateSecret(spec).getEncoded();
-			Map<String, String> result = new HashMap<String, String>();
+			Map<String, String> result = new HashMap<>();
 			result.put("salt", toHex(salt));
 			result.put("hash", toHex(hash));
 			return iterations + ":" + toHex(salt) + ":" + toHex(hash);
@@ -62,6 +62,12 @@ public class PassHash {
 		}
 	}
 
+	/**
+	 * 
+	 * @param originalPassword
+	 * @param storedPassword
+	 * @return if passwords match
+	 */
 	public static boolean validatePassword(String originalPassword, String storedPassword) {
 		try {
 			String[] parts = storedPassword.split(":");

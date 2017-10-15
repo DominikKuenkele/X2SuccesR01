@@ -4,6 +4,8 @@
 package util.exception;
 
 /**
+ * throwable DB-Exception for logical-layer
+ * 
  * @author domin
  *
  */

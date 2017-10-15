@@ -4,10 +4,12 @@
 package util.exception;
 
 /**
+ * throwable User Input-Exception for presentation-layer
+ * 
  * @author domin
  *
  */
-public class UserInputException extends Exception{
+public class UserInputException extends Exception {
 
 	/**
 	 * 

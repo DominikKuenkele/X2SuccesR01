@@ -1,6 +1,8 @@
 package util.exception;
 
 /**
+ * throwable Validation-Exception for logical-layer
+ * 
  * @author domin
  *
  */
