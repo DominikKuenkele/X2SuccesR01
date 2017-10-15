@@ -4,6 +4,8 @@
 package model;
 
 /**
+ * Enumeration of possible status of a {@link model.Nutzer Nutzer}
+ * 
  * @author domin
  *
  */

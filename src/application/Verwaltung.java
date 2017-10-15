@@ -29,15 +29,33 @@ import util.exception.UserInputException;
 import util.exception.ValidateConstrArgsException;
 
 /**
+ * This class holds the current profiles and nutzer. Furthermore it represents
+ * an interface between model/persistence and view/controller. It is a
+ * Singleton-Class.
+ * 
  * @author domin
  *
  */
 public class Verwaltung extends Subject {
-
+	/**
+	 * Holds the current logged in user.
+	 */
 	private Nutzer currentNutzer;
+
+	/**
+	 * Holds the current selected {@link model.Unternehmensprofil
+	 * Unternehmensprofil}.
+	 */
 	private Unternehmensprofil currentUnternehmen;
+
+	/**
+	 * Holds the current selected {@link model.Freelancerprofil Freelancerprofil}.
+	 */
 	private Freelancerprofil currentFreelancer;
 
+	/**
+	 * Holds the instance of this Singleton-Class.
+	 */
 	private static Verwaltung instance;
 
 	/**
@@ -47,7 +65,7 @@ public class Verwaltung extends Subject {
 	}
 
 	/**
-	 * @return the Instance of this Singleton-Class
+	 * @return the instance of this Singleton-Class
 	 */
 	public static Verwaltung getInstance() {
 		if (instance == null) {
@@ -78,6 +96,8 @@ public class Verwaltung extends Subject {
 	}
 
 	/**
+	 * Creates a {@link model.Nutzer Nutzer} and saves it in the database
+	 * 
 	 * @param fName
 	 * @param lName
 	 * @param sex
@@ -112,6 +132,9 @@ public class Verwaltung extends Subject {
 	}
 
 	/**
+	 * Creates a {@link model.Unternehmensprofil Unternehmensprofil} and saves it in
+	 * the database
+	 * 
 	 * @param name
 	 * @param form
 	 * @param plz
@@ -154,6 +177,9 @@ public class Verwaltung extends Subject {
 	}
 
 	/**
+	 * Changes an existing {@link model.Unternehmensprofil Unternehmensprofil} in
+	 * the database
+	 * 
 	 * @param name
 	 * @param form
 	 * @param plz
@@ -191,6 +217,9 @@ public class Verwaltung extends Subject {
 	}
 
 	/**
+	 * Changes an existing {@link model.Freelancerprofil Freelancerprofil} in the
+	 * database
+	 * 
 	 * @param abschluss
 	 * @param expertise
 	 * @param beschreibung
@@ -218,6 +247,9 @@ public class Verwaltung extends Subject {
 	}
 
 	/**
+	 * Creates a {@link model.Freelancerprofil Freelancerprofil} and saves it in the
+	 * database
+	 * 
 	 * @param abschluss
 	 * @param expertise
 	 * @param beschreibung
@@ -262,6 +294,8 @@ public class Verwaltung extends Subject {
 	}
 
 	/**
+	 * Creates a {@link model.Jobangebot Jobangebot} and saves it in the database
+	 * 
 	 * @param abschluss
 	 * @param expertise
 	 * @param sprachen
@@ -293,6 +327,8 @@ public class Verwaltung extends Subject {
 	}
 
 	/**
+	 * Changes an existing {@link model.Nutzer Nutzer} in the database
+	 * 
 	 * @param fName
 	 * @param lName
 	 * @param eMail
@@ -323,6 +359,8 @@ public class Verwaltung extends Subject {
 	}
 
 	/**
+	 * Validates the old password. If correct, saves new password
+	 * 
 	 * @param oldPassword
 	 * @param newPassword
 	 * @throws UserInputException
@@ -353,6 +391,11 @@ public class Verwaltung extends Subject {
 	}
 
 	/**
+	 * Validates userdata. If correct, fetch current {@link model.Nutzer Nutzer} and
+	 * {@link model.Unternehmensprofil
+	 * Unternehmensprofil}/{@link model.Freelancerprofil Freelancerprofil} from
+	 * database
+	 * 
 	 * @param eMail
 	 * @param password
 	 * @return true, if login was successful
@@ -387,11 +430,17 @@ public class Verwaltung extends Subject {
 		return result;
 	}
 
+	/**
+	 * Deletes instance from this Singleton-Class
+	 */
 	public void logout() {
 		instance = null;
 	}
 
 	/**
+	 * Searches for {@link model.Jobangebot Jobangebote} in database with given
+	 * parameters
+	 * 
 	 * @param name
 	 * @param abschluss
 	 * @param expertise
@@ -425,6 +474,12 @@ public class Verwaltung extends Subject {
 		return list;
 	}
 
+	/**
+	 * Sorts a list of {@link model.Jobangebot Jobangebote} by their priority
+	 * 
+	 * @param searchList
+	 * @return sorted Set
+	 */
 	private Set<Entry<Jobangebot, Integer>> prioritizeJobangebote(List<List<Jobangebot>> searchList) {
 		HashMap<Jobangebot, Integer> prioList = new HashMap<>();
 		for (List<Jobangebot> sL : searchList) {
@@ -442,6 +497,9 @@ public class Verwaltung extends Subject {
 	}
 
 	/**
+	 * Searches for {@link model.Freelancerprofil Freelancerprofile} in database
+	 * with given parameters
+	 * 
 	 * @param name
 	 * @param abschluss
 	 * @param expertise
@@ -471,6 +529,13 @@ public class Verwaltung extends Subject {
 		return list;
 	}
 
+	/**
+	 * Sorts a list of {@link model.Freelancerprofil Freelancerprofile} by their
+	 * priority
+	 * 
+	 * @param searchList
+	 * @return sorted Set
+	 */
 	private Set<Entry<Freelancerprofil, Integer>> prioritizeFreelancerprofile(List<List<Freelancerprofil>> searchList) {
 		HashMap<Freelancerprofil, Integer> prioList = new HashMap<>();
 		for (List<Freelancerprofil> sL : searchList) {
@@ -487,16 +552,31 @@ public class Verwaltung extends Subject {
 		return prioList.entrySet();
 	}
 
+	/**
+	 * sets the current {@link model.Nutzer Nutzer}
+	 * 
+	 * @param aNutzer
+	 */
 	private void setCurrentNutzer(final Nutzer aNutzer) {
 		this.currentNutzer = aNutzer;
 		notifyAllObservers(this.currentNutzer);
 	}
 
+	/**
+	 * sets the current {@link model.Freelancerprofil Freelancerprofil}
+	 * 
+	 * @param aFreelancerprofil
+	 */
 	private void setCurrentFreelancer(final Freelancerprofil aFreelancerprofil) {
 		this.currentFreelancer = aFreelancerprofil;
 		notifyFreelancerObeserver(this.currentFreelancer);
 	}
 
+	/**
+	 * sets the current {@link model.Unternehmensprofil Unternehmensprofil}
+	 * 
+	 * @param aFreelancerprofil
+	 */
 	private void setCurrentUnternehmensprofil(final Unternehmensprofil aUnternehmensprofil) {
 		this.currentUnternehmen = aUnternehmensprofil;
 		notifyUnternehmerObeserver(this.currentUnternehmen);

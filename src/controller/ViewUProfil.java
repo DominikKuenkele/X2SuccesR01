@@ -141,6 +141,7 @@ public class ViewUProfil implements Initializable {
 		}
 
 		cName.setText(u.getName());
+		cForm.setText(u.getLegalForm());
 		cDate.setValue(u.getFounding());
 		cEmployees.setText(Integer.toString(u.getEmployees()));
 		cCity.setText(u.getAddress().getCity());
@@ -148,5 +149,8 @@ public class ViewUProfil implements Initializable {
 		cPlz.setText(u.getAddress().getPlz());
 		cNumber.setText(u.getAddress().getNumber());
 		cDescription.setText(u.getDescription());
+		cCeoprenom.setText(u.getCeoFirstName());
+		cCeoname.setText(u.getCeoLastName());
+		cWebsite.setText(u.getWebsite());
 	}
 }

@@ -153,6 +153,7 @@ public class ViewUSuche implements Initializable, EventHandler<MouseEvent> {
 
 			ObservableList<String> expertises = FXCollections
 					.observableArrayList(new ExpertiseDAO().getAllExpertises());
+			expertises.add(0, "");
 			searchtopic.setValue(expertises.get(0));
 			searchtopic.setItems(expertises);
 

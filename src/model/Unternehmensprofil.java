@@ -140,16 +140,32 @@ public class Unternehmensprofil implements Profil {
 	}
 
 	private void validateState() throws ValidateConstrArgsException {
+		String message = "";
+
 		try {
-			// TODO Validations
 			Validate.checkForContent(name);
-			Validate.checkForContent(description);
-			Validate.checkForAlpha(ceoFirstName);
-			Validate.checkForAlpha(ceoLastName);
 		} catch (IllegalArgumentException e) {
-			throw new ValidateConstrArgsException(e.getMessage());
+			message = message + "\nName: " + e.getMessage();
+		}
+		try {
+			Validate.checkForContent(description);
+		} catch (IllegalArgumentException e) {
+			message = message + "\nBeschreibung: " + e.getMessage();
+		}
+		try {
+			Validate.checkForAlpha(ceoFirstName);
+		} catch (IllegalArgumentException e) {
+			message = message + "\nCEO Vorname: " + e.getMessage();
+		}
+		try {
+			Validate.checkForAlpha(ceoFirstName);
+		} catch (IllegalArgumentException e) {
+			message = message + "\nCEO-Nachname: " + e.getMessage();
 		}
 
+		if (message != "") {
+			throw new ValidateConstrArgsException(message);
+		}
 	}
 
 	/**

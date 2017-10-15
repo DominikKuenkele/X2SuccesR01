@@ -1,29 +1,32 @@
 package application;
 
-import java.io.IOException;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+/**
+ * Class starts the program.
+ * 
+ * @author domin
+ */
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
-		Stage stage = new Stage();
-		Pane root;
 		try {
-			root = (Pane) FXMLLoader.load(getClass().getResource("../view/User_Home_Dashboard_favs.fxml"));
+			AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/Startseite.fxml"));
 			Scene scene = new Scene(root);
-			stage.setScene(scene);
-			stage.show();
-		} catch (IOException e) {
+			primaryStage.setScene(scene);
+			primaryStage.show();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}

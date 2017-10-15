@@ -129,13 +129,32 @@ public class Freelancerprofil implements Profil {
 	}
 
 	private void validateState() throws ValidateConstrArgsException {
+		String message = "";
+
 		try {
 			Validate.checkForContent(abschluss);
+		} catch (IllegalArgumentException e) {
+			message = message + "\nAbschluss: " + e.getMessage();
+		}
+		try {
 			Validate.checkForContent(beschreibung);
+		} catch (IllegalArgumentException e) {
+			message = message + "\nBeschreibung: " + e.getMessage();
+		}
+		try {
 			validateSkills(skills);
+		} catch (IllegalArgumentException e) {
+			message = message + "\nSkills: " + e.getMessage();
+		}
+
+		try {
 			Validate.checkForContent(lebenslauf);
 		} catch (IllegalArgumentException e) {
-			throw new ValidateConstrArgsException(e.getMessage());
+			message = message + "\nLebenslauf: " + e.getMessage();
+		}
+
+		if (message != "") {
+			throw new ValidateConstrArgsException(message);
 		}
 	}
 
