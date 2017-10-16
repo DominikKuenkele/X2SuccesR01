@@ -1,8 +1,12 @@
 package persistence;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 /**
  * Class open the connection to a database
@@ -20,10 +24,22 @@ public class DBConnection {
 			e.printStackTrace();
 		}
 
-		String connectionURL = "jdbc:mysql://localhost/x2succes?autoReconnect=true&useSSL=false";
-		connect = DriverManager.getConnection(connectionURL, "root", "password");
+		Properties prop = new Properties();
 
-		// TODO Password in configfile
+		try (InputStream input = new FileInputStream("config.properties")) {
+			prop.load(input);
+			prop.getProperty("database");
+			prop.getProperty("dbuser");
+			prop.getProperty("dbpassword");
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+
+		String connectionURL = "jdbc:mysql://" + prop.getProperty("database")
+				+ "/x2succes?autoReconnect=true&useSSL=false";
+		connect = DriverManager.getConnection(connectionURL, prop.getProperty("dbuser"),
+				prop.getProperty("dbpassword"));
+
 		return connect;
 	}
 

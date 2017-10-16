@@ -11,5 +11,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/gson-2.8.2/gson-2.8.2.jar" sourcepath="lib/gson-2.8.2/gson-2.8.2-sources.jar"/>
+	<classpathentry kind="lib" path="lib/c3p0-0.9.5.2/lib/c3p0-0.9.5.2.jar" sourcepath="lib/c3p0-0.9.5.2/src/c3p0-0.9.5.2-sources.jar"/>
+	<classpathentry kind="lib" path="lib/c3p0-0.9.5.2/lib/mchange-commons-java-0.2.11.jar" sourcepath="lib/c3p0-0.9.5.2/src/mchange-commons-java-0.2.11-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
