@@ -8,9 +8,6 @@ package util.exception;
  */
 public class ValidateConstrArgsException extends Exception {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4732122161608535198L;
 
 	/**

@@ -11,6 +11,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * Class is a DAO for the table 'expertise'
+ * 
  * @author domin
  *
  */

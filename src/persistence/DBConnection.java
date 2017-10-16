@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
+ * Class open the connection to a database
+ * 
  * @author domin
  *
  */

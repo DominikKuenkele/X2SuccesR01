@@ -11,6 +11,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * Class is a DAO for the table 'graduation'
+ * 
  * @author domin
  *
  */
@@ -104,7 +106,7 @@ public class AbschlussDAO {
 
 	/**
 	 * @param aAbschluss
-	 * @return
+	 * @return the hierarchy of a given graduation
 	 * @throws SQLException
 	 */
 	public int getHierarchy(String aAbschluss) throws SQLException {

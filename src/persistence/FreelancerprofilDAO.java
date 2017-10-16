@@ -17,6 +17,8 @@ import model.Nutzer;
 import util.exception.ValidateConstrArgsException;
 
 /**
+ * Class is a DAO for the table 'freelancerprofil'
+ * 
  * @author domin
  *
  */
@@ -177,6 +179,8 @@ public class FreelancerprofilDAO {
 	}
 
 	/**
+	 * changes an existing freelancerprofil in the database
+	 * 
 	 * @param freelancerprofil
 	 * @throws SQLException
 	 */
@@ -221,6 +225,14 @@ public class FreelancerprofilDAO {
 		}
 	}
 
+	/**
+	 * processes fetched data from database to a {@link model.Freelancerprofil
+	 * Freelancerprofil}
+	 * 
+	 * @param resultSet
+	 * @return
+	 * @throws SQLException
+	 */
 	private List<Freelancerprofil> getFreelancerprofilFromResultSet(ResultSet resultSet) throws SQLException {
 		List<Freelancerprofil> result = new LinkedList<>();
 		while (resultSet.next()) {
